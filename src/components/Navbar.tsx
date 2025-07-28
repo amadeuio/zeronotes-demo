@@ -1,11 +1,5 @@
-import { MdMenu, MdSearch, MdSettings } from 'react-icons/md';
-
-const Search = () => (
-  <div className="flex items-center gap-x-2">
-    <MdSearch className="h-5 w-5" />
-    <input type="text" placeholder="Search" className="bg-transparent" />
-  </div>
-);
+import { Search } from '@/components';
+import { MdMenu, MdSettings } from 'react-icons/md';
 
 const Navbar = () => {
   return (
