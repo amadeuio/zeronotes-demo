@@ -1,11 +1,15 @@
 import { useStore, type Store } from '@/store';
+import { filterNote } from '@/utils/filterNote';
 import { useShallow } from 'zustand/react/shallow';
 
 const useShallowStore = <T>(selector: (state: Store) => T) => useStore(useShallow(selector));
 
 export const useActions = () => useStore((state) => state.actions);
 
-export const useNotes = () => useStore((state) => state.notes);
+export const useNotes = () =>
+  useShallowStore((state) => state.notes.filter((note) => filterNote(note, state.filters)));
+
+export const useLabels = () => useStore((state) => state.labels);
 
 export const usePinnedNotes = () =>
   useShallowStore((state) => state.notes.filter((n) => n.isPinned));
