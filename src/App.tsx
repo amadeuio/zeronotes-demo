@@ -1,10 +1,10 @@
 import { Note } from '@/components';
 import { Drop } from '@/components/dnd';
-import { notes as initialNotes } from '@/data';
-import { useState } from 'react';
+import { useActions, useNotes } from '@/store';
 
 const App = () => {
-  const [notes, setNotes] = useState(initialNotes);
+  const notes = useNotes();
+  const { setNotes } = useActions();
 
   return (
     <div className="grid grid-cols-4 gap-4 p-4">
