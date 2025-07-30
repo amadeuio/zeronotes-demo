@@ -1,4 +1,4 @@
-import Icon from '@/components/Icon';
+import { Button, Icon } from '@/components';
 
 interface LabelProps {
   label: string;
@@ -12,12 +12,12 @@ const Label = ({ label, onClick, onClose }: LabelProps) => (
     onClick={onClick}
   >
     <div className="truncate group-hover:w-4/5">{label}</div>
-    <Icon
-      name="close"
-      size={11}
-      className="hover:bg-base-light absolute top-[4px] right-[2px] rounded-full p-[2px] opacity-0 group-hover:opacity-100"
+    <Button
+      className="absolute top-[4px] right-[2px] rounded-full p-[2px] opacity-0 group-hover:opacity-100"
       onClick={onClose}
-    />
+    >
+      <Icon name="close" size={11} />
+    </Button>
   </div>
 );
 
