@@ -1,4 +1,4 @@
-import { Label } from '@/components';
+import { Label, Toolbar } from '@/components';
 import { Drag } from '@/components/dnd';
 import type { Note as NoteType } from '@/types';
 
@@ -16,6 +16,7 @@ const Note = ({ note }: NoteProps) => (
           <Label key={label} label={label} />
         ))}
       </div>
+      <Toolbar />
     </div>
   </Drag>
 );
