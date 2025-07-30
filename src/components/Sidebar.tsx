@@ -1,42 +1,19 @@
+import Icon from '@/components/Icon';
 import { useActions, useLabels } from '@/store';
-import { MdArchive, MdDelete, MdEdit, MdLabel, MdOutlineNotes } from 'react-icons/md';
-
-const items = [
-  {
-    title: 'Notes',
-    url: '#',
-    icon: MdOutlineNotes,
-  },
-  {
-    title: 'Edit labels',
-    url: '#',
-    icon: MdEdit,
-  },
-  {
-    title: 'Archive',
-    url: '#',
-    icon: MdArchive,
-  },
-  {
-    title: 'Trash',
-    url: '#',
-    icon: MdDelete,
-  },
-];
 
 const SidebarItem = ({
   title,
   url,
-  icon: Icon,
+  iconName,
   onClick,
 }: {
   title: string;
   url: string;
-  icon: React.ElementType;
+  iconName: string;
   onClick?: () => void;
 }) => (
   <a href={url} className="flex items-center gap-x-2" onClick={onClick}>
-    <Icon className="h-4 w-4" />
+    <Icon name={iconName} />
     <span>{title}</span>
   </a>
 );
@@ -50,7 +27,7 @@ const Sidebar = () => {
       <SidebarItem
         title="Notes"
         url="#"
-        icon={MdOutlineNotes}
+        iconName="lightbulb_2"
         onClick={() => setFilters({ label: null })}
       />
       {labels.map((label) => (
@@ -58,13 +35,13 @@ const Sidebar = () => {
           key={label}
           title={label}
           url="#"
-          icon={MdLabel}
+          iconName="label"
           onClick={() => setFilters({ label })}
         />
       ))}
-      <SidebarItem title="Edit labels" url="#" icon={MdEdit} />
-      <SidebarItem title="Archive" url="#" icon={MdArchive} />
-      <SidebarItem title="Trash" url="#" icon={MdDelete} />
+      <SidebarItem title="Edit labels" url="#" iconName="edit" />
+      <SidebarItem title="Archive" url="#" iconName="archive" />
+      <SidebarItem title="Trash" url="#" iconName="delete" />
     </aside>
   );
 };

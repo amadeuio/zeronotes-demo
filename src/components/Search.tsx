@@ -1,8 +1,8 @@
-import { MdSearch } from 'react-icons/md';
+import { Icon } from '@/components';
 
 const Search = () => (
   <div className="flex items-center gap-x-2">
-    <MdSearch className="h-5 w-5" />
+    <Icon name="search" />
     <input type="text" placeholder="Search" className="bg-transparent" />
   </div>
 );
