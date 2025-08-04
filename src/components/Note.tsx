@@ -16,7 +16,7 @@ const Note = ({ note }: NoteProps) => (
           <Label key={label} label={label} />
         ))}
       </div>
-      <Toolbar />
+      <Toolbar note={note} />
     </div>
   //</Drag>
 );

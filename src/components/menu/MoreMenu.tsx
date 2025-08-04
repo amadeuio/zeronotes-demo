@@ -1,11 +1,13 @@
 import { BasicMenu, EditLabelMenu, MenuTrigger } from '@/components';
+import type { Note } from '@/types';
 import { useState, type ReactNode } from 'react';
 
 interface MoreMenuProps {
   children: ReactNode;
+  note: Note;
 }
 
-const MoreMenu = ({ children }: MoreMenuProps) => {
+const MoreMenu = ({ children, note }: MoreMenuProps) => {
   const [isEditLabel, setIsEditLabel] = useState(false);
 
   const moreMenuItems = [
@@ -14,16 +16,14 @@ const MoreMenu = ({ children }: MoreMenuProps) => {
       onClick: () => {},
     },
     {
-      label: 'Add label',
+      label: note.labels.length > 0 ? 'Change labels' : 'Add label',
       onClick: () => setIsEditLabel(true),
     },
   ];
 
   return (
     <MenuTrigger
-      menu={
-        isEditLabel ? <EditLabelMenu items={moreMenuItems} /> : <BasicMenu items={moreMenuItems} />
-      }
+      menu={isEditLabel ? <EditLabelMenu note={note} /> : <BasicMenu items={moreMenuItems} />}
       onClose={() => setIsEditLabel(false)}
     >
       {children}

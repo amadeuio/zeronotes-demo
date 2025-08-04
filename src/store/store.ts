@@ -16,7 +16,10 @@ export interface Store {
     addNote: (note: Note) => void;
     removeNote: (id: string) => void;
     updateNote: (id: string, note: Note) => void;
+    toggleNoteLabel: (noteId: string, label: string) => void;
+    createLabel: (label: string) => void;
     setFilters: (filters: Partial<Filters>) => void;
+    createLabelAndAddToNote: (label: string, noteId: string) => void;
   };
 }
 
@@ -40,8 +43,33 @@ export const useStore = create<Store>((set) => ({
     updateNote: (id, note) => {
       set((state) => ({ notes: state.notes.map((n) => (n.id === id ? note : n)) }));
     },
+    toggleNoteLabel: (noteId: string, label: string) => {
+      set((state) => ({
+        notes: state.notes.map((note) =>
+          note.id === noteId
+            ? {
+                ...note,
+                labels: note.labels.includes(label)
+                  ? note.labels.filter((l) => l !== label)
+                  : [...note.labels, label],
+              }
+            : note,
+        ),
+      }));
+    },
+    createLabel: (label: string) => {
+      set((state) => ({ labels: [...state.labels, label] }));
+    },
     setFilters: (filters) => {
       set((state) => ({ filters: { ...state.filters, ...filters } }));
+    },
+    createLabelAndAddToNote: (label: string, noteId: string) => {
+      set((state) => ({
+        labels: [...state.labels, label],
+        notes: state.notes.map((note) =>
+          note.id === noteId ? { ...note, labels: [...note.labels, label] } : note,
+        ),
+      }));
     },
   },
 }));

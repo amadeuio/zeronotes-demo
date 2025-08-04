@@ -22,3 +22,13 @@ export const useUnpinnedNotes = () =>
 
 export const useUnarchivedNotes = () =>
   useShallowStore((state) => state.notes.filter((n) => !n.isArchived));
+
+export const useNoteHasLabel = (noteId: string, label: string) =>
+  useShallowStore((state) => {
+    return state.notes.find((n) => n.id === noteId)?.labels.includes(label) ?? false;
+  });
+
+export const useFilteredLabels = (searchTerm: string) =>
+  useShallowStore((state) =>
+    state.labels.filter((label) => label.toLowerCase().includes(searchTerm.toLowerCase())),
+  );

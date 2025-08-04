@@ -1,4 +1,5 @@
 import { IconButton, MoreMenu } from '@/components';
+import type { Note } from '@/types';
 
 interface ToolbarItemType {
   id: string;
@@ -11,7 +12,7 @@ const ToolbarItem = ({ label, iconName, onClick }: ToolbarItemType) => (
   <IconButton label={label} iconName={iconName} onClick={onClick} />
 );
 
-const Toolbar = () => {
+const Toolbar = ({ note }: { note: Note }) => {
   const toolbarItems = [
     {
       id: 'background-options',
@@ -36,7 +37,7 @@ const Toolbar = () => {
     <div className="flex items-center gap-x-2">
       {toolbarItems.map((item) =>
         item.id === 'more' ? (
-          <MoreMenu>
+          <MoreMenu note={note}>
             <ToolbarItem key={item.id} {...item} />
           </MoreMenu>
         ) : (

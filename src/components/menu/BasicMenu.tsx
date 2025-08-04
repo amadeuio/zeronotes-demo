@@ -20,7 +20,12 @@ const MenuItem = ({ label, onClick }: MenuItemProps) => (
 );
 
 const BasicMenu = ({ items, className }: MenuProps) => (
-  <div className={cn('bg-base rounded-sm shadow-[0.5px_0.5px_6px_rgba(0,0,0,0.6)]', className)}>
+  <div
+    className={cn(
+      'bg-base w-42 rounded-sm py-2 shadow-[0.5px_0.5px_6px_rgba(0,0,0,0.6)]',
+      className,
+    )}
+  >
     {items.map((item) => (
       <MenuItem key={item.label} {...item} />
     ))}
