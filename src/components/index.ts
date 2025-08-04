@@ -1,10 +1,10 @@
 export { default as Icon } from './Icon';
 export { default as IconButton } from './IconButton';
 export { default as Label } from './Label';
-export { default as BasicMenu } from './menu/BasicMenu';
-export { default as EditLabelMenu } from './menu/EditLabelMenu';
-export { default as MenuTrigger } from './menu/MenuTrigger';
-export { default as MoreMenu } from './menu/MoreMenu';
+export { default as BasicMenu } from './menus/BasicMenu';
+export { default as EditLabelMenu } from './menus/EditLabelMenu';
+export { default as MenuTrigger } from './menus/MenuTrigger';
+export { default as MoreMenu } from './menus/MoreMenu';
 export { default as Navbar } from './Navbar';
 export { default as Note } from './Note';
 export { default as NotesGrid } from './NotesGrid';
