@@ -20,7 +20,7 @@ const SidebarItem = ({
 
 const Sidebar = () => {
   const labels = useLabels();
-  const { setFilters, setIsEditLabelsMenuOpen } = useActions();
+  const { filters, ui } = useActions();
 
   return (
     <aside className="flex h-full w-full max-w-70 flex-col gap-6 p-6">
@@ -28,7 +28,7 @@ const Sidebar = () => {
         title="Notes"
         url="#"
         iconName="lightbulb_2"
-        onClick={() => setFilters({ labelId: null })}
+        onClick={() => filters.set({ labelId: null })}
       />
       {labels.map((label) => (
         <SidebarItem
@@ -36,14 +36,14 @@ const Sidebar = () => {
           title={label.name}
           url="#"
           iconName="label"
-          onClick={() => setFilters({ labelId: label.id })}
+          onClick={() => filters.set({ labelId: label.id })}
         />
       ))}
       <SidebarItem
         title="Edit labels"
         url="#"
         iconName="edit"
-        onClick={() => setIsEditLabelsMenuOpen(true)}
+        onClick={() => ui.setEditLabelsMenuOpen(true)}
       />
       <SidebarItem title="Archive" url="#" iconName="archive" />
       <SidebarItem title="Trash" url="#" iconName="delete" />

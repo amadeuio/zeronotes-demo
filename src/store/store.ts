@@ -16,15 +16,23 @@ export interface Store {
     isEditLabelsMenuOpen: boolean;
   };
   actions: {
-    setNotes: (notes: Note[]) => void;
-    addNote: (note: Note) => void;
-    removeNote: (id: string) => void;
-    updateNote: (id: string, note: Note) => void;
-    toggleNoteLabel: (noteId: string, label: string) => void;
-    createLabel: (label: string) => void;
-    setFilters: (filters: Partial<Filters>) => void;
-    createLabelAndAddToNote: (label: string, noteId: string) => void;
-    setIsEditLabelsMenuOpen: (isOpen: boolean) => void;
+    notes: {
+      set: (notes: Note[]) => void;
+      add: (note: Note) => void;
+      remove: (id: string) => void;
+      update: (id: string, note: Note) => void;
+      toggleLabel: (noteId: string, labelId: string) => void;
+    };
+    labels: {
+      create: (label: string) => void;
+      createAndAddToNote: (label: string, noteId: string) => void;
+    };
+    filters: {
+      set: (filters: Partial<Filters>) => void;
+    };
+    ui: {
+      setEditLabelsMenuOpen: (isOpen: boolean) => void;
+    };
   };
 }
 
@@ -39,52 +47,59 @@ export const useStore = create<Store>((set) => ({
     isEditLabelsMenuOpen: false,
   },
   actions: {
-    setNotes: (notes: Note[]) => {
-      set({ notes });
-    },
-    addNote: (note: Note) => {
-      set((state) => ({ notes: [...state.notes, note] }));
-    },
-    removeNote: (id) => {
-      set((state) => ({ notes: state.notes.filter((note) => note.id !== id) }));
-    },
-    updateNote: (id, note) => {
-      set((state) => ({ notes: state.notes.map((n) => (n.id === id ? note : n)) }));
-    },
-    toggleNoteLabel: (noteId: string, labelId: string) => {
-      set((state) => ({
-        notes: state.notes.map((note) =>
-          note.id === noteId
-            ? {
-                ...note,
-                labelIds: note.labelIds.includes(labelId)
-                  ? note.labelIds.filter((l) => l !== labelId)
-                  : [...note.labelIds, labelId],
-              }
-            : note,
-        ),
-      }));
-    },
-    createLabel: (label: string) => {
-      set((state) => ({ labels: [...state.labels, { id: uuidv4(), name: label }] }));
-    },
-    setFilters: (filters) => {
-      set((state) => ({ filters: { ...state.filters, ...filters } }));
-    },
-    createLabelAndAddToNote: (label: string, noteId: string) => {
-      set((state) => {
-        const newId = uuidv4();
-
-        return {
-          labels: [...state.labels, { id: newId, name: label }],
+    notes: {
+      set: (notes: Note[]) => {
+        set({ notes });
+      },
+      add: (note: Note) => {
+        set((state) => ({ notes: [...state.notes, note] }));
+      },
+      remove: (id) => {
+        set((state) => ({ notes: state.notes.filter((note) => note.id !== id) }));
+      },
+      update: (id, note) => {
+        set((state) => ({ notes: state.notes.map((n) => (n.id === id ? note : n)) }));
+      },
+      toggleLabel: (noteId: string, labelId: string) => {
+        set((state) => ({
           notes: state.notes.map((note) =>
-            note.id === noteId ? { ...note, labelIds: [...note.labelIds, newId] } : note,
+            note.id === noteId
+              ? {
+                  ...note,
+                  labelIds: note.labelIds.includes(labelId)
+                    ? note.labelIds.filter((l) => l !== labelId)
+                    : [...note.labelIds, labelId],
+                }
+              : note,
           ),
-        };
-      });
+        }));
+      },
     },
-    setIsEditLabelsMenuOpen: (isOpen: boolean) => {
-      set({ ui: { isEditLabelsMenuOpen: isOpen } });
+    labels: {
+      create: (label: string) => {
+        set((state) => ({ labels: [...state.labels, { id: uuidv4(), name: label }] }));
+      },
+      createAndAddToNote: (label: string, noteId: string) => {
+        set((state) => {
+          const newId = uuidv4();
+          return {
+            labels: [...state.labels, { id: newId, name: label }],
+            notes: state.notes.map((note) =>
+              note.id === noteId ? { ...note, labelIds: [...note.labelIds, newId] } : note,
+            ),
+          };
+        });
+      },
+    },
+    filters: {
+      set: (filters) => {
+        set((state) => ({ filters: { ...state.filters, ...filters } }));
+      },
+    },
+    ui: {
+      setEditLabelsMenuOpen: (isOpen: boolean) => {
+        set({ ui: { isEditLabelsMenuOpen: isOpen } });
+      },
     },
   },
 }));

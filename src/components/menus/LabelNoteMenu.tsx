@@ -37,12 +37,12 @@ const CreateLabel = ({ name, onClick }: { name: string; onClick: () => void }) =
 };
 
 const MenuItem = ({ noteId, label }: { noteId: string; label: Label }) => {
-  const { toggleNoteLabel } = useActions();
+  const { notes } = useActions();
   const isChecked = useNoteHasLabel(noteId, label.id);
 
   return (
     <div
-      onClick={() => toggleNoteLabel(noteId, label.id)}
+      onClick={() => notes.toggleLabel(noteId, label.id)}
       className="flex cursor-pointer items-center gap-x-4 py-2 whitespace-nowrap text-white hover:bg-neutral-600"
     >
       <Checkbox checked={isChecked} />
@@ -58,10 +58,10 @@ interface LabelNoteMenuProps {
 const LabelNoteMenu = ({ note }: LabelNoteMenuProps) => {
   const [search, setSearch] = useState('');
   const filteredLabels = useFilteredLabels(search);
-  const { createLabelAndAddToNote } = useActions();
+  const { labels } = useActions();
 
   const handleCreateLabel = () => {
-    createLabelAndAddToNote(search, note.id);
+    labels.createAndAddToNote(search, note.id);
     setSearch('');
   };
 
