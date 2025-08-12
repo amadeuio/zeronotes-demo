@@ -1,6 +1,6 @@
 import { Icon } from '@/components';
 import { useActions, useFilteredLabels, useNoteHasLabel } from '@/store';
-import type { Note } from '@/types';
+import type { DisplayNote, Label } from '@/types';
 import { useState } from 'react';
 
 const Checkbox = ({ checked }: { checked: boolean }) => (
@@ -36,32 +36,32 @@ const CreateLabel = ({ name, onClick }: { name: string; onClick: () => void }) =
   );
 };
 
-const MenuItem = ({ noteId, label }: { noteId: string; label: string }) => {
-  const { toggleNoteLabel } = useActions();
-  const isChecked = useNoteHasLabel(noteId, label);
+const MenuItem = ({ noteId, label }: { noteId: string; label: Label }) => {
+  const { notes } = useActions();
+  const isChecked = useNoteHasLabel(noteId, label.id);
 
   return (
     <div
-      onClick={() => toggleNoteLabel(noteId, label)}
+      onClick={() => notes.toggleLabel(noteId, label.id)}
       className="flex cursor-pointer items-center gap-x-4 py-2 whitespace-nowrap text-white hover:bg-neutral-600"
     >
       <Checkbox checked={isChecked} />
-      {label}
+      {label.name}
     </div>
   );
 };
 
 interface LabelNoteMenuProps {
-  note: Note;
+  note: DisplayNote;
 }
 
 const LabelNoteMenu = ({ note }: LabelNoteMenuProps) => {
   const [search, setSearch] = useState('');
   const filteredLabels = useFilteredLabels(search);
-  const { createLabelAndAddToNote } = useActions();
+  const { labels } = useActions();
 
   const handleCreateLabel = () => {
-    createLabelAndAddToNote(search, note.id);
+    labels.createAndAddToNote(search, note.id);
     setSearch('');
   };
 
@@ -70,7 +70,7 @@ const LabelNoteMenu = ({ note }: LabelNoteMenuProps) => {
       <span>Label note</span>
       <SearchInput value={search} onChange={setSearch} />
       {filteredLabels.length > 0 ? (
-        filteredLabels.map((label) => <MenuItem key={label} noteId={note.id} label={label} />)
+        filteredLabels.map((label) => <MenuItem key={label.id} noteId={note.id} label={label} />)
       ) : (
         <CreateLabel name={search} onClick={handleCreateLabel} />
       )}

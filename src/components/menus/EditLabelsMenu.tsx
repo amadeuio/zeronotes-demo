@@ -1,5 +1,5 @@
 import { IconButton } from '@/components';
-import { useLabels } from '@/store';
+import { useActions, useLabels } from '@/store';
 import { cn } from '@/utils';
 import { useState } from 'react';
 
@@ -10,6 +10,7 @@ interface EditableInputProps {
   isEditing?: boolean;
   className?: string;
   autoFocus?: boolean;
+  onClick?: () => void;
   onBlur?: () => void;
 }
 
@@ -20,6 +21,7 @@ const EditableInput = ({
   isEditing = false,
   className,
   autoFocus,
+  onClick,
   onBlur,
 }: EditableInputProps) => (
   <input
@@ -33,26 +35,26 @@ const EditableInput = ({
     )}
     value={value}
     onChange={(e) => onChange(e.target.value)}
+    onClick={onClick}
     onBlur={onBlur}
   />
 );
 
-const CreateLabel = ({
-  label,
-  onCreateSave,
-}: {
-  label: string;
-  onCreateSave: (label: string) => void;
-}) => {
+const CreateLabel = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [labelName, setLabelName] = useState(label);
+  const [labelName, setLabelName] = useState('');
+  const { labels } = useActions();
+
+  const handleSave = () => {
+    if (labelName.trim()) {
+      labels.create(labelName.trim());
+      setLabelName('');
+      setIsEditing(false);
+    }
+  };
 
   return (
-    <div
-      onClick={() => setIsEditing(true)}
-      onBlur={() => setIsEditing(false)}
-      className="flex cursor-text justify-between text-white"
-    >
+    <div className="flex cursor-text justify-between text-white">
       <div className="flex items-center gap-x-2">
         {isEditing ? (
           <IconButton
@@ -64,7 +66,13 @@ const CreateLabel = ({
             }}
           />
         ) : (
-          <IconButton iconName="add" label="Label" onClick={() => setIsEditing(true)} />
+          <IconButton
+            iconName="add"
+            label="Label"
+            onClick={() => {
+              setIsEditing(true);
+            }}
+          />
         )}
         <EditableInput
           value={labelName}
@@ -72,55 +80,45 @@ const CreateLabel = ({
           placeholder="Enter label name"
           isEditing={isEditing}
           autoFocus
-          onBlur={() => setIsEditing(false)}
         />
       </div>
       <IconButton
         className={cn('size-9.5 opacity-0', isEditing && 'opacity-100')}
         iconName="check"
         label="Save"
-        onClick={() => onCreateSave(labelName)}
+        onClick={() => handleSave()}
       />
     </div>
   );
 };
 
-const EditLabel = ({
-  label,
-  onDelete,
-  onEditSave,
-}: {
-  label: string;
-  onDelete: () => void;
-  onEditSave: (label: string) => void;
-}) => {
+const EditLabel = ({ id, name }: { id: string; name: string }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [labelName, setLabelName] = useState(label);
+  const [labelName, setLabelName] = useState(name);
+  const { labels } = useActions();
+
+  const handleSave = () => {
+    if (labelName.trim()) {
+      labels.edit(id, labelName.trim());
+      setIsEditing(false);
+    }
+  };
 
   return (
-    <div
-      onClick={() => setIsEditing(true)}
-      onBlur={() => setIsEditing(false)}
-      className="flex cursor-text justify-between text-white"
-    >
+    <div className="flex cursor-text justify-between text-white">
       <div className="flex items-center gap-x-2">
         <IconButton iconName="label" label="Label" />
         <EditableInput
           value={labelName}
           onChange={setLabelName}
+          onClick={() => setIsEditing(true)}
           placeholder="Enter label name"
           isEditing={isEditing}
-          autoFocus
         />
       </div>
       <div className="flex items-center">
         {isEditing ? (
-          <IconButton
-            className="size-9.5"
-            iconName="check"
-            label="Save"
-            onClick={() => onEditSave(labelName)}
-          />
+          <IconButton className="size-9.5" iconName="check" label="Save" onClick={handleSave} />
         ) : (
           <IconButton
             className="size-9.5"
@@ -129,7 +127,7 @@ const EditLabel = ({
             onClick={() => setIsEditing(true)}
           />
         )}
-        <IconButton iconName="delete" label="Delete" onClick={onDelete} />
+        <IconButton iconName="delete" label="Delete" onClick={() => labels.remove(id)} />
       </div>
     </div>
   );
@@ -149,21 +147,9 @@ const EditLabelsMenu = ({ onClose }: { onClose: () => void }) => {
       >
         <span className="pl-1 text-lg font-semibold">Edit labels</span>
         <div className="space-y-2">
-          <CreateLabel
-            label="Create new label"
-            onCreateSave={(label) => {
-              console.debug('onCreateSave', label);
-            }}
-          />
+          <CreateLabel />
           {labels.map((label) => (
-            <EditLabel
-              key={label}
-              label={label}
-              onDelete={() => {}}
-              onEditSave={(newLabel) => {
-                console.debug('onEditSave', label, newLabel);
-              }}
-            />
+            <EditLabel key={label.id} id={label.id} name={label.name} />
           ))}
         </div>
       </div>

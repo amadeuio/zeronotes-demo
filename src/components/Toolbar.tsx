@@ -1,5 +1,5 @@
 import { IconButton, MoreMenu } from '@/components';
-import type { Note } from '@/types';
+import type { DisplayNote } from '@/types';
 
 interface ToolbarItemType {
   id: string;
@@ -12,7 +12,7 @@ const ToolbarItem = ({ label, iconName, onClick }: ToolbarItemType) => (
   <IconButton label={label} iconName={iconName} onClick={onClick} />
 );
 
-const Toolbar = ({ note }: { note: Note }) => {
+const Toolbar = ({ note }: { note: DisplayNote }) => {
   const toolbarItems = [
     {
       id: 'background-options',

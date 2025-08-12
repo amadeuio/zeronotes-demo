@@ -1,10 +1,10 @@
 import { BasicMenu, LabelNoteMenu, MenuTrigger } from '@/components';
-import type { Note } from '@/types';
+import type { DisplayNote } from '@/types';
 import { useState, type ReactNode } from 'react';
 
 interface MoreMenuProps {
   children: ReactNode;
-  note: Note;
+  note: DisplayNote;
 }
 
 const MoreMenu = ({ children, note }: MoreMenuProps) => {

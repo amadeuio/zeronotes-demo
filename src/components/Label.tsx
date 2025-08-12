@@ -1,7 +1,8 @@
 import { IconButton } from '@/components';
+import type { Label as LabelType } from '@/types';
 
 interface LabelProps {
-  label: string;
+  label: LabelType;
   onClick?: () => void;
   onClose?: () => void;
 }
@@ -11,7 +12,7 @@ const Label = ({ label, onClick, onClose }: LabelProps) => (
     className="group relative min-w-12 cursor-pointer rounded-full border px-2.5 py-0.5 text-[11px]"
     onClick={onClick}
   >
-    <div className="truncate group-hover:w-4/5">{label}</div>
+    <div className="truncate group-hover:w-4/5">{label.name}</div>
     <IconButton
       label="Remove label"
       iconName="close"

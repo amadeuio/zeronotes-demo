@@ -1,4 +1,5 @@
 import type { NoteColor } from '@/constants';
+import type { Label } from './label.types';
 
 export interface Note {
   id: string;
@@ -7,7 +8,11 @@ export interface Note {
   createdAt: Date;
   updatedAt: Date;
   color: NoteColor;
-  labels: string[];
+  labelIds: string[];
   isPinned: boolean;
   isArchived: boolean;
+}
+
+export interface DisplayNote extends Omit<Note, 'labelIds'> {
+  labels: Label[];
 }
