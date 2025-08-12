@@ -9,7 +9,6 @@ interface EditableInputProps {
   placeholder?: string;
   isEditing?: boolean;
   className?: string;
-  autoFocus?: boolean;
   onClick?: () => void;
   onBlur?: () => void;
 }
@@ -20,12 +19,10 @@ const EditableInput = ({
   placeholder,
   isEditing = false,
   className,
-  autoFocus,
   onClick,
   onBlur,
 }: EditableInputProps) => (
   <input
-    autoFocus={autoFocus}
     type="text"
     placeholder={placeholder}
     className={cn(
@@ -77,16 +74,16 @@ const CreateLabel = () => {
         <EditableInput
           value={labelName}
           onChange={setLabelName}
+          onClick={() => setIsEditing(true)}
           placeholder="Enter label name"
           isEditing={isEditing}
-          autoFocus
         />
       </div>
       <IconButton
         className={cn('size-9.5 opacity-0', isEditing && 'opacity-100')}
         iconName="check"
         label="Save"
-        onClick={() => handleSave()}
+        onClick={handleSave}
       />
     </div>
   );
