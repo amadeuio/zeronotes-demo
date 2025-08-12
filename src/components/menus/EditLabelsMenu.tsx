@@ -7,33 +7,27 @@ interface EditableInputProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  isEditing?: boolean;
   className?: string;
   onClick?: () => void;
-  onBlur?: () => void;
 }
 
 const EditableInput = ({
   value,
   onChange,
   placeholder,
-  isEditing = false,
   className,
   onClick,
-  onBlur,
 }: EditableInputProps) => (
   <input
     type="text"
     placeholder={placeholder}
     className={cn(
-      'border-none bg-transparent text-white outline-none',
-      isEditing && 'focus:shadow-[0_1px_0_0_oklch(55.6%_0_0)]',
+      'border-none bg-transparent text-white outline-none focus:shadow-[0_1px_0_0_oklch(55.6%_0_0)]',
       className,
     )}
     value={value}
     onChange={(e) => onChange(e.target.value)}
     onClick={onClick}
-    onBlur={onBlur}
   />
 );
 
@@ -76,7 +70,6 @@ const CreateLabel = () => {
           onChange={setLabelName}
           onClick={() => setIsEditing(true)}
           placeholder="Enter label name"
-          isEditing={isEditing}
         />
       </div>
       <IconButton
@@ -110,7 +103,6 @@ const EditLabel = ({ id, name }: { id: string; name: string }) => {
           onChange={setLabelName}
           onClick={() => setIsEditing(true)}
           placeholder="Enter label name"
-          isEditing={isEditing}
         />
       </div>
       <div className="flex items-center">
