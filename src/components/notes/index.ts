@@ -1,2 +1,2 @@
 export { default as Note } from './Note';
-export { default as NoteModal } from './NoteModal';
+export { default as NoteActive } from './NoteActive';

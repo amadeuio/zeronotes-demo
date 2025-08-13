@@ -1,4 +1,4 @@
-import { EditLabelsModal, Main, Navbar, NoteModal, Sidebar } from '@/components';
+import { EditLabelsModal, Main, Navbar, NoteActive, Sidebar } from '@/components';
 import { useActions, useActiveNoteId, useUi } from '@/store';
 
 const App = () => {
@@ -14,7 +14,7 @@ const App = () => {
         <Main />
       </div>
       {isEditLabelsMenuOpen && <EditLabelsModal onClose={() => ui.setEditLabelsMenuOpen(false)} />}
-      {activeNoteId && <NoteModal />}
+      {activeNoteId && <NoteActive />}
     </div>
   );
 };
