@@ -1,3 +1,4 @@
+import { NOTE_WIDTH } from '@/constants';
 import { useMountTrigger } from '@/hooks';
 import { useActions, useActiveNote, useActiveNotePosition } from '@/store';
 import NoteBase from '../NoteBase';
@@ -17,7 +18,7 @@ const NoteActive = () => {
         note={note}
         className="shadow-base fixed transition-all duration-200 ease-in-out"
         style={{
-          width: isMounted ? '597px' : '237px',
+          width: isMounted ? NOTE_WIDTH.expanded : NOTE_WIDTH.compact,
           top: isMounted ? '23%' : position?.top,
           left: isMounted ? '36%' : position?.left,
         }}
