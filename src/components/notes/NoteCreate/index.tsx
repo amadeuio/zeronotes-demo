@@ -1,4 +1,6 @@
 import { EditableText } from '@/components';
+import { useClickOutside } from '@/hooks';
+import { useActions } from '@/store';
 import { cn } from '@/utils';
 import { useState, type MouseEvent } from 'react';
 
@@ -11,9 +13,24 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const { notes } = useActions();
+  const reset = () => {
+    setTitle('');
+    setContent('');
+    setIsExpanded(false);
+  };
+
+  const { triggerRef } = useClickOutside({
+    onClickOutside: () => {
+      if (!title && !content) return;
+      notes.add(title, content);
+      reset();
+    },
+  });
 
   return (
     <div
+      ref={triggerRef}
       className={cn(
         'bg-base shadow-base flex w-full max-w-[var(--width-note-expanded)] flex-col gap-6 rounded-lg border p-5',
         className,
@@ -21,18 +38,14 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
       onClick={onClick}
     >
       <EditableText
-        placeholder="Title"
+        onFocus={() => setIsExpanded(true)}
         value={title}
-        onSave={(title) => setTitle(title)}
+        onChange={setTitle}
+        placeholder="Title"
         isTitle
-        onClick={() => setIsExpanded(true)}
       />
       {isExpanded && (
-        <EditableText
-          placeholder="Take a note..."
-          value={content}
-          onSave={(content) => setContent(content)}
-        />
+        <EditableText value={content} placeholder="Take a note..." onChange={setContent} />
       )}
     </div>
   );

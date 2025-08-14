@@ -5,7 +5,6 @@ interface EditableTextProps {
   value: string;
   onChange: (value: string) => void;
   onFocus?: () => void;
-  onBlur?: () => void;
   placeholder?: string;
   className?: string;
   isTitle?: boolean;
@@ -18,7 +17,6 @@ const EditableText = ({
   className,
   isTitle,
   onFocus,
-  onBlur,
 }: EditableTextProps) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -46,7 +44,6 @@ const EditableText = ({
       className={cn('resize-none outline-none', isTitle && 'text-2xl font-semibold', className)}
       placeholder={placeholder}
       onFocus={onFocus}
-      onBlur={onBlur}
     />
   );
 };
