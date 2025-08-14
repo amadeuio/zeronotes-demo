@@ -4,17 +4,19 @@ import { useState, type FocusEvent, type FormEvent, type KeyboardEvent } from 'r
 interface EditableTextProps {
   value: string;
   onSave: (value: string) => void;
+  onClick?: () => void;
   className?: string;
   placeholder?: string;
-  multiline?: boolean;
+  isTitle?: boolean;
 }
 
 const EditableText = ({
   value,
   onSave,
+  onClick,
   className = '',
   placeholder = '',
-  multiline = false,
+  isTitle = false,
 }: EditableTextProps) => {
   const [currentValue, setCurrentValue] = useState(value);
 
@@ -26,7 +28,7 @@ const EditableText = ({
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey && !multiline) {
+    if (e.key === 'Enter' && !e.shiftKey && isTitle) {
       e.preventDefault();
       e.currentTarget.blur();
     }
@@ -40,17 +42,23 @@ const EditableText = ({
   return (
     <div className="relative">
       <div
-        className={cn('relative outline-none', className)}
+        className={cn('relative outline-none', isTitle && 'text-2xl font-semibold', className)}
         contentEditable
         suppressContentEditableWarning
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         onInput={handleInput}
+        onClick={onClick}
       >
         {value}
       </div>
       {!currentValue && placeholder && (
-        <div className="pointer-events-none absolute top-0 left-0 text-gray-400 select-none">
+        <div
+          className={cn(
+            'pointer-events-none absolute top-0 left-0 text-gray-400 select-none',
+            isTitle && 'text-2xl font-semibold',
+          )}
+        >
           {placeholder}
         </div>
       )}
