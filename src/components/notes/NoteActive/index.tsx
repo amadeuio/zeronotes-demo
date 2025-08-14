@@ -1,6 +1,6 @@
-import { NOTE_WIDTH } from '@/constants';
 import { useMountTrigger } from '@/hooks';
 import { useActions, useActiveNote, useActiveNotePosition } from '@/store';
+import { cn } from '@/utils';
 import NoteBase from '../NoteBase';
 
 const NoteActive = () => {
@@ -17,9 +17,11 @@ const NoteActive = () => {
       <NoteBase
         onClick={(e) => e.stopPropagation()}
         note={note}
-        className="shadow-base fixed transition-all duration-200 ease-in-out"
+        className={cn(
+          'shadow-base fixed transition-all duration-200 ease-in-out',
+          isMounted ? 'w-note-expanded' : 'w-note-compact',
+        )}
         style={{
-          width: isMounted ? NOTE_WIDTH.expanded : NOTE_WIDTH.compact,
           top: isMounted ? '23%' : position?.top,
           left: isMounted ? '36%' : position?.left,
         }}
