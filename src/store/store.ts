@@ -1,5 +1,5 @@
 import { labels as initialLabels, notes as initialNotes } from '@/data';
-import type { Label, Note } from '@/types';
+import type { DraftNote, Label, Note } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
@@ -23,7 +23,7 @@ export interface Store {
   actions: {
     notes: {
       set: (notes: Note[]) => void;
-      add: (title: string, content: string) => void;
+      add: (note: DraftNote) => void;
       remove: (id: string) => void;
       update: (id: string, note: Note) => void;
       updateTitle: (id: string, title: string) => void;
@@ -32,7 +32,7 @@ export interface Store {
       toggleLabel: (noteId: string, labelId: string) => void;
     };
     labels: {
-      create: (name: string) => void;
+      create: (name: string) => Label;
       createAndAddToNote: (name: string, noteId: string) => void;
       edit: (id: string, newName: string) => void;
       remove: (id: string) => void;
@@ -69,20 +69,16 @@ export const useStore = create<Store>()(
     },
     actions: {
       notes: {
-        set: (notes: Note[]) => {
+        set: (notes) => {
           set({ notes });
         },
-        add: (title: string, content: string) => {
+        add: (note) => {
           set((state) => ({
             notes: [
               {
                 id: uuidv4(),
-                title,
-                content,
-                labelIds: [],
-                isPinned: false,
-                isArchived: false,
-                color: null,
+                ...note,
+                labelIds: note.labels.map((l) => l.id),
               },
               ...state.notes,
             ],
@@ -108,7 +104,7 @@ export const useStore = create<Store>()(
             ),
           }));
         },
-        removeLabel: (noteId: string, labelId: string) => {
+        removeLabel: (noteId, labelId) => {
           set((state) => ({
             notes: state.notes.map((note) =>
               note.id === noteId
@@ -117,7 +113,7 @@ export const useStore = create<Store>()(
             ),
           }));
         },
-        toggleLabel: (noteId: string, labelId: string) => {
+        toggleLabel: (noteId, labelId) => {
           set((state) => ({
             notes: state.notes.map((note) =>
               note.id === noteId
@@ -134,9 +130,12 @@ export const useStore = create<Store>()(
       },
       labels: {
         create: (name: string) => {
-          set((state) => ({ labels: [...state.labels, { id: uuidv4(), name }] }));
+          const newId = uuidv4();
+          const newLabel = { id: newId, name };
+          set((state) => ({ labels: [...state.labels, newLabel] }));
+          return newLabel;
         },
-        createAndAddToNote: (name: string, noteId: string) => {
+        createAndAddToNote: (name, noteId) => {
           set((state) => {
             const newId = uuidv4();
             return {
@@ -147,14 +146,14 @@ export const useStore = create<Store>()(
             };
           });
         },
-        edit: (id: string, newName: string) => {
+        edit: (id, newName) => {
           set((state) => ({
             labels: state.labels.map((label) =>
               label.id === id ? { ...label, name: newName } : label,
             ),
           }));
         },
-        remove: (id: string) => {
+        remove: (id) => {
           set((state) => ({
             labels: state.labels.filter((label) => label.id !== id),
             notes: state.notes.map((note) => ({
@@ -170,7 +169,7 @@ export const useStore = create<Store>()(
         },
       },
       ui: {
-        setEditLabelsMenuOpen: (isOpen: boolean) => {
+        setEditLabelsMenuOpen: (isOpen) => {
           set({ ui: { isEditLabelsMenuOpen: isOpen } });
         },
       },
