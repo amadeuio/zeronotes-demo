@@ -32,7 +32,7 @@ export interface Store {
       toggleLabel: (noteId: string, labelId: string) => void;
     };
     labels: {
-      create: (name: string) => void;
+      create: (name: string) => Label;
       createAndAddToNote: (name: string, noteId: string) => void;
       edit: (id: string, newName: string) => void;
       remove: (id: string) => void;
@@ -134,7 +134,10 @@ export const useStore = create<Store>()(
       },
       labels: {
         create: (name: string) => {
-          set((state) => ({ labels: [...state.labels, { id: uuidv4(), name }] }));
+          const newId = uuidv4();
+          const newLabel = { id: newId, name };
+          set((state) => ({ labels: [...state.labels, newLabel] }));
+          return newLabel;
         },
         createAndAddToNote: (name: string, noteId: string) => {
           set((state) => {

@@ -1,30 +1,39 @@
-import { EditableText } from '@/components';
+import { EditableText, Label } from '@/components';
 import { useClickOutside } from '@/hooks';
 import { useActions } from '@/store';
+import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
 import { useState, type MouseEvent } from 'react';
+import NoteToolbar from './Toolbar';
 
 interface NoteCreateProps {
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
   className?: string;
 }
 
+const initNote: DisplayNote = {
+  id: '',
+  color: null,
+  isPinned: false,
+  isArchived: false,
+  title: '',
+  content: '',
+  labels: [],
+};
+
 const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
+  const [note, setNote] = useState<DisplayNote>(initNote);
+
   const [isExpanded, setIsExpanded] = useState(false);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
   const { notes } = useActions();
 
-  const reset = () => {
-    setTitle('');
-    setContent('');
-    setIsExpanded(false);
-  };
-
   const handleCreate = () => {
-    if (!title && !content) return;
-    notes.add(title, content);
-    reset();
+    if (!note.title && !note.content) {
+      setNote(initNote);
+      return;
+    }
+    notes.add(note.title, note.content);
+    setNote(initNote);
   };
 
   const { triggerRef } = useClickOutside(handleCreate);
@@ -40,14 +49,30 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
     >
       <EditableText
         onFocus={() => setIsExpanded(true)}
-        value={title}
-        onChange={setTitle}
+        value={note.title}
+        onChange={(value) => setNote({ ...note, title: value })}
         placeholder="Title"
         isTitle
       />
       {isExpanded && (
-        <EditableText value={content} placeholder="Take a note..." onChange={setContent} />
+        <EditableText
+          value={note.content}
+          placeholder="Take a note..."
+          onChange={(value) => setNote({ ...note, content: value })}
+        />
       )}
+      <div className="flex gap-2">
+        {note.labels.map((label) => (
+          <Label
+            key={label.id}
+            label={label}
+            onClose={() =>
+              setNote({ ...note, labels: note.labels.filter((l) => l.id !== label.id) })
+            }
+          />
+        ))}
+      </div>
+      <NoteToolbar note={note} setNote={setNote} />
     </div>
   );
 };
