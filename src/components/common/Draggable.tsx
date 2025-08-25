@@ -30,10 +30,23 @@ const Draggable = ({
   const handleMouseMove = (e: MouseEvent) => {
     if (!isDragging) return;
 
-    setTranslate({
+    const next = {
       x: e.clientX - startPos.x,
       y: e.clientY - startPos.y,
-    });
+    };
+    setTranslate(next);
+
+    const el = elementRef.current;
+    const parent = el?.parentElement;
+    if (el && parent) {
+      const parentRect = parent.getBoundingClientRect();
+      const child = el.firstElementChild as HTMLElement | null;
+      if (!child) return;
+      const rect = child.getBoundingClientRect();
+      const relX = rect.left - parentRect.left;
+      const relY = rect.top - parentRect.top;
+      console.debug('Draggable position (relative to parent):', { x: relX, y: relY });
+    }
   };
 
   const handleMouseUp = () => {
