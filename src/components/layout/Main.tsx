@@ -3,7 +3,7 @@ import { useDisplayNotes } from '@/store';
 
 const Main = () => {
   const notes = useDisplayNotes();
-  const isLong = true;
+  const isLong = false;
   const notesToShow = isLong
     ? [...notes, ...notes, ...notes, ...notes, ...notes, ...notes, ...notes, ...notes]
     : notes;
@@ -12,8 +12,8 @@ const Main = () => {
     <main className="flex w-full flex-col items-center gap-4 p-4">
       <NoteCreate className="mb-22" />
       <div className="relative w-full">
-        {notesToShow.map((note, index) => (
-          <Note key={note.id} note={note} index={index} />
+        {notesToShow.map((note) => (
+          <Note key={note.id} note={note} />
         ))}
       </div>
     </main>

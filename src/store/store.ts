@@ -9,6 +9,7 @@ export interface Store {
   labels: Label[];
   filters: Filters;
   noteHeights: number[];
+  notesOrder: string[];
   ui: {
     isEditLabelsMenuOpen: boolean;
   };
@@ -48,6 +49,10 @@ export interface Store {
         position: { top: number; left: number } | null;
       }) => void;
     };
+    notesOrder: {
+      set: (notesOrder: string[]) => void;
+      reorder: (noteId: string, overId: string, insertBefore: boolean) => void;
+    };
   };
 }
 
@@ -60,6 +65,7 @@ export const useStore = create<Store>()(
       view: { type: 'notes' },
     },
     noteHeights: [],
+    notesOrder: initialNotes.map((note) => note.id),
     ui: {
       isEditLabelsMenuOpen: false,
     },
@@ -184,6 +190,31 @@ export const useStore = create<Store>()(
           set((state) => ({
             noteHeights: [...state.noteHeights, height],
           }));
+        },
+      },
+      notesOrder: {
+        set: (notesOrder) => {
+          set({ notesOrder });
+        },
+        reorder: (noteId, overId, insertBefore) => {
+          set((state) => {
+            const newOrder = [...state.notesOrder];
+            const fromIndex = newOrder.indexOf(noteId);
+            const toIndex = newOrder.indexOf(overId);
+
+            if (fromIndex === -1 || toIndex === -1) return state;
+
+            // Remove the note from its current position
+            newOrder.splice(fromIndex, 1);
+
+            // Calculate the insert position
+            const insertIndex = insertBefore ? toIndex : toIndex + 1;
+
+            // Insert the note at the new position
+            newOrder.splice(insertIndex, 0, noteId);
+
+            return { notesOrder: newOrder };
+          });
         },
       },
     },

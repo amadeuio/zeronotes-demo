@@ -1,7 +1,8 @@
-import { useNoteHeights } from '@/store';
+import { useNotesOrder } from '@/store';
 
 interface NoteGridConfig {
   noteWidth: number;
+  noteHeight: number;
   gap: number;
   columns: number;
 }
@@ -13,35 +14,25 @@ interface NotePosition {
 
 const GRID_CONFIG: NoteGridConfig = {
   noteWidth: 237,
+  noteHeight: 200,
   gap: 10,
   columns: 3,
 };
 
+const notesOrder = ['1', '2', '3', '4'];
+const notesOrder2 = ['4', '2', '3', '1'];
+
 export const useNotePosition = () => {
-  const noteHeights = useNoteHeights();
+  const notesOrder = useNotesOrder();
 
-  const getNoteCoordinates = (index: number, columns: number) => ({
-    column: index % columns,
-    row: Math.floor(index / columns),
-  });
-
-  const getNoteIndex = (row: number, column: number, columns: number): number =>
-    row * columns + column;
-
-  const getTotalHeightAbove = (index: number, columns: number, gap: number): number => {
-    const { row, column } = getNoteCoordinates(index, columns);
-    return Array.from(
-      { length: row },
-      (_, i) => noteHeights[getNoteIndex(i, column, columns)] || 0,
-    ).reduce((sum, height) => sum + height + gap, 0);
-  };
-
-  const getPosition = (index: number): NotePosition => {
-    const { noteWidth, gap, columns } = GRID_CONFIG;
-    const { column } = getNoteCoordinates(index, columns);
+  const getPosition = (noteId: string): NotePosition => {
+    const { noteWidth, noteHeight, gap, columns } = GRID_CONFIG;
+    const orderIndex = notesOrder.indexOf(noteId);
+    const column = orderIndex % columns;
+    const row = Math.floor(orderIndex / columns);
 
     return {
-      top: getTotalHeightAbove(index, columns, gap),
+      top: row * (noteHeight + gap),
       left: column * (noteWidth + gap),
     };
   };

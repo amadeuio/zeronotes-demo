@@ -1,26 +1,39 @@
+import { useActions } from '@/store';
+import { cn } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
-import { cn } from '../../utils';
 
 interface DraggableProps {
   children: React.ReactNode;
   onDragEnd?: (x: number, y: number) => void;
+  onDragStart?: () => void;
+  onDragStateChange?: (isDragging: boolean) => void;
   className?: string;
   initialPosition?: { x: number; y: number };
+  noteId: string;
+  dragGhost?: React.ReactNode;
 }
 
 const Draggable = ({
   children,
   onDragEnd,
+  onDragStart,
+  onDragStateChange,
   className,
   initialPosition = { x: 0, y: 0 },
+  noteId,
+  dragGhost,
 }: DraggableProps) => {
+  const { notesOrder } = useActions();
   const [isDragging, setIsDragging] = useState(false);
   const [translate, setTranslate] = useState(initialPosition);
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
   const elementRef = useRef<HTMLDivElement>(null);
+  const lastOverId = useRef<string | null>(null);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
+    onDragStateChange?.(true);
+    onDragStart?.();
     setStartPos({
       x: e.clientX - translate.x,
       y: e.clientY - translate.y,
@@ -44,12 +57,18 @@ const Draggable = ({
       .map((node) => (node as Element).closest('[data-note-id]') as HTMLElement | null)
       .find((node) => node && !el.contains(node))?.dataset.noteId;
 
-    if (overId) console.debug('Dragging over noteId:', overId);
+    if (overId && overId !== lastOverId.current) {
+      console.debug('Dragging over noteId:', overId, 'current noteId:', noteId);
+      notesOrder.reorder(noteId, overId, true);
+      lastOverId.current = overId;
+    }
   };
 
   const handleMouseUp = () => {
     if (!isDragging) return;
     setIsDragging(false);
+    onDragStateChange?.(false);
+    lastOverId.current = null;
     onDragEnd?.(translate.x, translate.y);
   };
 

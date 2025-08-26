@@ -4,9 +4,8 @@ import type { Note } from '@/types';
 export const notes: Note[] = [
   {
     id: '1',
-    title: 'Welcome to Google Keep Clone',
-    content:
-      'This is your first note! You can edit, delete, and create new notes. Try clicking on this note to edit it.',
+    title: 'Welcome',
+    content: 'First Note',
     color: NOTE_COLORS.YELLOW,
     labelIds: ['1', '2', '3'],
     isArchived: false,
@@ -16,7 +15,7 @@ export const notes: Note[] = [
   {
     id: '2',
     title: 'Shopping List',
-    content: '• Milk\n• Bread\n• Eggs\n• Bananas\n• Coffee\n• Toilet paper',
+    content: 'Shopping List',
     color: NOTE_COLORS.GREEN,
     labelIds: ['3'],
     isArchived: false,
@@ -25,9 +24,8 @@ export const notes: Note[] = [
   },
   {
     id: '3',
-    title: 'Meeting Notes - Project Kickoff',
-    content:
-      'Team meeting scheduled for Friday 2 PM\n\nAgenda:\n- Project timeline review\n- Resource allocation\n- Next steps\n\nAction items:\n- Send meeting invite\n- Prepare presentation slides',
+    title: 'Meeting Notes',
+    content: 'Meeting Notes',
     color: NOTE_COLORS.BLUE,
     labelIds: ['1'],
     isArchived: false,
@@ -36,8 +34,8 @@ export const notes: Note[] = [
   },
   {
     id: '4',
-    title: 'as;dkjf',
-    content: ';aksdjf;lkasj asd;fkja as;ldkfja sdfk;asjf',
+    title: 'Note 4',
+    content: 'Note 4',
     color: NOTE_COLORS.RED,
     labelIds: ['1'],
     isArchived: false,

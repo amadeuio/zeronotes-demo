@@ -1,22 +1,31 @@
 import { useNotePosition, useSetNoteHeights } from '@/hooks';
-import { useActions, useIsNoteActive } from '@/store';
+import { useActions, useIsNoteActive, useNotesOrder } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
-import type { MouseEvent } from 'react';
+import { type MouseEvent, useEffect, useState } from 'react';
 import { Draggable } from '../common';
 import { NoteBase } from './common';
 
 interface NoteProps {
   note: DisplayNote;
   className?: string;
-  index: number;
 }
 
-const Note = ({ note, className, index }: NoteProps) => {
+const Note = ({ note, className }: NoteProps) => {
   const { activeNote } = useActions();
   const isActive = useIsNoteActive(note.id);
   const { ref } = useSetNoteHeights();
   const { getPosition } = useNotePosition();
+  const notesOrder = useNotesOrder();
+  const [isDragging, setIsDragging] = useState(false);
+  const [position, setPosition] = useState(getPosition(note.id));
+
+  // Update position when not dragging and order changes
+  useEffect(() => {
+    if (!isDragging) {
+      setPosition(getPosition(note.id));
+    }
+  }, [notesOrder, note.id, isDragging]);
 
   const handleClick = (e: MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -31,12 +40,27 @@ const Note = ({ note, className, index }: NoteProps) => {
 
   const handleDragEnd = (x: number, y: number) => {
     console.debug(`Note ${note.id} dropped at: ${x}, ${y}`);
+    // Update to the new grid position after drag ends
+    setPosition(getPosition(note.id));
   };
 
   return (
     <Draggable
       onDragEnd={handleDragEnd}
+      onDragStateChange={setIsDragging}
       className={cn('hover:shadow-base w-note-compact', isActive && 'opacity-0', className)}
+      noteId={note.id}
+      dragGhost={
+        <NoteBase
+          isViewOnly
+          className={cn(
+            'hover:shadow-base w-note-compact absolute',
+            isActive && 'opacity-0',
+            className,
+          )}
+          note={note}
+        />
+      }
     >
       <NoteBase
         ref={ref}
@@ -49,7 +73,8 @@ const Note = ({ note, className, index }: NoteProps) => {
           className,
         )}
         style={{
-          transform: `translate(${getPosition(index).left}px, ${getPosition(index).top}px)`,
+          transform: `translate(${position.left}px, ${position.top}px)`,
+          transition: 'transform 0.3s ease-in-out',
           willChange: 'transform',
         }}
       />
