@@ -49,18 +49,6 @@ const Note = ({ note, className }: NoteProps) => {
       onDragEnd={handleDragEnd}
       onDragStateChange={setIsDragging}
       className={cn('hover:shadow-base w-note-compact', isActive && 'opacity-0', className)}
-      noteId={note.id}
-      dragGhost={
-        <NoteBase
-          isViewOnly
-          className={cn(
-            'hover:shadow-base w-note-compact absolute',
-            isActive && 'opacity-0',
-            className,
-          )}
-          note={note}
-        />
-      }
     >
       <NoteBase
         ref={ref}

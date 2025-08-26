@@ -37,5 +37,15 @@ export const useNotePosition = () => {
     };
   };
 
-  return { getPosition };
+  const getNoteIdAtPosition = (top: number, left: number) => {
+    const { noteWidth, noteHeight, gap, columns } = GRID_CONFIG;
+
+    const col = Math.floor(left / (noteWidth + gap));
+    const row = Math.floor(top / (noteHeight + gap));
+
+    const gridIndex = row * columns + col;
+    return notesOrder[gridIndex];
+  };
+
+  return { getPosition, getNoteIdAtPosition };
 };
