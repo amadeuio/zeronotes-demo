@@ -9,7 +9,7 @@ const App = () => {
   return (
     <div className="flex h-screen flex-col">
       <Navbar />
-      <div className="flex">
+      <div className="flex gap-x-8">
         <Sidebar />
         <Main />
       </div>

@@ -7,23 +7,26 @@ const SidebarItem = ({
   iconName,
   onClick,
   isActive,
+  isCollapsed,
 }: {
   title: string;
   url: string;
   iconName: string;
   onClick?: () => void;
   isActive?: boolean;
+  isCollapsed?: boolean;
 }) => (
   <a
     href={url}
     className={cn(
-      'flex items-center gap-x-8 rounded-r-full py-3 pl-6 text-sm font-[500] transition-colors duration-100 ease-in-out',
+      'transition-width flex items-center gap-x-8 overflow-hidden py-3 text-sm font-[500] duration-100 ease-in-out',
       isActive ? 'bg-[#41331c]' : 'hover:bg-[#303135]',
+      isCollapsed ? 'ml-2.75 w-12 rounded-full pl-3.25' : 'ml-0 w-70 rounded-r-full pl-6',
     )}
     onClick={onClick}
   >
-    <Icon size={24} name={iconName} />
-    <span>{title}</span>
+    <Icon light={isActive} size={24} name={iconName} />
+    <span className="whitespace-nowrap">{title}</span>
   </a>
 );
 
