@@ -1,4 +1,5 @@
 import { useNotePosition } from '@/hooks/useNotePosition';
+import { useActions } from '@/store';
 import { cn } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
 
@@ -9,6 +10,7 @@ interface DraggableProps {
   onDragStateChange?: (isDragging: boolean) => void;
   className?: string;
   initialPosition?: { x: number; y: number };
+  noteId: string;
 }
 
 const Draggable = ({
@@ -18,11 +20,14 @@ const Draggable = ({
   onDragStateChange,
   className,
   initialPosition = { x: 0, y: 0 },
+  noteId,
 }: DraggableProps) => {
   const { getNoteIdAtPosition } = useNotePosition();
+  const { notesOrder } = useActions();
   const [isDragging, setIsDragging] = useState(false);
   const [translate, setTranslate] = useState(initialPosition);
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
+  const [lastOverNoteId, setLastOverNoteId] = useState<string | undefined>();
   const elementRef = useRef<HTMLDivElement>(null);
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -35,15 +40,6 @@ const Draggable = ({
     });
   };
 
-  const getNoteOverId = (clientX: number, clientY: number, excludeElement: HTMLElement | null) => {
-    if (!excludeElement) return undefined;
-
-    return document
-      .elementsFromPoint(clientX, clientY)
-      .map((node) => (node as Element).closest('[data-note-id]') as HTMLElement | null)
-      .find((node) => node && !excludeElement.contains(node))?.dataset.noteId;
-  };
-
   const handleMouseMove = (e: MouseEvent) => {
     if (!isDragging) return;
 
@@ -53,7 +49,6 @@ const Draggable = ({
     };
     setTranslate(next);
 
-    // Get mouse position relative to container
     const el = elementRef.current;
     if (!el) return;
 
@@ -64,7 +59,12 @@ const Draggable = ({
     const relativeY = e.clientY - parentRect.top;
 
     const overId = getNoteIdAtPosition(relativeY, relativeX);
-    console.debug('Mouse relative to container:', { relativeX, relativeY, overId });
+
+    if (overId && overId !== lastOverNoteId && overId !== noteId) {
+      console.debug('last note overId:', lastOverNoteId, 'new note overId:', overId);
+      notesOrder.reorder(noteId, overId, true);
+      setLastOverNoteId(overId);
+    }
   };
 
   const handleMouseUp = () => {
@@ -72,6 +72,7 @@ const Draggable = ({
     setIsDragging(false);
     onDragStateChange?.(false);
     onDragEnd?.(translate.x, translate.y);
+    setLastOverNoteId(undefined);
   };
 
   useEffect(() => {

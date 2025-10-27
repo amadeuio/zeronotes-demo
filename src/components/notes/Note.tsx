@@ -46,6 +46,7 @@ const Note = ({ note, className }: NoteProps) => {
 
   return (
     <Draggable
+      noteId={note.id}
       onDragEnd={handleDragEnd}
       onDragStateChange={setIsDragging}
       className={cn('hover:shadow-base w-note-compact', isActive && 'opacity-0', className)}
