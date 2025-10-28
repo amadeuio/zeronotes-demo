@@ -1,9 +1,8 @@
 import { useActions, useLabels, useUi, useView } from '@/store';
-import { useState } from 'react';
+import { cn } from '@/utils';
 import SidebarItem from './SidebarItem';
 
 const Sidebar = () => {
-  const [isHovered, setIsHovered] = useState(false);
   const labels = useLabels();
   const view = useView();
   const { filters, ui } = useActions();
@@ -11,9 +10,10 @@ const Sidebar = () => {
 
   return (
     <aside
-      className="flex h-full flex-col py-2"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className={cn(
+        'group flex h-full flex-col py-2',
+        isSidebarCollapsed && 'hover:shadow-[2px_0_6px_-2px_rgba(0,0,0,0.6)]',
+      )}
     >
       <SidebarItem
         title="Notes"
@@ -21,7 +21,7 @@ const Sidebar = () => {
         iconName="lightbulb_2"
         onClick={() => filters.set({ view: { type: 'notes' } })}
         isActive={view.type === 'notes'}
-        isCollapsed={isSidebarCollapsed && !isHovered}
+        isCollapsed={isSidebarCollapsed}
       />
       {labels.map((label) => (
         <SidebarItem
@@ -31,7 +31,7 @@ const Sidebar = () => {
           iconName="label"
           onClick={() => filters.set({ view: { type: 'label', id: label.id } })}
           isActive={view.type === 'label' && view.id === label.id}
-          isCollapsed={isSidebarCollapsed && !isHovered}
+          isCollapsed={isSidebarCollapsed}
         />
       ))}
       <SidebarItem
@@ -39,7 +39,7 @@ const Sidebar = () => {
         url="#"
         iconName="edit"
         onClick={() => ui.setEditLabelsMenuOpen(true)}
-        isCollapsed={isSidebarCollapsed && !isHovered}
+        isCollapsed={isSidebarCollapsed}
       />
       <SidebarItem
         title="Archive"
@@ -47,7 +47,7 @@ const Sidebar = () => {
         iconName="archive"
         onClick={() => filters.set({ view: { type: 'archive' } })}
         isActive={view.type === 'archive'}
-        isCollapsed={isSidebarCollapsed && !isHovered}
+        isCollapsed={isSidebarCollapsed}
       />
       <SidebarItem
         title="Trash"
@@ -55,7 +55,7 @@ const Sidebar = () => {
         iconName="delete"
         onClick={() => filters.set({ view: { type: 'trash' } })}
         isActive={view.type === 'trash'}
-        isCollapsed={isSidebarCollapsed && !isHovered}
+        isCollapsed={isSidebarCollapsed}
       />
     </aside>
   );
