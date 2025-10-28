@@ -32,7 +32,7 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
     <div
       ref={triggerRef}
       className={cn(
-        'bg-base shadow-base flex w-full max-w-[var(--width-note-expanded)] flex-col gap-6 rounded-lg border p-5',
+        'bg-base shadow-base flex w-full max-w-[var(--width-note-expanded)] flex-col gap-6 rounded-lg border p-4',
         className,
       )}
       onClick={onClick}
@@ -41,8 +41,8 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
         onFocus={() => setIsExpanded(true)}
         value={state.title}
         onChange={(value) => dispatch({ type: 'SET_TITLE', payload: value })}
-        placeholder="Title"
-        isTitle
+        placeholder={isExpanded ? 'Title' : 'Take a note...'}
+        isTitle={isExpanded}
       />
       {isExpanded && (
         <>
