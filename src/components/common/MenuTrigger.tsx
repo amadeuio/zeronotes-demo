@@ -17,7 +17,14 @@ const MenuTrigger = ({ children, menu, onClickOutside }: MenuTriggerProps) => {
 
   return (
     <div className="relative" ref={triggerRef}>
-      <div onClick={() => setIsOpen(true)}>{children}</div>
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen(true);
+        }}
+      >
+        {children}
+      </div>
       {isOpen && <div className="absolute top-full left-0 z-10">{menu}</div>}
     </div>
   );
