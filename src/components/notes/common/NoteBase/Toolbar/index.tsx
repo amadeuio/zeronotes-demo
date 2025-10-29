@@ -2,6 +2,7 @@ import { IconButton, MenuTrigger } from '@/components';
 import { useActions } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
+import BackgroundMenu from './BackgroundMenu';
 import MoreMenu from './MoreMenu';
 
 const NoteToolbar = ({ note, className }: { note: DisplayNote; className?: string }) => {
@@ -28,13 +29,9 @@ const NoteToolbar = ({ note, className }: { note: DisplayNote; className?: strin
         </>
       ) : (
         <>
-          <IconButton
-            className="p-2"
-            size={18}
-            label="Background options"
-            iconName="palette"
-            onClick={() => {}}
-          />
+          <MenuTrigger menu={<BackgroundMenu note={note} />}>
+            <IconButton className="p-2" size={18} label="Background options" iconName="palette" />
+          </MenuTrigger>
           <IconButton
             className="p-2"
             size={18}
