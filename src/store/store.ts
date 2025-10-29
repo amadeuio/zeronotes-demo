@@ -24,6 +24,7 @@ export interface Store {
       update: (id: string, note: Note) => void;
       updateTitle: (id: string, title: string) => void;
       updateContent: (id: string, content: string) => void;
+      updateColor: (id: string, colorId: string) => void;
       removeLabel: (noteId: string, labelId: string) => void;
       toggleLabel: (noteId: string, labelId: string) => void;
       toggleArchive: (id: string) => void;
@@ -109,6 +110,11 @@ export const useStore = create<Store>()(
             notes: state.notes.map((note) =>
               note.id === id ? { ...note, content, updatedAt: new Date() } : note,
             ),
+          }));
+        },
+        updateColor: (id, colorId) => {
+          set((state) => ({
+            notes: state.notes.map((note) => (note.id === id ? { ...note, colorId } : note)),
           }));
         },
         removeLabel: (noteId, labelId) => {
