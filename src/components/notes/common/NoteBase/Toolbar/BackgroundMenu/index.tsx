@@ -1,4 +1,4 @@
-import { NOTE_COLORS } from '@/constants';
+import { COLORS } from '@/constants';
 import type { DisplayNote } from '@/types';
 import ColorCircle from './ColorCircle';
 
@@ -9,12 +9,12 @@ interface BackgroundMenuProps {
 const BackgroundMenu = ({ note }: BackgroundMenuProps) => (
   <div className="bg-base shadow-base rounded-sm p-2">
     <div className="flex gap-1">
-      {Object.values(NOTE_COLORS).map((color) => (
+      {COLORS.map((color) => (
         <ColorCircle
           key={color.label}
           color={color}
-          isSelected={note.color === color.value}
-          onClick={() => console.log(color.value)}
+          isSelected={note.colorId === color.id}
+          onClick={() => console.log(color.id)}
         />
       ))}
     </div>

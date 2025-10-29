@@ -1,11 +1,10 @@
-import type { NoteColor } from '@/constants';
-import type { Label } from './label.types';
+import type { Label } from '@/types';
 
 export interface Note {
   id: string;
   title: string;
   content: string;
-  color: NoteColor | null;
+  colorId: string;
   labelIds: string[];
   isPinned: boolean;
   isArchived: boolean;

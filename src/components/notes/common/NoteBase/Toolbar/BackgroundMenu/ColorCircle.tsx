@@ -1,11 +1,11 @@
 import { Icon } from '@/components';
-import type { NoteColor } from '@/constants';
 import { useTooltipPosition } from '@/hooks';
+import type { Color } from '@/types';
 import { cn } from '@/utils';
 import { useRef, useState } from 'react';
 
 interface ColorCircleProps {
-  color: NoteColor;
+  color: Color;
   isSelected: boolean;
   onClick: () => void;
 }

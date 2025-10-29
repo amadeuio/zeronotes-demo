@@ -1,52 +1,16 @@
-export const NOTE_COLORS = {
-  DEFAULT: {
-    value: null,
-    label: 'Default',
-  },
-  CORAL: {
-    value: '#77172e',
-    label: 'Coral',
-  },
-  PEACH: {
-    value: '#692b17',
-    label: 'Peach',
-  },
-  SAND: {
-    value: '#7c4a03',
-    label: 'Sand',
-  },
-  MINT: {
-    value: '#264d3b',
-    label: 'Mint',
-  },
-  SAGE: {
-    value: '#0c625d',
-    label: 'Sage',
-  },
-  FOG: {
-    value: '#256377',
-    label: 'Fog',
-  },
-  STORM: {
-    value: '#284255',
-    label: 'Storm',
-  },
-  DUSK: {
-    value: '#472e5b',
-    label: 'Dusk',
-  },
-  BLOSSOM: {
-    value: '#6c394f',
-    label: 'Blossom',
-  },
-  CLAY: {
-    value: '#4b443a',
-    label: 'Clay',
-  },
-  CHALK: {
-    value: '#232427',
-    label: 'Chalk',
-  },
-} as const;
+import type { Color } from '@/types';
 
-export type NoteColor = (typeof NOTE_COLORS)[keyof typeof NOTE_COLORS];
+export const COLORS: Color[] = [
+  { id: 'default', label: 'Default', value: null },
+  { id: 'coral', label: 'Coral', value: '#77172e' },
+  { id: 'peach', label: 'Peach', value: '#692b17' },
+  { id: 'sand', label: 'Sand', value: '#7c4a03' },
+  { id: 'mint', label: 'Mint', value: '#264d3b' },
+  { id: 'sage', label: 'Sage', value: '#0c625d' },
+  { id: 'fog', label: 'Fog', value: '#256377' },
+  { id: 'storm', label: 'Storm', value: '#284255' },
+  { id: 'dusk', label: 'Dusk', value: '#472e5b' },
+  { id: 'blossom', label: 'Blossom', value: '#6c394f' },
+  { id: 'clay', label: 'Clay', value: '#4b443a' },
+  { id: 'chalk', label: 'Chalk', value: '#232427' },
+];
