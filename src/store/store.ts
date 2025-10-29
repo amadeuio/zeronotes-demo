@@ -26,6 +26,9 @@ export interface Store {
       updateContent: (id: string, content: string) => void;
       removeLabel: (noteId: string, labelId: string) => void;
       toggleLabel: (noteId: string, labelId: string) => void;
+      toggleArchive: (id: string) => void;
+      togglePin: (id: string) => void;
+      trash: (id: string) => void;
     };
     labels: {
       create: (name: string) => Label;
@@ -122,6 +125,29 @@ export const useStore = create<Store>()(
                       ? note.labelIds.filter((l) => l !== labelId)
                       : [...note.labelIds, labelId],
                   }
+                : note,
+            ),
+          }));
+        },
+        toggleArchive: (id) => {
+          set((state) => ({
+            notes: state.notes.map((note) =>
+              note.id === id ? { ...note, isArchived: !note.isArchived } : note,
+            ),
+          }));
+        },
+        togglePin: (id) => {
+          set((state) => ({
+            notes: state.notes.map((note) =>
+              note.id === id ? { ...note, isPinned: !note.isPinned } : note,
+            ),
+          }));
+        },
+        trash: (id) => {
+          set((state) => ({
+            notes: state.notes.map((note) =>
+              note.id === id
+                ? { ...note, isTrashed: true, isPinned: false, isArchived: false }
                 : note,
             ),
           }));
