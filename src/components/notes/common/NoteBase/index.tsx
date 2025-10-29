@@ -1,4 +1,5 @@
 import { IconButton } from '@/components';
+import { COLORS } from '@/constants';
 import { useActions, useSearch } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
@@ -17,15 +18,20 @@ interface NoteProps {
 const NoteBase = ({ note, onClick, className, style, isViewOnly }: NoteProps) => {
   const { notes } = useActions();
   const search = useSearch();
+  const noteColor = COLORS.find((c) => c.id === note.colorId)?.value;
 
   return (
     <div
       className={cn(
-        'bg-base group/note relative flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14',
+        'group/note relative flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 transition-colors duration-800 ease-in-out',
         className,
       )}
       onClick={onClick}
-      style={style}
+      style={{
+        ...style,
+        backgroundColor: noteColor ?? 'var(--color-base)',
+        borderColor: noteColor ?? 'var(--color-secondary)',
+      }}
     >
       <IconButton
         size={24}
