@@ -1,3 +1,4 @@
+import { cn } from '@/utils';
 import HighlightedText from './HighlightedText';
 
 interface ViewOnlyTextProps {
@@ -7,7 +8,7 @@ interface ViewOnlyTextProps {
 }
 
 const ViewOnlyText = ({ value, searchTerm, className }: ViewOnlyTextProps) => (
-  <div className={className}>
+  <div className={cn('line-clamp-12 whitespace-pre-wrap', className)}>
     {searchTerm && searchTerm.trim() ? (
       <HighlightedText value={value} searchTerm={searchTerm} />
     ) : (
