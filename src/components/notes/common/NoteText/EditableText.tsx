@@ -1,3 +1,4 @@
+import { cn } from '@/utils';
 import { useLayoutEffect, useRef } from 'react';
 
 interface EditableTextProps {
@@ -41,7 +42,7 @@ const EditableText = ({ value, onChange, placeholder, className, onFocus }: Edit
       value={value}
       onChange={handleChange}
       rows={1}
-      className={className}
+      className={cn(className, 'max-h-[750px] overflow-y-auto')}
       placeholder={placeholder}
       onFocus={onFocus}
     />

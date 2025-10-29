@@ -18,12 +18,13 @@ const NoteActive = () => {
         onClick={(e) => e.stopPropagation()}
         note={note}
         className={cn(
-          'shadow-base fixed transition-all duration-200 ease-in-out',
+          'shadow-base fixed transition-all duration-200',
           isMounted ? 'w-note-expanded' : 'w-note-compact',
         )}
         style={{
           top: isMounted ? '23%' : position?.top,
           left: isMounted ? '36%' : position?.left,
+          transform: isMounted ? 'translateY(-20%)' : undefined,
         }}
       />
     </div>
