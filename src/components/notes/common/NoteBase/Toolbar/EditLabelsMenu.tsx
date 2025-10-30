@@ -35,7 +35,7 @@ const CreateLabel = ({ name, onClick }: { name: string; onClick: () => void }) =
         e.stopPropagation();
         onClick();
       }}
-      className="flex cursor-pointer items-center gap-x-2 py-2 whitespace-nowrap text-white hover:bg-neutral-600"
+      className="flex cursor-pointer items-center gap-x-2 py-2 whitespace-nowrap text-white hover:bg-white/8"
     >
       <Icon name="add" />
       Create '{name}'
@@ -53,7 +53,7 @@ const MenuItem = ({ noteId, label }: { noteId: string; label: Label }) => {
         e.stopPropagation();
         notes.toggleLabel(noteId, label.id);
       }}
-      className="flex cursor-pointer items-center gap-x-4 py-2 whitespace-nowrap text-white hover:bg-neutral-600"
+      className="flex cursor-pointer items-center gap-x-4 py-2 whitespace-nowrap text-white hover:bg-white/8"
     >
       <Checkbox checked={isChecked} />
       {label.name}

@@ -35,7 +35,7 @@ const IconButton = ({
     <button
       ref={wrapperRef}
       className={cn(
-        'group relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-colors duration-150 ease-in-out hover:bg-[#303135]',
+        'group relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-colors duration-150 ease-in-out hover:bg-white/8',
         className,
       )}
       onClick={(e) => {
