@@ -18,7 +18,7 @@ const EditLabel = ({ id, name }: { id: string; name: string }) => {
   return (
     <div className="flex cursor-text justify-between text-white">
       <div className="flex items-center gap-x-2">
-        <IconButton iconName="label" label="Label" />
+        <IconButton iconName="label" label="Label" size={18} />
         <LabelInput
           value={labelName}
           onChange={setLabelName}
@@ -28,16 +28,23 @@ const EditLabel = ({ id, name }: { id: string; name: string }) => {
       </div>
       <div className="flex items-center">
         {isEditing ? (
-          <IconButton className="size-9.5" iconName="check" label="Save" onClick={handleSave} />
+          <IconButton
+            className="size-9.5"
+            iconName="check"
+            label="Save"
+            size={18}
+            onClick={handleSave}
+          />
         ) : (
           <IconButton
             className="size-9.5"
             iconName="edit"
             label="Edit"
+            size={18}
             onClick={() => setIsEditing(true)}
           />
         )}
-        <IconButton iconName="delete" label="Delete" onClick={() => labels.remove(id)} />
+        <IconButton iconName="delete" label="Delete" size={18} onClick={() => labels.remove(id)} />
       </div>
     </div>
   );

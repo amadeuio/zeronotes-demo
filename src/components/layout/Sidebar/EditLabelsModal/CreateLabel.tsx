@@ -24,6 +24,7 @@ const CreateLabel = () => {
           <IconButton
             iconName="close"
             label="Label"
+            size={18}
             onClick={() => {
               setIsEditing(false);
               setName('');
@@ -33,6 +34,7 @@ const CreateLabel = () => {
           <IconButton
             iconName="add"
             label="Label"
+            size={18}
             onClick={() => {
               setIsEditing(true);
             }}
@@ -49,6 +51,7 @@ const CreateLabel = () => {
         className={cn('size-9.5 opacity-0', isEditing && 'opacity-100')}
         iconName="check"
         label="Save"
+        size={18}
         onClick={handleSave}
       />
     </div>
