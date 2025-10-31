@@ -34,8 +34,10 @@ const SeachIconButton = ({
       <Icon
         size={size}
         name={iconName}
-        light
-        className={cn('transition-colors duration-150 ease-in-out', dark && 'text-neutral-500')}
+        className={cn(
+          'text-neutral-100 transition-colors duration-150 ease-in-out',
+          dark && 'text-neutral-500',
+        )}
       />
       {isTooltipVisible && (
         <div className="absolute top-full left-1/2 -translate-x-1/2 translate-y-1 rounded bg-neutral-700 px-2 py-1 text-xs whitespace-nowrap text-white shadow-lg">

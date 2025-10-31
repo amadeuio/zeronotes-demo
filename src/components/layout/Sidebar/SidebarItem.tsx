@@ -27,7 +27,7 @@ const SidebarItem = ({
     )}
     onClick={onClick}
   >
-    <Icon light={isActive} size={24} name={iconName} />
+    <Icon size={24} name={iconName} className={cn(isActive && 'text-neutral-100')} />
     <span className="whitespace-nowrap">{title}</span>
   </a>
 );

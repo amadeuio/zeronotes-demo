@@ -14,7 +14,6 @@ const Navbar = () => {
           iconName="menu"
           label="Main menu"
           size={24}
-          light
           onClick={() => ui.toggleSidebar()}
         />
         <div className="mr-22 ml-2 flex items-center gap-x-2">

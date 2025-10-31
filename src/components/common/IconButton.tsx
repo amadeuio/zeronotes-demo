@@ -8,7 +8,6 @@ interface IconButtonProps {
   label: ReactNode;
   size?: number;
   className?: string;
-  light?: boolean;
   filled?: boolean;
   onClick?: () => void;
 }
@@ -18,7 +17,6 @@ const IconButton = ({
   label,
   size = 16,
   className,
-  light = false,
   filled = false,
   onClick,
 }: IconButtonProps) => {
@@ -50,7 +48,6 @@ const IconButton = ({
       <Icon
         size={size}
         name={iconName}
-        light={light}
         filled={filled}
         className="transition-colors duration-150 ease-in-out group-hover:text-neutral-100"
       />
