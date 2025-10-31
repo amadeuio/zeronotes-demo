@@ -8,6 +8,7 @@ interface IconButtonProps {
   label: ReactNode;
   size?: number;
   className?: string;
+  iconClassName?: string;
   filled?: boolean;
   onClick?: () => void;
 }
@@ -17,6 +18,7 @@ const IconButton = ({
   label,
   size = 16,
   className,
+  iconClassName,
   filled = false,
   onClick,
 }: IconButtonProps) => {
@@ -49,7 +51,10 @@ const IconButton = ({
         size={size}
         name={iconName}
         filled={filled}
-        className="transition-colors duration-150 ease-in-out group-hover:text-neutral-100"
+        className={cn(
+          'transition-colors duration-150 ease-in-out group-hover:text-neutral-100',
+          iconClassName,
+        )}
       />
       {isTooltipVisible && (
         <div
