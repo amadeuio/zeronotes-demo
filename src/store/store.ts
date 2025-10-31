@@ -76,12 +76,13 @@ export const useStore = create<Store>()(
           set({ notes });
         },
         add: (note) => {
+          const { labels, ...rest } = note;
           set((state) => ({
             notes: [
               {
                 id: uuidv4(),
-                ...note,
-                labelIds: note.labels.map((l) => l.id),
+                ...rest,
+                labelIds: labels.map((l) => l.id),
                 isTrashed: false,
               },
               ...state.notes,

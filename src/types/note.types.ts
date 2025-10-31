@@ -13,6 +13,7 @@ export interface Note {
 
 export interface DisplayNote extends Omit<Note, 'labelIds'> {
   labels: Label[];
+  colorValue: string | null;
 }
 
-export type DraftNote = Omit<DisplayNote, 'id' | 'isTrashed'>;
+export type DraftNote = Omit<DisplayNote, 'id' | 'isTrashed' | 'colorValue'>;

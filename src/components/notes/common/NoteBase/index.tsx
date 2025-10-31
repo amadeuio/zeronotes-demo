@@ -1,5 +1,4 @@
 import { IconButton } from '@/components';
-import { COLORS } from '@/constants';
 import { useActions, useSearch } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
@@ -18,7 +17,6 @@ interface NoteProps {
 const NoteBase = ({ note, onClick, className, style, isViewOnly }: NoteProps) => {
   const { notes } = useActions();
   const search = useSearch();
-  const noteColor = COLORS.find((c) => c.id === note.colorId)?.value;
 
   return (
     <div
@@ -29,8 +27,8 @@ const NoteBase = ({ note, onClick, className, style, isViewOnly }: NoteProps) =>
       onClick={onClick}
       style={{
         ...style,
-        backgroundColor: noteColor ?? 'var(--color-base)',
-        borderColor: noteColor ?? 'var(--color-secondary)',
+        backgroundColor: note.colorValue ?? 'var(--color-base)',
+        borderColor: note.colorValue ?? 'var(--color-secondary)',
       }}
     >
       <IconButton

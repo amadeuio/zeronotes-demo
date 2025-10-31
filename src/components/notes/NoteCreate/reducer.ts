@@ -32,7 +32,10 @@ export const noteReducer = (state: DraftNote, action: NoteAction): DraftNote => 
     case 'RESET':
       return initialState;
     case 'SET_COLOR':
-      return { ...state, colorId: action.payload?.id || 'default' };
+      return {
+        ...state,
+        colorId: action.payload?.id || 'default',
+      };
     case 'SET_ARCHIVED':
       return { ...state, isArchived: action.payload };
     default:
