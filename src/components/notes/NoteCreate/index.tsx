@@ -1,7 +1,7 @@
 import { IconButton } from '@/components';
 import { useClickOutside } from '@/hooks';
 import { useActions } from '@/store';
-import { cn } from '@/utils';
+import { cn, getColorValue } from '@/utils';
 import { useReducer, useState, type MouseEvent } from 'react';
 import { Label, NoteText } from '../common';
 import NoteToolbar from './Toolbar';
@@ -16,6 +16,7 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
   const [state, dispatch] = useReducer(noteReducer, initialState);
   const { notes } = useActions();
   const [isExpanded, setIsExpanded] = useState(false);
+  const colorValue = getColorValue(state.colorId);
 
   const handleCreate = () => {
     if (!state.title && !state.content) {
@@ -33,10 +34,14 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
     <div
       ref={triggerRef}
       className={cn(
-        'bg-base relative flex w-full max-w-[var(--width-note-expanded)] flex-col gap-4 rounded-lg border p-3.5 shadow-[0_1px_7px_rgba(0,0,0,0.8)]',
+        'bg-base relative flex w-full max-w-[var(--width-note-expanded)] flex-col gap-4 rounded-lg border p-3.5 shadow-[0_1px_7px_rgba(0,0,0,0.8)] transition-colors duration-800 ease-in-out',
         className,
       )}
       onClick={onClick}
+      style={{
+        backgroundColor: colorValue ?? 'var(--color-base)',
+        borderColor: colorValue ?? 'var(--color-secondary)',
+      }}
     >
       <NoteText
         onFocus={() => setIsExpanded(true)}

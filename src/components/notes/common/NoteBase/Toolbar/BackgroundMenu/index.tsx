@@ -11,17 +11,15 @@ const BackgroundMenu = ({ note }: BackgroundMenuProps) => {
   const { notes } = useActions();
 
   return (
-    <div className="bg-base shadow-base rounded-sm p-2">
-      <div className="flex gap-1">
-        {COLORS.map((color) => (
-          <ColorCircle
-            key={color.label}
-            color={color}
-            isSelected={note.colorId === color.id}
-            onClick={() => notes.updateColor(note.id, color.id)}
-          />
-        ))}
-      </div>
+    <div className="bg-base shadow-base flex gap-1 rounded-sm p-2">
+      {COLORS.map((color) => (
+        <ColorCircle
+          key={color.label}
+          color={color}
+          isSelected={note.colorId === color.id}
+          onClick={() => notes.updateColor(note.id, color.id)}
+        />
+      ))}
     </div>
   );
 };

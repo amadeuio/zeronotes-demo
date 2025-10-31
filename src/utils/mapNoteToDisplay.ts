@@ -1,10 +1,10 @@
-import { COLORS } from '@/constants';
 import type { DisplayNote, LabelsById, Note } from '@/types';
+import { getColorValue } from './';
 
 export const mapNoteToDisplay = (note: Note, labelsById: LabelsById): DisplayNote => {
   const { labelIds, colorId, ...rest } = note;
   const labels = labelIds.map((id) => labelsById[id]).filter(Boolean);
-  const colorValue = COLORS.find((color) => color.id === colorId)?.value ?? null;
+  const colorValue = getColorValue(colorId);
 
   return {
     ...rest,
