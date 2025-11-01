@@ -17,6 +17,7 @@ interface NoteProps {
 const NoteBase = ({ note, onClick, className, style, isViewOnly }: NoteProps) => {
   const { notes } = useActions();
   const search = useSearch();
+  const isViewOnlyAndNoTitle = isViewOnly && !note.title;
 
   return (
     <div
@@ -40,7 +41,7 @@ const NoteBase = ({ note, onClick, className, style, isViewOnly }: NoteProps) =>
         iconClassName="text-neutral-300"
         onClick={() => notes.togglePin(note.id)}
       />
-      {!(isViewOnly && !note.title) && (
+      {!isViewOnlyAndNoTitle && (
         <NoteText
           isViewOnly={isViewOnly}
           isTitle
@@ -55,6 +56,7 @@ const NoteBase = ({ note, onClick, className, style, isViewOnly }: NoteProps) =>
         searchTerm={search}
         value={note.content}
         onChange={(value: string) => notes.updateContent(note.id, value)}
+        className={cn(isViewOnlyAndNoTitle && 'pr-6')}
       />
       <div className="flex flex-wrap gap-1.5">
         {note.labels.map((label) => (
