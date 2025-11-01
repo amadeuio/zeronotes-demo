@@ -48,6 +48,7 @@ const NoteBase = ({ note, onClick, className, style, isViewOnly }: NoteProps) =>
           searchTerm={search}
           value={note.title}
           onChange={(value: string) => notes.updateTitle(note.id, value)}
+          placeholder="Title"
           className="pr-6"
         />
       )}
@@ -56,6 +57,7 @@ const NoteBase = ({ note, onClick, className, style, isViewOnly }: NoteProps) =>
         searchTerm={search}
         value={note.content}
         onChange={(value: string) => notes.updateContent(note.id, value)}
+        placeholder="Take a note..."
         className={cn(isViewOnlyAndNoTitle && 'pr-6')}
       />
       <div className="flex flex-wrap gap-1.5">
