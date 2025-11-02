@@ -1,3 +1,3 @@
 export { useClickOutside } from './useClickOutside';
-export { useMountTrigger } from './useMountTrigger';
+export { useNoteTransition } from './useNoteTransition';
 export { useTooltipPosition } from './useTooltipPosition';

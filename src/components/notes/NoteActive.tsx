@@ -1,34 +1,26 @@
 import { IconButton } from '@/components';
-import { useMountTrigger } from '@/hooks';
+import { useNoteTransition } from '@/hooks';
 import { useActions, useActiveNote, useActiveNotePosition } from '@/store';
-import { cn } from '@/utils';
 import { Label, NoteToolbar, TextEdit } from './';
 
 const NoteActive = () => {
   const note = useActiveNote()!;
   const position = useActiveNotePosition();
-  const { activeNote } = useActions();
-  const isMounted = useMountTrigger();
-  const { notes } = useActions();
+  const { activeNote, notes } = useActions();
+  const { positionStyles, handleClose } = useNoteTransition({
+    position,
+    onClose: () => activeNote.set({ id: null, position: null }),
+  });
 
   return (
-    <div
-      className="fixed inset-0 z-50 bg-neutral-800/60"
-      onClick={() => activeNote.set({ id: null, position: null })}
-    >
+    <div className="fixed inset-0 z-50 bg-neutral-800/60" onClick={handleClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className={cn(
-          'group/note relative flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 transition-colors duration-800 ease-in-out',
-          'shadow-base fixed transition-all duration-200',
-          isMounted ? 'w-note-expanded' : 'w-note-compact',
-        )}
+        className="group/note shadow-base relative flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 transition-colors duration-800 ease-in-out"
         style={{
           backgroundColor: note.colorValue ?? 'var(--color-base)',
           borderColor: note.colorValue ?? 'var(--color-secondary)',
-          top: isMounted ? '23%' : position?.top,
-          left: isMounted ? '36%' : position?.left,
-          transform: isMounted ? 'translateY(-20%)' : undefined,
+          ...positionStyles,
         }}
       >
         <IconButton
