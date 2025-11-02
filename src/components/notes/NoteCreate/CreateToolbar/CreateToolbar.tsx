@@ -1,16 +1,15 @@
 import { IconButton, MenuTrigger } from '@/components';
 import type { DraftNote } from '@/types';
 import type { Dispatch } from 'react';
+import { BackgroundMenu, MoreMenu } from '.';
 import type { NoteAction } from '../reducer';
-import BackgroundMenu from './BackgroundMenu';
-import MoreMenu from './MoreMenu';
 
-interface NoteToolbarProps {
+interface CreateToolbarProps {
   state: DraftNote;
   dispatch: Dispatch<NoteAction>;
 }
 
-const NoteToolbar = ({ state, dispatch }: NoteToolbarProps) => (
+const CreateToolbar = ({ state, dispatch }: CreateToolbarProps) => (
   <div className="-m-2 mt-0 flex items-center gap-x-2">
     <MenuTrigger menu={<BackgroundMenu state={state} dispatch={dispatch} />}>
       <IconButton
@@ -38,4 +37,4 @@ const NoteToolbar = ({ state, dispatch }: NoteToolbarProps) => (
   </div>
 );
 
-export default NoteToolbar;
+export default CreateToolbar;

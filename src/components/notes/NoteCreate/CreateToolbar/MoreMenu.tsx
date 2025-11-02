@@ -1,8 +1,8 @@
 import { Menu } from '@/components';
 import type { DraftNote } from '@/types';
 import { useState, type Dispatch } from 'react';
+import { EditLabelsMenu } from '.';
 import type { NoteAction } from '../reducer';
-import EditLabelsMenu from './EditLabelsMenu';
 
 interface MoreMenuProps {
   state: DraftNote;

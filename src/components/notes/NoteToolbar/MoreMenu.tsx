@@ -2,7 +2,7 @@ import { Menu } from '@/components';
 import { useActions } from '@/store';
 import type { DisplayNote } from '@/types';
 import { useState } from 'react';
-import EditLabelsMenu from './EditLabelsMenu';
+import { EditLabelsMenu } from '.';
 
 interface MoreMenuProps {
   note: DisplayNote;

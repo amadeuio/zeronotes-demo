@@ -1,7 +1,7 @@
 import { COLORS } from '@/constants';
 import type { DraftNote } from '@/types';
 import type { Dispatch } from 'react';
-import ColorCircle from '../../common/Toolbar/BackgroundMenu/ColorCircle';
+import { ColorCircle } from '../..';
 import type { NoteAction } from '../reducer';
 
 interface BackgroundMenuProps {

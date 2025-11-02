@@ -1,9 +1,9 @@
+import { IconButton } from '@/components';
 import { useActions, useIsNoteActive, useSearch } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
 import type { MouseEvent } from 'react';
-import { IconButton } from '../common';
-import { Label, TextView, Toolbar } from './common';
+import { Label, NoteToolbar, TextView } from './';
 
 interface NoteProps {
   note: DisplayNote;
@@ -58,7 +58,7 @@ const NoteView = ({ note }: NoteProps) => {
           />
         ))}
       </div>
-      <Toolbar
+      <NoteToolbar
         note={note}
         className="absolute bottom-1.5 left-1.5 opacity-0 transition-opacity duration-400 ease-in-out group-hover/note:opacity-100"
       />

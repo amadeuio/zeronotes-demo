@@ -3,9 +3,8 @@ import { useClickOutside } from '@/hooks';
 import { useActions } from '@/store';
 import { cn, getColorValue } from '@/utils';
 import { useReducer, useState, type MouseEvent } from 'react';
-import { Label } from '../common';
-import TextEdit from '../common/TextEdit';
-import NoteToolbar from './Toolbar/NoteToolbar';
+import { Label, TextEdit } from '../..';
+import { CreateToolbar } from './CreateToolbar';
 import { initialState, noteReducer } from './reducer';
 
 interface NoteCreateProps {
@@ -78,7 +77,7 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
               ))}
             </div>
           )}
-          <NoteToolbar state={state} dispatch={dispatch} />
+          <CreateToolbar state={state} dispatch={dispatch} />
         </>
       )}
     </div>

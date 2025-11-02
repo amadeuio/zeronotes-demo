@@ -2,7 +2,7 @@ import { IconButton } from '@/components';
 import { useMountTrigger } from '@/hooks';
 import { useActions, useActiveNote, useActiveNotePosition } from '@/store';
 import { cn } from '@/utils';
-import { Label, TextEdit, Toolbar } from './common';
+import { Label, NoteToolbar, TextEdit } from './';
 
 const NoteActive = () => {
   const note = useActiveNote()!;
@@ -61,7 +61,7 @@ const NoteActive = () => {
             />
           ))}
         </div>
-        <Toolbar
+        <NoteToolbar
           note={note}
           className="absolute bottom-1.5 left-1.5 opacity-0 transition-opacity duration-400 ease-in-out group-hover/note:opacity-100"
         />

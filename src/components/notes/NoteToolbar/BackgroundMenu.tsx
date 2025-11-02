@@ -1,7 +1,7 @@
 import { COLORS } from '@/constants';
 import { useActions } from '@/store';
 import type { DisplayNote } from '@/types';
-import ColorCircle from './ColorCircle';
+import { ColorCircle } from '../..';
 
 interface BackgroundMenuProps {
   note: DisplayNote;
@@ -25,4 +25,3 @@ const BackgroundMenu = ({ note }: BackgroundMenuProps) => {
 };
 
 export default BackgroundMenu;
-
