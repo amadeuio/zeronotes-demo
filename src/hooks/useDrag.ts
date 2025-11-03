@@ -67,7 +67,7 @@ export const useDrag = (): UseDragReturn => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragSession, handleMouseMove, handleMouseUp]);
+  }, [isDragSession]);
 
   return {
     isDragging,
