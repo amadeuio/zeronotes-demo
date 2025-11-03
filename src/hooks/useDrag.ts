@@ -1,3 +1,5 @@
+import { useNotesOrder } from '@/store';
+import { getNoteIdFromPosition } from '@/utils';
 import { useEffect, useRef, useState, type MouseEvent, type RefObject } from 'react';
 
 interface UseDragReturn {
@@ -7,7 +9,12 @@ interface UseDragReturn {
   nodeRef: RefObject<HTMLDivElement | null>;
 }
 
-export const useDrag = (): UseDragReturn => {
+export const useDrag = ({
+  notePosition,
+}: {
+  notePosition: { x: number; y: number };
+}): UseDragReturn => {
+  const notesOrder = useNotesOrder();
   const [isDragging, setIsDragging] = useState(false);
   const [isDragSession, setIsDragSession] = useState(false);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
@@ -47,6 +54,16 @@ export const useDrag = (): UseDragReturn => {
         x: deltaX,
         y: deltaY,
       });
+
+      const rect = nodeRef.current?.getBoundingClientRect();
+      if (!rect) return;
+
+      // pointerX, pointerY: position of the mouse relative to the parent element
+      const pointerX = notePosition.x + e.clientX - rect.left;
+      const pointerY = notePosition.y + e.clientY - rect.top;
+
+      const overId = getNoteIdFromPosition(pointerY, pointerX, notesOrder);
+      console.log('overId:', overId);
     }
   };
 

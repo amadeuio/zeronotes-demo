@@ -16,7 +16,7 @@ const NoteView = ({ note }: NoteViewProps) => {
   const { notes } = useActions();
   const search = useSearch();
   const position = useNotePositionById(note.id);
-  const { isDragging, translate, handleMouseDown, nodeRef } = useDrag();
+  const { isDragging, translate, handleMouseDown, nodeRef } = useDrag({ notePosition: position });
 
   const handleClick = (e: MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
