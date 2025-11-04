@@ -47,7 +47,7 @@ const NoteView = ({ note }: NoteViewProps) => {
           backgroundColor: note.colorValue ?? 'var(--color-base)',
           borderColor: note.colorValue ?? 'var(--color-secondary)',
           transform: `translate(${position.x}px, ${position.y}px)`,
-          transition: 'transform 0.3s ease-in-out',
+          transition: 'transform 0.2s ease-in-out',
           willChange: 'transform',
           height: 200,
         }}

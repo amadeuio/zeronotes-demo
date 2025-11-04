@@ -29,6 +29,7 @@ export const useDrag = ({
   const initialPositionRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const nodeRef = useRef<HTMLDivElement | null>(null);
   const overIdRef = useRef<string | undefined>(undefined);
+  const lastOverIdRef = useRef<string | undefined>(undefined);
 
   const handleMouseDown = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
@@ -57,6 +58,10 @@ export const useDrag = ({
     // Start dragging if moved more than threshold
     if (!isDragging && dragDistance > 3) {
       setIsDragging(true);
+    }
+
+    // Continue updating during drag
+    if (isDragging || dragDistance > 3) {
       setTranslate({
         x: deltaX,
         y: deltaY,
@@ -66,28 +71,45 @@ export const useDrag = ({
       if (!rect) return;
 
       // pointerX, pointerY: position of the mouse relative to the parent element
-      const pointerX = notePosition.x + e.clientX - rect.left;
-      const pointerY = notePosition.y + e.clientY - rect.top;
+      const pointerX = initialPositionRef.current.x + deltaX + rect.width / 2;
+      const pointerY = initialPositionRef.current.y + deltaY + rect.height / 2;
 
       const overId = getNoteIdFromPosition(pointerY, pointerX, notesOrder);
+
+      // If we moved to a different position, clear lastOverIdRef
+      if (overId !== overIdRef.current) {
+        lastOverIdRef.current = undefined;
+      }
+
+      // Only update if overId is valid and different from current note
+      if (overId && overId !== noteId && overId !== lastOverIdRef.current) {
+        lastOverIdRef.current = overId;
+
+        console.log('overIdRef:', overId);
+        notesOrderActions.reorder(noteId, overId, true);
+      }
+
+      // Update overIdRef to track current position
       overIdRef.current = overId;
     }
   };
 
-  useEffect(() => {
-    if (overIdRef.current && overIdRef.current !== noteId) {
-      console.log('overIdRef:', overIdRef.current);
-      notesOrderActions.reorder(noteId, overIdRef.current, true);
-    }
-  }, [overIdRef.current]);
-
   const handleMouseUp = () => {
     dragStartPositionRef.current = null;
     overIdRef.current = undefined;
+    lastOverIdRef.current = undefined;
     setIsDragSession(false);
     setIsDragging(false);
     setTranslate({ x: 0, y: 0 });
   };
+
+  useEffect(() => {
+    console.log('overIdRef:', overIdRef.current);
+  }, [overIdRef.current]);
+
+  useEffect(() => {
+    console.log('lastOverIdRef:', lastOverIdRef.current);
+  }, [lastOverIdRef.current]);
 
   useEffect(() => {
     if (isDragSession) {
@@ -99,7 +121,7 @@ export const useDrag = ({
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragSession]);
+  }, [isDragSession, isDragging, notesOrder]);
 
   return {
     isDragging,
