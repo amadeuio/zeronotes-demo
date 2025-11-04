@@ -59,8 +59,6 @@ export interface Store {
   };
 }
 
-const mockNotesOrder = ['1', '2', '3', '4', '5', '6'];
-
 export const useStore = create<Store>()(
   devtools((set) => ({
     notes: initialNotes,
@@ -77,7 +75,7 @@ export const useStore = create<Store>()(
       id: null,
       position: null,
     },
-    notesOrder: mockNotesOrder,
+    notesOrder: initialNotes.map((note) => note.id),
     actions: {
       notes: {
         set: (notes) => {
