@@ -17,10 +17,11 @@ const NoteGhost = ({ note, translate, initialPosition }: NoteGhostProps) => (
       transform: `translate(${initialPosition.x + translate.x}px, ${initialPosition.y + translate.y}px)`,
       backgroundColor: note.colorValue ?? 'var(--color-base)',
       borderColor: note.colorValue ?? 'var(--color-secondary)',
+      height: 200,
     }}
   >
     <TextView isTitle value={note.title} searchTerm={''} />
-    <TextView value={note.content} searchTerm={''} />
+    <TextView value={note.id} searchTerm={''} />
   </div>
 );
 

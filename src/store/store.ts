@@ -59,6 +59,8 @@ export interface Store {
   };
 }
 
+const mockNotesOrder = ['1', '2', '3', '4', '5', '6'];
+
 export const useStore = create<Store>()(
   devtools((set) => ({
     notes: initialNotes,
@@ -75,7 +77,7 @@ export const useStore = create<Store>()(
       id: null,
       position: null,
     },
-    notesOrder: ['1', '2', '3'],
+    notesOrder: mockNotesOrder,
     actions: {
       notes: {
         set: (notes) => {
