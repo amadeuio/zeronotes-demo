@@ -1,9 +1,9 @@
 import { IconButton } from '@/components';
-import { useDrag, useNoteHeight } from '@/hooks';
+import { useDrag, useUpdateNoteHeight } from '@/hooks';
 import { useActions, useIsNoteActive, useNotePositionById, useSearch } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
-import { type MouseEvent } from 'react';
+import { useRef, type MouseEvent } from 'react';
 import { Label, NoteGhost, NoteToolbar, TextView } from './';
 
 interface NoteViewProps {
@@ -16,13 +16,16 @@ const NoteView = ({ note }: NoteViewProps) => {
   const { notes } = useActions();
   const search = useSearch();
   const position = useNotePositionById(note.id);
-  const { isDragging, translate, handleMouseDown, nodeRef, initialPosition } = useDrag({
-    notePosition: position,
+  const noteRef = useRef<HTMLDivElement | null>(null);
+  const { isDragging, translate, handleMouseDown } = useDrag({
     noteId: note.id,
+    notePosition: position,
+    noteRef,
   });
-  useNoteHeight({
-    note,
-    nodeRef,
+  useUpdateNoteHeight({
+    noteId: note.id,
+    noteHeight: note.height,
+    noteRef,
   });
 
   const handleClick = (e: MouseEvent) => {
@@ -39,7 +42,7 @@ const NoteView = ({ note }: NoteViewProps) => {
   return (
     <>
       <div
-        ref={nodeRef}
+        ref={noteRef}
         className={cn(
           'group/note hover:shadow-base w-note-compact absolute flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 transition-colors duration-800 ease-in-out select-none',
           isDragging && 'opacity-0',
@@ -80,9 +83,7 @@ const NoteView = ({ note }: NoteViewProps) => {
           className="absolute bottom-1.5 left-1.5 opacity-0 transition-opacity duration-400 ease-in-out group-hover/note:opacity-100"
         />
       </div>
-      {isDragging && (
-        <NoteGhost note={note} translate={translate} initialPosition={initialPosition} />
-      )}
+      {isDragging && <NoteGhost note={note} translate={translate} position={position} />}
     </>
   );
 };
