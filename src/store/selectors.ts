@@ -6,7 +6,6 @@ import {
   getPositionFromNoteId,
   mapNoteToDisplay,
 } from '@/utils';
-import { useMemo } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 const useShallowStore = <T>(selector: (state: Store) => T) => useStore(useShallow(selector));
@@ -18,7 +17,7 @@ export const useLabelsById = () =>
 
 export const useFilteredNotes = (): Note[] => {
   const [notes, filters] = useShallowStore((s) => [s.notes, s.filters]);
-  return useMemo(() => notes.filter((n) => filterNote(n, filters)), [notes, filters]);
+  return notes.filter((n) => filterNote(n, filters));
 };
 
 export const useDisplayNotes = (): DisplayNote[] => {
@@ -43,6 +42,14 @@ export const useIsNoteActive = (noteId: string) =>
   useStore((state) => state.activeNote.id === noteId);
 
 export const useNotesOrder = () => useStore((state) => state.notesOrder);
+
+export const useFilteredNotesOrder = () => {
+  const filteredNotes = useFilteredNotes();
+  const notesOrder = useNotesOrder();
+
+  const filteredNoteIds = new Set(filteredNotes.map((n) => n.id));
+  return notesOrder.filter((id) => filteredNoteIds.has(id));
+};
 
 export const useLabels = () => useStore((state) => state.labels);
 
@@ -73,15 +80,14 @@ export const useFilteredLabels = (searchTerm: string) =>
   );
 
 export const useUi = () => useStore((state) => state.ui);
-
 export const useNotePositionById = (noteId: string) => {
   const filteredNotes = useFilteredNotes();
-  const notesOrder = useNotesOrder();
-  return getPositionFromNoteId(noteId, notesOrder, filteredNotes);
+  const filteredNotesOrder = useFilteredNotesOrder();
+  return getPositionFromNoteId(noteId, filteredNotesOrder, filteredNotes);
 };
 
 export const useNoteIdByPosition = (y: number, x: number) => {
   const filteredNotes = useFilteredNotes();
-  const notesOrder = useNotesOrder();
-  return getNoteIdFromPosition(y, x, notesOrder, filteredNotes);
+  const filteredNotesOrder = useFilteredNotesOrder();
+  return getNoteIdFromPosition(y, x, filteredNotesOrder, filteredNotes);
 };
