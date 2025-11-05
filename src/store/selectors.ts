@@ -6,6 +6,7 @@ import {
   getPositionFromNoteId,
   mapNoteToDisplay,
 } from '@/utils';
+import { createSelector } from 'reselect';
 import { useShallow } from 'zustand/react/shallow';
 
 const useShallowStore = <T>(selector: (state: Store) => T) => useStore(useShallow(selector));
@@ -15,10 +16,12 @@ export const useActions = () => useStore((state) => state.actions);
 export const useLabelsById = () =>
   useShallowStore((state) => Object.fromEntries(state.labels.map((l) => [l.id, l] as const)));
 
-export const useFilteredNotes = (): Note[] => {
-  const [notes, filters] = useShallowStore((s) => [s.notes, s.filters]);
-  return notes.filter((n) => filterNote(n, filters));
-};
+const selectFilteredNotes = createSelector(
+  [(state: Store) => state.notes, (state: Store) => state.filters],
+  (notes, filters) => notes.filter((n) => filterNote(n, filters)),
+);
+
+export const useFilteredNotes = (): Note[] => useStore(selectFilteredNotes);
 
 export const useDisplayNotes = (): DisplayNote[] => {
   const filteredNotes = useFilteredNotes();
