@@ -1,4 +1,4 @@
-import { useActions, useDisplayNotes, useNotesOrder } from '@/store';
+import { useActions, useFilteredNotes, useNotesOrder } from '@/store';
 import { getNoteIdFromPosition } from '@/utils';
 import { useEffect, useRef, useState, type MouseEvent, type RefObject } from 'react';
 
@@ -18,7 +18,7 @@ export const useDrag = ({
   noteId: string;
 }): UseDragReturn => {
   const notesOrder = useNotesOrder();
-  const notes = useDisplayNotes();
+  const notes = useFilteredNotes();
   const { notesOrder: notesOrderActions } = useActions();
   const [isDragging, setIsDragging] = useState(false);
   const [isDragSession, setIsDragSession] = useState(false);

@@ -1,10 +1,10 @@
 import { GRID_CONFIG } from '@/constants/grid';
-import type { DisplayNote } from '@/types';
+import type { Note } from '@/types';
 
 export const getPositionFromNoteId = (
   noteId: string,
   notesOrder: string[],
-  notes: DisplayNote[],
+  notes: Note[],
 ): { y: number; x: number } => {
   const { noteWidth, gap, columns } = GRID_CONFIG;
   const orderIndex = notesOrder.indexOf(noteId);
@@ -29,7 +29,7 @@ export const getNoteIdFromPosition = (
   y: number,
   x: number,
   notesOrder: string[],
-  notes: DisplayNote[],
+  notes: Note[],
 ): string | undefined => {
   const { noteWidth, gap, columns } = GRID_CONFIG;
 

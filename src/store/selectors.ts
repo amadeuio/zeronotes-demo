@@ -75,13 +75,13 @@ export const useFilteredLabels = (searchTerm: string) =>
 export const useUi = () => useStore((state) => state.ui);
 
 export const useNotePositionById = (noteId: string) => {
-  const displayNotes = useDisplayNotes();
+  const filteredNotes = useFilteredNotes();
   const notesOrder = useNotesOrder();
-  return getPositionFromNoteId(noteId, notesOrder, displayNotes);
+  return getPositionFromNoteId(noteId, notesOrder, filteredNotes);
 };
 
 export const useNoteIdByPosition = (y: number, x: number) => {
-  const displayNotes = useDisplayNotes();
+  const filteredNotes = useFilteredNotes();
   const notesOrder = useNotesOrder();
-  return getNoteIdFromPosition(y, x, notesOrder, displayNotes);
+  return getNoteIdFromPosition(y, x, notesOrder, filteredNotes);
 };
