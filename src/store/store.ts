@@ -84,10 +84,11 @@ export const useStore = create<Store>()(
         },
         add: (note) => {
           const { labels, ...rest } = note;
+          const newId = uuidv4();
           set((state) => ({
             notes: [
               {
-                id: uuidv4(),
+                id: newId,
                 ...rest,
                 height: null,
                 labelIds: labels.map((l) => l.id),
@@ -95,11 +96,13 @@ export const useStore = create<Store>()(
               },
               ...state.notes,
             ],
+            notesOrder: [newId, ...state.notesOrder],
           }));
         },
         remove: (id) => {
           set((state) => ({
             notes: state.notes.filter((note) => note.id !== id),
+            notesOrder: state.notesOrder.filter((noteId) => noteId !== id),
             activeNote:
               state.activeNote.id === id ? { id: null, position: null } : state.activeNote,
           }));
