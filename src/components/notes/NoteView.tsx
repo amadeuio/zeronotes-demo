@@ -1,5 +1,5 @@
 import { IconButton } from '@/components';
-import { useDrag, useUpdateNoteHeight } from '@/hooks';
+import { useDrag, useMountDelay, useUpdateNoteHeight } from '@/hooks';
 import {
   selectActions,
   selectFiltersSearch,
@@ -22,6 +22,7 @@ const NoteView = ({ note }: NoteViewProps) => {
   const search = useStore(selectFiltersSearch);
   const position = useSelectNotePositionById(note.id);
   const noteRef = useRef<HTMLDivElement | null>(null);
+  const isReady = useMountDelay();
   const { isDragging, translate, handleMouseDown } = useDrag({
     noteId: note.id,
     notePosition: position,
@@ -50,8 +51,6 @@ const NoteView = ({ note }: NoteViewProps) => {
         ref={noteRef}
         className={cn(
           'group/note hover:shadow-base w-note-compact absolute flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 transition-colors duration-800 ease-in-out select-none',
-          isDragging && 'opacity-0',
-          isActive && 'opacity-0',
         )}
         onMouseDown={handleMouseDown}
         onClick={handleClick}
@@ -59,7 +58,8 @@ const NoteView = ({ note }: NoteViewProps) => {
           backgroundColor: note.colorValue ?? 'var(--color-base)',
           borderColor: note.colorValue ?? 'var(--color-secondary)',
           transform: `translate(${position.x}px, ${position.y}px)`,
-          transition: 'transform 0.2s ease-in-out',
+          transition: isReady ? 'transform 0.2s ease-in-out' : 'none',
+          opacity: isDragging || isActive || !isReady ? 0 : 1,
           willChange: 'transform',
         }}
       >
