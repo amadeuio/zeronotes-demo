@@ -12,22 +12,24 @@ export const useUpdateNoteHeight = ({ noteId, noteHeight, noteRef }: UseUpdateNo
   const { notes } = useStore(selectActions);
   const activeNoteId = useStore(selectActiveNoteId);
 
-  const updateNoteHeight = (noteId: string) => {
-    if (noteRef.current) {
-      requestAnimationFrame(() => {
-        if (noteRef.current) {
-          const height = noteRef.current.offsetHeight;
-
-          if (noteHeight !== height) {
-            notes.updateHeight(noteId, height);
-          }
-        }
-      });
-    }
-  };
-
   useLayoutEffect(() => {
-    if (activeNoteId) return;
-    updateNoteHeight(noteId);
-  }, [activeNoteId]);
+    if (activeNoteId || !noteRef.current) return;
+
+    const updateHeight = () => {
+      if (noteRef.current) {
+        const height = noteRef.current.offsetHeight;
+
+        if (noteHeight !== height) {
+          notes.updateHeight(noteId, height);
+        }
+      }
+    };
+
+    updateHeight();
+
+    const resizeObserver = new ResizeObserver(updateHeight);
+    resizeObserver.observe(noteRef.current);
+
+    return () => resizeObserver.disconnect();
+  }, [activeNoteId, noteId, noteHeight, notes, noteRef]);
 };
