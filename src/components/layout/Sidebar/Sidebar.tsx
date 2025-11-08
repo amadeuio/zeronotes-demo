@@ -12,7 +12,7 @@ const Sidebar = () => {
   return (
     <aside
       className={cn(
-        'group flex h-full flex-col py-2',
+        'group bg-base fixed left-0 z-10 flex h-full flex-col py-2',
         isSidebarCollapsed && 'hover:shadow-[2px_0_6px_-2px_rgba(0,0,0,0.6)]',
       )}
     >

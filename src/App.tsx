@@ -1,16 +1,17 @@
 import { EditLabelsModal, Main, Navbar, NoteActive, Sidebar } from '@/components';
 import { useStore } from '@/store';
 import { selectActions, selectActiveNoteId, selectUi } from '@/store/selectors';
+import { cn } from './utils';
 
 const App = () => {
-  const { isEditLabelsMenuOpen } = useStore(selectUi);
+  const { isEditLabelsMenuOpen, isSidebarCollapsed } = useStore(selectUi);
   const activeNoteId = useStore(selectActiveNoteId);
   const { ui } = useStore(selectActions);
 
   return (
     <div className="flex h-screen flex-col">
       <Navbar />
-      <div className="flex h-full gap-x-8">
+      <div className={cn('flex flex-1', isSidebarCollapsed ? 'pl-18' : 'pl-70')}>
         <Sidebar />
         <Main />
       </div>

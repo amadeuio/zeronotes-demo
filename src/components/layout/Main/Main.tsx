@@ -11,7 +11,7 @@ const Main = () => {
   useResponsiveGrid(containerRef);
 
   return (
-    <main className="flex w-full flex-col items-center gap-20 p-4 py-8">
+    <main className="flex flex-1 flex-col items-center gap-20 overflow-y-auto p-4 py-8">
       <NoteCreate />
       {notes.length === 0 ? (
         <EmptyState />
