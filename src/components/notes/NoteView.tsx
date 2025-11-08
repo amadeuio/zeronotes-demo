@@ -50,7 +50,7 @@ const NoteView = ({ note }: NoteViewProps) => {
       <div
         ref={noteRef}
         className={cn(
-          'group/note hover:shadow-base w-note-compact absolute flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 transition-colors duration-800 ease-in-out select-none',
+          'group/note hover:shadow-base w-note-compact absolute flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 transition-colors duration-800 ease-in-out will-change-transform select-none',
         )}
         onMouseDown={handleMouseDown}
         onClick={handleClick}
@@ -60,7 +60,6 @@ const NoteView = ({ note }: NoteViewProps) => {
           transform: `translate(${position.x}px, ${position.y}px)`,
           transition: isReady ? 'transform 0.2s ease-in-out' : 'none',
           opacity: isDragging || isActive || !isReady ? 0 : 1,
-          willChange: 'transform',
         }}
       >
         <IconButton

@@ -35,7 +35,7 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
     <div
       ref={triggerRef}
       className={cn(
-        'bg-base relative flex w-full max-w-[var(--width-note-expanded)] flex-col gap-4 rounded-lg border p-3.5 shadow-[0_1px_7px_rgba(0,0,0,0.8)] transition-colors duration-800 ease-in-out',
+        'bg-base relative flex w-full max-w-[var(--width-note-expanded)] flex-col gap-4 rounded-lg border p-3.5 shadow-[0_1px_7px_rgba(0,0,0,0.8)] transition-colors duration-800 ease-in-out will-change-[background-color,border-color]',
         className,
       )}
       onClick={onClick}

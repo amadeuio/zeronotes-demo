@@ -21,7 +21,7 @@ const NoteActive = () => {
     <div className="fixed inset-0 z-50 bg-neutral-800/60" onClick={handleClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="group/note shadow-base relative flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 transition-colors duration-800 ease-in-out"
+        className="group/note shadow-base relative flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 transition-colors duration-800 ease-in-out will-change-transform"
         style={{
           backgroundColor: note.colorValue ?? 'var(--color-base)',
           borderColor: note.colorValue ?? 'var(--color-secondary)',
