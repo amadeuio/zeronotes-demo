@@ -23,8 +23,8 @@ const NoteGhost = ({ note, translate, position: notePosition }: NoteGhostProps) 
         borderColor: note.colorValue ?? 'var(--color-secondary)',
       }}
     >
-      <TextView isTitle value={note.title} searchTerm={''} />
-      <TextView value={note.id} searchTerm={''} />
+      <TextView isTitle value={note.title} />
+      <TextView value={note.content} />
     </div>
   );
 };
