@@ -4,6 +4,7 @@ import {
   notesOrder as initialNotesOrder,
 } from '@/data';
 import type { DraftNote, Filters, Label, Note } from '@/types';
+import { getNoteIdFromPosition } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
@@ -41,7 +42,7 @@ export interface Store {
     };
     notesOrder: {
       set: (notesOrder: string[]) => void;
-      reorder: (noteId: string, overId: string, insertBefore: boolean) => string[];
+      reorderFromPointer: (noteId: string, pointerX: number, pointerY: number) => void;
     };
     activeNote: {
       set: (activeNote: {
@@ -204,8 +205,20 @@ export const useStore = create<Store>()(
         set: (notesOrder) => {
           set({ notesOrder });
         },
-        reorder: (noteId, overId, insertBefore) => {
+        reorderFromPointer: (noteId, pointerX, pointerY) => {
           set((state) => {
+            const overId = getNoteIdFromPosition(
+              pointerY,
+              pointerX,
+              state.notesOrder,
+              state.notes,
+              state.ui.gridColumns,
+            );
+
+            if (!overId || overId === noteId) {
+              return state;
+            }
+
             const newOrder = [...state.notesOrder];
             const fromIndex = newOrder.indexOf(noteId);
             const toIndex = newOrder.indexOf(overId);
@@ -215,8 +228,7 @@ export const useStore = create<Store>()(
             }
 
             newOrder.splice(fromIndex, 1);
-            const insertIndex = insertBefore ? toIndex : toIndex + 1;
-            newOrder.splice(insertIndex, 0, noteId);
+            newOrder.splice(toIndex, 0, noteId);
             return { notesOrder: newOrder };
           });
         },

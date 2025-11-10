@@ -1,12 +1,6 @@
 import { useStore } from '@/store';
-import {
-  selectActions,
-  selectFilteredNotes,
-  selectFilteredNotesOrder,
-  selectGridColumns,
-} from '@/store/selectors';
-import { getNoteIdFromPosition } from '@/utils';
-import { useEffect, useRef, useState, type MouseEvent, type RefObject } from 'react';
+import { selectActions } from '@/store/selectors';
+import { useRef, useState, type MouseEvent, type RefObject } from 'react';
 
 interface UseDragProps {
   noteId: string;
@@ -15,10 +9,7 @@ interface UseDragProps {
 }
 
 export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
-  const notesOrder = useStore(selectFilteredNotesOrder);
-  const notes = useStore(selectFilteredNotes);
-  const gridColumns = useStore(selectGridColumns);
-  const { notesOrder: notesOrderActions } = useStore(selectActions);
+  const { notesOrder } = useStore(selectActions);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [translate, setTranslate] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const dragStartPos = useRef<{
@@ -27,7 +18,6 @@ export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
     offsetX: number;
     offsetY: number;
   }>({ mouseX: 0, mouseY: 0, offsetX: 0, offsetY: 0 });
-  const notesOrderRef = useRef<string[]>(notesOrder);
 
   const handleMouseDown = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
@@ -65,17 +55,8 @@ export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
 
       const pointerX = notePosition.x + dx + dragStartPos.current.offsetX;
       const pointerY = notePosition.y + dy + dragStartPos.current.offsetY;
-      const overId = getNoteIdFromPosition(
-        pointerY,
-        pointerX,
-        notesOrderRef.current,
-        notes,
-        gridColumns,
-      );
 
-      if (overId && overId !== noteId) {
-        notesOrderActions.reorder(noteId, overId, true);
-      }
+      notesOrder.reorderFromPointer(noteId, pointerX, pointerY);
     }
   };
 
@@ -87,11 +68,6 @@ export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
   };
-
-  // Prevents stale notesOrder in handleMouseMove
-  useEffect(() => {
-    notesOrderRef.current = notesOrder;
-  }, [notesOrder]);
 
   return {
     isDragging,
