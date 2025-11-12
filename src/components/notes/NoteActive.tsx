@@ -21,7 +21,7 @@ const NoteActive = () => {
     <div className="fixed inset-0 z-50 bg-neutral-800/60" onClick={handleClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="group/note shadow-base relative flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 transition-colors duration-800 ease-in-out will-change-transform"
+        className="shadow-base relative flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 transition-colors duration-800 ease-in-out will-change-transform"
         style={{
           backgroundColor: note.colorValue ?? 'var(--color-base)',
           borderColor: note.colorValue ?? 'var(--color-secondary)',
@@ -33,7 +33,7 @@ const NoteActive = () => {
           iconName="push_pin"
           label={note.isPinned ? 'Unpin note' : 'Pin note'}
           filled={note.isPinned}
-          className="absolute top-2 right-2 p-1 opacity-0 transition-opacity duration-400 ease-in-out group-hover/note:opacity-100"
+          className="absolute top-2 right-2 p-1"
           iconClassName="text-neutral-300"
           onClick={() => notes.togglePin(note.id)}
         />
@@ -58,10 +58,7 @@ const NoteActive = () => {
             />
           ))}
         </div>
-        <NoteToolbar
-          note={note}
-          className="absolute bottom-1.5 left-1.5 opacity-0 transition-opacity duration-400 ease-in-out group-hover/note:opacity-100"
-        />
+        <NoteToolbar note={note} className="absolute bottom-1.5 left-1.5" />
       </div>
     </div>
   );
