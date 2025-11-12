@@ -1,5 +1,5 @@
-import { useClickOutside } from '@/hooks';
-import { useState, type ReactNode } from 'react';
+import { useClickOutside, useOverflowCorrection } from '@/hooks';
+import { useRef, useState, type ReactNode } from 'react';
 
 interface MenuTriggerProps {
   children: ReactNode;
@@ -9,11 +9,17 @@ interface MenuTriggerProps {
 
 const MenuTrigger = ({ children, menu, onClickOutside }: MenuTriggerProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
   const handleClickOutside = () => {
     setIsOpen(false);
     onClickOutside?.();
   };
   const { triggerRef } = useClickOutside(handleClickOutside);
+  const offset = useOverflowCorrection({
+    isVisible: isOpen,
+    elementRef: menuRef,
+    triggerRef,
+  });
 
   return (
     <div className="relative" ref={triggerRef}>
@@ -25,7 +31,17 @@ const MenuTrigger = ({ children, menu, onClickOutside }: MenuTriggerProps) => {
       >
         {children}
       </div>
-      {isOpen && <div className="absolute top-full left-0 z-10">{menu}</div>}
+      {isOpen && (
+        <div
+          ref={menuRef}
+          className="absolute top-full left-0 z-10"
+          style={{
+            transform: `translate(${offset.x}px, ${offset.y}px)`,
+          }}
+        >
+          {menu}
+        </div>
+      )}
     </div>
   );
 };

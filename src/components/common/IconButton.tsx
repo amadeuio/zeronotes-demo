@@ -1,5 +1,5 @@
 import { Icon } from '@/components';
-import { useTooltipPosition } from '@/hooks';
+import { useOverflowCorrection } from '@/hooks';
 import { cn } from '@/utils';
 import { useRef, useState, type ReactNode } from 'react';
 
@@ -24,16 +24,16 @@ const IconButton = ({
 }: IconButtonProps) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
-  const wrapperRef = useRef<HTMLButtonElement | null>(null);
-  const position = useTooltipPosition({
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const offset = useOverflowCorrection({
     isVisible: isTooltipVisible,
-    tooltipRef,
-    wrapperRef,
+    elementRef: tooltipRef,
+    triggerRef: buttonRef,
   });
 
   return (
     <button
-      ref={wrapperRef}
+      ref={buttonRef}
       className={cn(
         'group relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-colors duration-150 ease-in-out hover:bg-white/8',
         className,
@@ -60,13 +60,10 @@ const IconButton = ({
       {isTooltipVisible && (
         <div
           ref={tooltipRef}
-          className={cn(
-            'absolute z-20 rounded bg-neutral-700 px-2 py-1 text-xs whitespace-nowrap text-white shadow-lg',
-            position === 'bottom' && 'top-full left-1/2 mt-1 -translate-x-1/2',
-            position === 'top' && 'bottom-full left-1/2 mb-1 -translate-x-1/2',
-            position === 'left' && 'top-full -right-1 mt-1',
-            position === 'right' && 'top-full -left-1 mt-1',
-          )}
+          className="absolute top-full left-1/2 z-20 mt-1 -translate-x-1/2 rounded bg-neutral-700 px-2 py-1 text-xs whitespace-nowrap text-white shadow-lg"
+          style={{
+            transform: `translate(${offset.x}px, ${offset.y}px)`,
+          }}
         >
           {label}
         </div>

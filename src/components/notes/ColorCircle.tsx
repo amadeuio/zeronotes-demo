@@ -1,5 +1,4 @@
 import { Icon } from '@/components';
-import { useTooltipPosition } from '@/hooks';
 import type { Color } from '@/types';
 import { cn } from '@/utils';
 import { useRef, useState } from 'react';
@@ -12,13 +11,7 @@ interface ColorCircleProps {
 
 const ColorCircle = ({ color, isSelected, onClick }: ColorCircleProps) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-  const tooltipRef = useRef<HTMLDivElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
-  const position = useTooltipPosition({
-    isVisible: isTooltipVisible,
-    tooltipRef,
-    wrapperRef,
-  });
   const isDefault = color.value === null;
 
   return (
@@ -55,16 +48,7 @@ const ColorCircle = ({ color, isSelected, onClick }: ColorCircleProps) => {
         />
       )}
       {isTooltipVisible && (
-        <div
-          ref={tooltipRef}
-          className={cn(
-            'absolute rounded bg-neutral-700 px-2 py-1 text-xs whitespace-nowrap text-white shadow-lg',
-            position === 'bottom' && 'top-full left-1/2 mt-1 -translate-x-1/2',
-            position === 'top' && 'bottom-full left-1/2 mb-1 -translate-x-1/2',
-            position === 'left' && 'top-full -right-1 mt-1',
-            position === 'right' && 'top-full -left-1 mt-1',
-          )}
-        >
+        <div className="absolute top-full left-1/2 z-20 mt-1 -translate-x-1/2 rounded bg-neutral-700 px-2 py-1 text-xs whitespace-nowrap text-white shadow-lg">
           {color.label}
         </div>
       )}
