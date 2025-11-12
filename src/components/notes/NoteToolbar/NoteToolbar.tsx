@@ -49,7 +49,7 @@ const NoteToolbar = ({ note, className }: { note: DisplayNote; className?: strin
             filled={note.isArchived}
             onClick={() => notes.toggleArchive(note.id)}
           />
-          <MenuTrigger menu={<MoreMenu note={note} />}>
+          <MoreMenu note={note}>
             <IconButton
               className="p-2"
               iconClassName="text-neutral-300"
@@ -57,7 +57,7 @@ const NoteToolbar = ({ note, className }: { note: DisplayNote; className?: strin
               label="More"
               iconName="more_vert"
             />
-          </MenuTrigger>
+          </MoreMenu>
         </>
       )}
     </div>

@@ -26,14 +26,14 @@ const CreateToolbar = ({ state, dispatch }: CreateToolbarProps) => (
       iconName="archive"
       onClick={() => dispatch({ type: 'SET_ARCHIVED', payload: true })}
     />
-    <MenuTrigger menu={<MoreMenu state={state} dispatch={dispatch} />}>
+    <MoreMenu state={state} dispatch={dispatch}>
       <IconButton
         className="p-2"
         iconClassName="text-neutral-300"
         label="More"
         iconName="more_vert"
       />
-    </MenuTrigger>
+    </MoreMenu>
   </div>
 );
 

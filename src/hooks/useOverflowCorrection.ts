@@ -5,6 +5,7 @@ interface UseOverflowCorrectionProps {
   elementRef: RefObject<HTMLElement | null>;
   triggerRef?: RefObject<HTMLElement | null>;
   margin?: number;
+  recalculateKey?: boolean;
 }
 
 export const useOverflowCorrection = ({
@@ -12,6 +13,7 @@ export const useOverflowCorrection = ({
   elementRef,
   triggerRef,
   margin = 8,
+  recalculateKey,
 }: UseOverflowCorrectionProps) => {
   const [offset, setOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
@@ -50,7 +52,7 @@ export const useOverflowCorrection = ({
 
   useEffect(() => {
     calculateOverflowCorrection();
-  }, [isVisible, margin]);
+  }, [isVisible, margin, recalculateKey]);
 
   return offset;
 };

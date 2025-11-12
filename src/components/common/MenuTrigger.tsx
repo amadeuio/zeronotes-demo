@@ -5,9 +5,15 @@ interface MenuTriggerProps {
   children: ReactNode;
   menu: ReactNode;
   onClickOutside?: () => void;
+  recalculateKey?: boolean;
 }
 
-const MenuTrigger = ({ children, menu, onClickOutside }: MenuTriggerProps) => {
+const MenuTrigger = ({
+  children,
+  menu,
+  onClickOutside,
+  recalculateKey,
+}: MenuTriggerProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const handleClickOutside = () => {
@@ -19,6 +25,7 @@ const MenuTrigger = ({ children, menu, onClickOutside }: MenuTriggerProps) => {
     isVisible: isOpen,
     elementRef: menuRef,
     triggerRef,
+    recalculateKey,
   });
 
   return (
