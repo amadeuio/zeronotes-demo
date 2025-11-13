@@ -4,7 +4,6 @@ import {
   notesOrder as initialNotesOrder,
 } from '@/data';
 import type { DraftNote, Filters, Label, Note } from '@/types';
-import { getNoteIdFromPosition } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
@@ -42,7 +41,7 @@ export interface Store {
     };
     notesOrder: {
       set: (notesOrder: string[]) => void;
-      reorderFromPointer: (noteId: string, pointerX: number, pointerY: number) => void;
+      reorder: (noteId: string, overId: string) => void;
     };
     activeNote: {
       set: (activeNote: {
@@ -205,20 +204,8 @@ export const useStore = create<Store>()(
         set: (notesOrder) => {
           set({ notesOrder });
         },
-        reorderFromPointer: (noteId, pointerX, pointerY) => {
+        reorder: (noteId, overId) => {
           set((state) => {
-            const overId = getNoteIdFromPosition(
-              pointerY,
-              pointerX,
-              state.notesOrder,
-              state.notes,
-              state.ui.gridColumns,
-            );
-
-            if (!overId || overId === noteId) {
-              return state;
-            }
-
             const newOrder = [...state.notesOrder];
             const fromIndex = newOrder.indexOf(noteId);
             const toIndex = newOrder.indexOf(overId);

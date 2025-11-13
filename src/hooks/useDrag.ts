@@ -1,6 +1,7 @@
 import { useStore } from '@/store';
-import { selectActions } from '@/store/selectors';
-import { useRef, useState, type MouseEvent, type RefObject } from 'react';
+import { selectActions, selectGridColumns, selectNotes, selectNotesOrder } from '@/store/selectors';
+import { getNoteIdFromPosition } from '@/utils';
+import { useEffect, useRef, useState, type MouseEvent, type RefObject } from 'react';
 
 interface UseDragProps {
   noteId: string;
@@ -9,7 +10,11 @@ interface UseDragProps {
 }
 
 export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
-  const { notesOrder } = useStore(selectActions);
+  const { notesOrder: notesOrderActions } = useStore(selectActions);
+  const notes = useStore(selectNotes);
+  const notesOrder = useStore(selectNotesOrder);
+  const notesOrderRef = useRef<string[]>(notesOrder);
+  const gridColumns = useStore(selectGridColumns);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [translate, setTranslate] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const dragStartPos = useRef<{
@@ -18,6 +23,12 @@ export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
     offsetX: number;
     offsetY: number;
   }>({ mouseX: 0, mouseY: 0, offsetX: 0, offsetY: 0 });
+  const justReordered = useRef<boolean>(false);
+  const blockedId = useRef<string | undefined>(undefined);
+
+  useEffect(() => {
+    notesOrderRef.current = notesOrder;
+  }, [notesOrder]);
 
   const handleMouseDown = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
@@ -55,8 +66,29 @@ export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
 
       const pointerX = notePosition.x + dx + dragStartPos.current.offsetX;
       const pointerY = notePosition.y + dy + dragStartPos.current.offsetY;
+      const overId = getNoteIdFromPosition(
+        pointerY,
+        pointerX,
+        notesOrderRef.current,
+        notes,
+        gridColumns,
+      );
 
-      notesOrder.reorderFromPointer(noteId, pointerX, pointerY);
+      if (justReordered.current) {
+        if (overId !== noteId) {
+          blockedId.current = overId;
+        }
+        justReordered.current = false;
+      }
+
+      if (overId !== blockedId.current) {
+        blockedId.current = undefined;
+      }
+
+      if (overId && overId !== noteId && overId !== blockedId.current) {
+        notesOrderActions.reorder(noteId, overId);
+        justReordered.current = true;
+      }
     }
   };
 
