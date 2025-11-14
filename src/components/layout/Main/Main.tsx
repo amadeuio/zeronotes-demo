@@ -1,12 +1,20 @@
 import { NoteCreate, NoteView } from '@/components';
 import { useSetGridColumns } from '@/hooks';
-import { useStore } from '@/store';
-import { selectDisplayNotes, selectNotesTotalWidth } from '@/store/selectors';
+import {
+  selectDisplayNotes,
+  selectHasPinnedNotes,
+  selectNotesTotalWidth,
+  selectPinnedSectionHeight,
+  useStore,
+} from '@/store';
 import { useRef } from 'react';
 import EmptyState from './EmptyState';
+import SectionTitle from './SectionTitle';
 
 const Main = () => {
   const notes = useStore(selectDisplayNotes);
+  const hasPinnedNotes = useStore(selectHasPinnedNotes);
+  const pinnedSectionHeight = useStore(selectPinnedSectionHeight);
   const notesTotalWidth = useStore(selectNotesTotalWidth);
   const containerRef = useRef<HTMLDivElement>(null);
   useSetGridColumns(containerRef);
@@ -19,6 +27,12 @@ const Main = () => {
       ) : (
         <div ref={containerRef} className="w-full">
           <div className="relative mx-auto" style={{ width: notesTotalWidth }}>
+            {hasPinnedNotes && (
+              <>
+                <SectionTitle label="PINNED" />
+                <SectionTitle label="OTHERS" verticalOffset={pinnedSectionHeight} />
+              </>
+            )}
             {notes.map((note) => (
               <NoteView key={note.id} note={note} />
             ))}

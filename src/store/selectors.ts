@@ -57,6 +57,11 @@ export const selectPinnedFilteredNotes = createSelector([selectFilteredNotes], (
   filteredNotes.filter((n) => n.isPinned),
 );
 
+export const selectHasPinnedNotes = createSelector(
+  [selectPinnedFilteredNotes],
+  (pinnedNotes) => pinnedNotes.length > 0,
+);
+
 export const selectUnpinnedFilteredNotes = createSelector([selectFilteredNotes], (filteredNotes) =>
   filteredNotes.filter((n) => !n.isPinned),
 );
