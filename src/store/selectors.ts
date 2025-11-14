@@ -1,6 +1,7 @@
 import { useStore, type Store } from '@/store';
 import {
   filterNote,
+  getNoteIdFromPosition,
   getNotesTotalWidth,
   getPositionFromNoteId,
   getSectionHeight,
@@ -81,6 +82,28 @@ export const selectPinnedSectionHeight = createSelector(
   (pinnedOrder, pinnedNotes, gridColumns) =>
     getSectionHeight(pinnedOrder, pinnedNotes, gridColumns),
 );
+
+const selectGetNoteIdFromPosition = createSelector(
+  [
+    selectPinnedFilteredNotesOrder,
+    selectPinnedFilteredNotes,
+    selectUnpinnedFilteredNotesOrder,
+    selectUnpinnedFilteredNotes,
+    selectPinnedSectionHeight,
+    selectGridColumns,
+  ],
+  (pinnedOrder, pinnedNotes, unpinnedOrder, unpinnedNotes, pinnedSectionHeight, gridColumns) =>
+    (x: number, y: number): string | undefined => {
+      if (y < pinnedSectionHeight) {
+        return getNoteIdFromPosition(y, x, pinnedOrder, pinnedNotes, gridColumns);
+      } else {
+        const unpinnedY = y - pinnedSectionHeight;
+        return getNoteIdFromPosition(unpinnedY, x, unpinnedOrder, unpinnedNotes, gridColumns);
+      }
+    },
+);
+
+export const useSelectGetNoteIdFromPosition = () => useStore(selectGetNoteIdFromPosition);
 
 export const selectActiveNoteDisplay = createSelector(
   [selectNotes, selectActiveNote, selectLabels],

@@ -1,5 +1,4 @@
-import { selectActions, selectGridColumns, selectNotes, selectNotesOrder, useStore } from '@/store';
-import { getNoteIdFromPosition } from '@/utils';
+import { selectActions, useSelectGetNoteIdFromPosition, useStore } from '@/store';
 import { useEffect, useRef, useState, type MouseEvent, type RefObject } from 'react';
 
 interface UseDragProps {
@@ -9,13 +8,11 @@ interface UseDragProps {
 }
 
 export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
-  const { notesOrder: notesOrderActions } = useStore(selectActions);
-  const notes = useStore(selectNotes);
-  const notesOrder = useStore(selectNotesOrder);
-  const gridColumns = useStore(selectGridColumns);
+  const { notesOrder } = useStore(selectActions);
+  const getNoteIdFromPosition = useSelectGetNoteIdFromPosition();
+  const getNoteIdFromPositionRef = useRef(getNoteIdFromPosition);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [translate, setTranslate] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const notesOrderRef = useRef<string[]>(notesOrder);
   const dragStartPos = useRef<{
     mouseX: number;
     mouseY: number;
@@ -28,8 +25,8 @@ export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
   }>({ id: undefined, shouldCheck: false });
 
   useEffect(() => {
-    notesOrderRef.current = notesOrder;
-  }, [notesOrder]);
+    getNoteIdFromPositionRef.current = getNoteIdFromPosition;
+  }, [getNoteIdFromPosition]);
 
   const handleMouseDown = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
@@ -67,13 +64,7 @@ export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
 
       const pointerX = notePosition.x + dx + dragStartPos.current.offsetX;
       const pointerY = notePosition.y + dy + dragStartPos.current.offsetY;
-      const overId = getNoteIdFromPosition(
-        pointerY,
-        pointerX,
-        notesOrderRef.current,
-        notes,
-        gridColumns,
-      );
+      const overId = getNoteIdFromPositionRef.current(pointerX, pointerY);
 
       // Anti-flicker edge case: block note that moves under cursor after reorder and clear it when moving away
       if (blockedNote.current.shouldCheck) {
@@ -84,7 +75,7 @@ export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
       }
 
       if (overId && overId !== noteId && overId !== blockedNote.current.id) {
-        notesOrderActions.reorder(noteId, overId);
+        notesOrder.reorder(noteId, overId);
         blockedNote.current.shouldCheck = true;
       }
     }
