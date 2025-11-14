@@ -1,2 +1,2 @@
 export { labels } from './labels';
-export { notes, notesOrder } from './notes';
+export { notes } from './notes';
