@@ -1,69 +1,36 @@
-# React + TypeScript + Vite
+# Google Keep – From Scratch
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A fast, minimal Google Keep-inspired notes app. Features a custom masonry grid with smooth drag & drop built from scratch with TypeScript & CSS.
 
-Currently, two official plugins are available:
+<br>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<p align="center">
+  <a href="https://keep-clone-amadeuio.netlify.app">
+    <img src="public/screenshots/screenshot.png" width="750px" alt="screenshot">
+  </a>
+</p>
 
-## Expanding the ESLint configuration
+<h3 align="center">
+  <a href="https://keep-clone-amadeuio.netlify.app">👉 Demo</a>
+</h3>
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Highlights
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Fully custom UI**: All animations, interactions, and drag-and-drop mechanics are implemented from scratch using TypeScript & CSS transforms. No external UI libraries, no DnD frameworks
+- **Fluid interactions**: Notes gracefully reflow on resize, archive, delete, or pin; animations emerge naturally from the layout engine
+- **Selector-driven architecture**: Memoized selectors power most logic, keeping components thin and updates predictable
+- **Surprisingly scalable**: Features like pinning were added by updating selectors, with almost no component changes
+- **Performance-oriented**: Leverages the transform-based movement combined with minimal re-renders for a snappy feel
+- **Lightweight**: ~3,000 lines of code, zero UI libraries
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- React 19
+- TypeScript
+- Zustand
+- Reselect
+- Tailwind CSS
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## License
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+[MIT](https://choosealicense.com/licenses/mit/)
