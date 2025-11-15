@@ -1,5 +1,6 @@
-import { useStore, type Store } from '@/store';
+import { useStore } from '@/store';
 import { filterNote, mapNoteToDisplay, sortNotesByPinned } from '@/utils';
+import { useMemo } from 'react';
 import { createSelector } from 'reselect';
 import {
   selectActiveNote,
@@ -64,6 +65,8 @@ export const selectUnpinnedFilteredNotesOrder = createSelector(
   },
 );
 
-const selectIsNoteActive = (noteId: string) => (state: Store) => state.activeNote.id === noteId;
+const selectIsNoteActive = (noteId: string) =>
+  createSelector([selectActiveNote], (activeNote) => activeNote.id === noteId);
 
-export const useSelectIsNoteActive = (noteId: string) => useStore(selectIsNoteActive(noteId));
+export const useSelectIsNoteActive = (noteId: string) =>
+  useStore(useMemo(() => selectIsNoteActive(noteId), [noteId]));
