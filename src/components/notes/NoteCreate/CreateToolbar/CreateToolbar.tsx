@@ -1,8 +1,60 @@
-import { IconButton, MenuTrigger } from '@/components';
-import type { DraftNote } from '@/types';
-import type { Dispatch } from 'react';
-import { BackgroundMenu, MoreMenu } from '.';
+import { IconButton, Menu, MenuTrigger } from '@/components';
+import { COLORS } from '@/constants';
+import type { Color, DraftNote } from '@/types';
+import { useState, type Dispatch, type ReactNode } from 'react';
+import { EditLabelsMenu } from '.';
+import { ColorCircle } from '../..';
 import type { NoteAction } from '../reducer';
+
+interface BackgroundMenuProps {
+  colors: Color[];
+  selectedColorId: string | null;
+  onColorClick: (color: Color) => void;
+}
+
+const BackgroundMenu = ({ colors, selectedColorId, onColorClick }: BackgroundMenuProps) => (
+  <div className="bg-base shadow-base flex gap-1 rounded-sm p-2">
+    {colors.map((color) => (
+      <ColorCircle
+        key={color.label}
+        color={color}
+        isSelected={selectedColorId === color.id}
+        onClick={() => onColorClick(color)}
+      />
+    ))}
+  </div>
+);
+
+interface MoreMenuProps {
+  state: DraftNote;
+  dispatch: Dispatch<NoteAction>;
+  children: ReactNode;
+}
+
+const MoreMenu = ({ state, dispatch, children }: MoreMenuProps) => {
+  const [isEditLabel, setIsEditLabel] = useState(false);
+
+  return (
+    <MenuTrigger
+      menu={
+        isEditLabel ? (
+          <EditLabelsMenu state={state} dispatch={dispatch} />
+        ) : (
+          <Menu
+            items={[
+              {
+                label: 'Add label',
+                action: () => setIsEditLabel(true),
+              },
+            ]}
+          />
+        )
+      }
+    >
+      {children}
+    </MenuTrigger>
+  );
+};
 
 interface CreateToolbarProps {
   state: DraftNote;
@@ -11,7 +63,15 @@ interface CreateToolbarProps {
 
 const CreateToolbar = ({ state, dispatch }: CreateToolbarProps) => (
   <div className="-m-2 mt-0 flex items-center gap-x-2">
-    <MenuTrigger menu={<BackgroundMenu state={state} dispatch={dispatch} />}>
+    <MenuTrigger
+      menu={
+        <BackgroundMenu
+          colors={COLORS}
+          selectedColorId={state.colorId}
+          onColorClick={(color) => dispatch({ type: 'SET_COLOR', payload: color })}
+        />
+      }
+    >
       <IconButton
         className="p-2"
         iconClassName="text-neutral-300"

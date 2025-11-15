@@ -1,9 +1,70 @@
-import { IconButton, MenuTrigger } from '@/components';
+import { IconButton, Menu, MenuTrigger } from '@/components';
+import { COLORS } from '@/constants';
+import type { Store } from '@/store';
 import { useStore } from '@/store';
 import { selectActions } from '@/store/selectors';
-import type { DisplayNote } from '@/types';
+import type { Color, DisplayNote } from '@/types';
 import { cn } from '@/utils';
-import { BackgroundMenu, MoreMenu } from '.';
+import { useState, type ReactNode } from 'react';
+import { EditLabelsMenu } from '.';
+import { ColorCircle } from '../..';
+
+interface BackgroundMenuProps {
+  colors: Color[];
+  selectedColorId: string | null;
+  onColorClick: (colorId: string) => void;
+}
+
+const BackgroundMenu = ({ colors, selectedColorId, onColorClick }: BackgroundMenuProps) => (
+  <div className="bg-base shadow-base flex gap-1 rounded-sm p-2">
+    {colors.map((color) => (
+      <ColorCircle
+        key={color.label}
+        color={color}
+        isSelected={selectedColorId === color.id}
+        onClick={() => onColorClick(color.id)}
+      />
+    ))}
+  </div>
+);
+
+interface MoreMenuProps {
+  note: DisplayNote;
+  notes: Store['actions']['notes'];
+  children: ReactNode;
+  onOpenChange?: (isOpen: boolean) => void;
+}
+
+const MoreMenu = ({ note, notes, children, onOpenChange }: MoreMenuProps) => {
+  const [isEditLabel, setIsEditLabel] = useState(false);
+
+  return (
+    <MenuTrigger
+      recalculateKey={isEditLabel}
+      onOpenChange={onOpenChange}
+      menu={
+        isEditLabel ? (
+          <EditLabelsMenu note={note} />
+        ) : (
+          <Menu
+            items={[
+              {
+                label: 'Delete note',
+                action: () => notes.trash(note.id),
+              },
+              {
+                label: note.labels.length > 0 ? 'Change labels' : 'Add label',
+                action: () => setIsEditLabel(true),
+              },
+            ]}
+          />
+        )
+      }
+    >
+      {children}
+    </MenuTrigger>
+  );
+};
 
 interface NoteToolbarProps {
   note: DisplayNote;
@@ -38,7 +99,13 @@ const NoteToolbar = ({ note, className, onMenuOpenChange }: NoteToolbarProps) =>
       ) : (
         <>
           <MenuTrigger
-            menu={<BackgroundMenu note={note} />}
+            menu={
+              <BackgroundMenu
+                colors={COLORS}
+                selectedColorId={note.colorId}
+                onColorClick={(colorId) => notes.updateColor(note.id, colorId)}
+              />
+            }
             onOpenChange={onMenuOpenChange}
           >
             <IconButton
@@ -58,7 +125,7 @@ const NoteToolbar = ({ note, className, onMenuOpenChange }: NoteToolbarProps) =>
             filled={note.isArchived}
             onClick={() => notes.toggleArchive(note.id)}
           />
-          <MoreMenu note={note} onOpenChange={onMenuOpenChange}>
+          <MoreMenu note={note} notes={notes} onOpenChange={onMenuOpenChange}>
             <IconButton
               className="p-2"
               iconClassName="text-neutral-300"
