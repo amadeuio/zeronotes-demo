@@ -81,7 +81,12 @@ const CreateLabel = () => {
   );
 };
 
-const EditLabel = ({ id, name }: { id: string; name: string }) => {
+interface EditLabelProps {
+  id: string;
+  name: string;
+}
+
+const EditLabel = ({ id, name }: EditLabelProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [labelName, setLabelName] = useState(name);
   const { labels } = useStore(selectActions);
@@ -128,7 +133,11 @@ const EditLabel = ({ id, name }: { id: string; name: string }) => {
   );
 };
 
-const EditLabelsModal = ({ onClose }: { onClose: () => void }) => {
+interface EditLabelsModalProps {
+  onClose: () => void;
+}
+
+const EditLabelsModal = ({ onClose }: EditLabelsModalProps) => {
   const labels = useStore(selectLabels);
 
   return (

@@ -4,7 +4,11 @@ import { selectActions, useSelectFilteredLabels, useSelectNoteHasLabel } from '@
 import type { DisplayNote, Label } from '@/types';
 import { useState } from 'react';
 
-const Checkbox = ({ checked }: { checked: boolean }) => (
+interface CheckboxProps {
+  checked: boolean;
+}
+
+const Checkbox = ({ checked }: CheckboxProps) => (
   <div
     onClick={(e) => e.stopPropagation()}
     className="relative size-[12px] flex-shrink-0 rounded-xs border border-neutral-300"
@@ -15,7 +19,12 @@ const Checkbox = ({ checked }: { checked: boolean }) => (
   </div>
 );
 
-const Input = ({ value, onChange }: { value: string; onChange: (value: string) => void }) => (
+interface InputProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+const Input = ({ value, onChange }: InputProps) => (
   <div className="flex items-center gap-x-2">
     <input
       type="text"
@@ -30,7 +39,12 @@ const Input = ({ value, onChange }: { value: string; onChange: (value: string) =
   </div>
 );
 
-const CreateLabel = ({ name, onClick }: { name: string; onClick: () => void }) => {
+interface CreateLabelProps {
+  name: string;
+  onClick: () => void;
+}
+
+const CreateLabel = ({ name, onClick }: CreateLabelProps) => {
   return (
     <div
       onClick={(e) => {
@@ -45,7 +59,12 @@ const CreateLabel = ({ name, onClick }: { name: string; onClick: () => void }) =
   );
 };
 
-const MenuItem = ({ noteId, label }: { noteId: string; label: Label }) => {
+interface MenuItemProps {
+  noteId: string;
+  label: Label;
+}
+
+const MenuItem = ({ noteId, label }: MenuItemProps) => {
   const { notes } = useStore(selectActions);
   const isChecked = useSelectNoteHasLabel(noteId, label.id);
 

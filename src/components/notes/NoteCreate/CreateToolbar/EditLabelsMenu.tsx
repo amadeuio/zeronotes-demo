@@ -5,7 +5,11 @@ import type { DraftNote, Label } from '@/types';
 import { useState, type Dispatch } from 'react';
 import type { NoteAction } from '../reducer';
 
-const Checkbox = ({ checked }: { checked: boolean }) => (
+interface CheckboxProps {
+  checked: boolean;
+}
+
+const Checkbox = ({ checked }: CheckboxProps) => (
   <div className="relative size-[12px] flex-shrink-0 rounded-xs border border-neutral-300">
     {checked && (
       <Icon name="check" size={12} className="absolute top-0 -left-[1px] text-neutral-300" />
@@ -13,7 +17,12 @@ const Checkbox = ({ checked }: { checked: boolean }) => (
   </div>
 );
 
-const Input = ({ value, onChange }: { value: string; onChange: (value: string) => void }) => (
+interface InputProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+const Input = ({ value, onChange }: InputProps) => (
   <div className="flex items-center gap-x-2">
     <input
       type="text"
@@ -27,7 +36,12 @@ const Input = ({ value, onChange }: { value: string; onChange: (value: string) =
   </div>
 );
 
-const CreateLabel = ({ name, onClick }: { name: string; onClick: () => void }) => {
+interface CreateLabelProps {
+  name: string;
+  onClick: () => void;
+}
+
+const CreateLabel = ({ name, onClick }: CreateLabelProps) => {
   return (
     <div
       onClick={onClick}
@@ -39,15 +53,13 @@ const CreateLabel = ({ name, onClick }: { name: string; onClick: () => void }) =
   );
 };
 
-const MenuItem = ({
-  state,
-  dispatch,
-  label,
-}: {
+interface MenuItemProps {
   state: DraftNote;
   dispatch: Dispatch<NoteAction>;
   label: Label;
-}) => {
+}
+
+const MenuItem = ({ state, dispatch, label }: MenuItemProps) => {
   const isChecked = state.labels.some((l) => l.id === label.id);
 
   const handleClick = () => {
