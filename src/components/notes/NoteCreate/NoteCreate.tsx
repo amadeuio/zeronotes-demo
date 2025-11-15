@@ -1,10 +1,10 @@
 import { IconButton } from '@/components';
 import { useClickOutside } from '@/hooks';
-import { useStore } from '@/store';
-import { selectActions } from '@/store/selectors';
+import { selectActions, useStore } from '@/store';
 import { cn, getColorValue } from '@/utils';
 import { useReducer, useRef, useState, type MouseEvent } from 'react';
-import { Label, TextEdit } from '../..';
+import Label from '../Label';
+import TextEdit from '../TextEdit';
 import { CreateToolbar } from './CreateToolbar';
 import { initialState, noteReducer } from './reducer';
 
@@ -36,7 +36,7 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
     <div
       ref={elementRef}
       className={cn(
-        'bg-base relative flex w-full max-w-[var(--width-note-expanded)] flex-col gap-4 rounded-lg border p-3.5 shadow-[0_1px_7px_rgba(0,0,0,0.8)] transition-colors duration-800 ease-in-out will-change-[background-color,border-color]',
+        'bg-base relative flex w-full max-w-[var(--width-note-expanded)] flex-col gap-4 rounded-lg border p-3.5 shadow-[0_1px_7px_rgba(0,0,0,0.8)] transition-colors duration-800 ease-in-out',
         className,
       )}
       onClick={onClick}

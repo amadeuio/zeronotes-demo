@@ -1,10 +1,9 @@
-import { IconButton, Menu, MenuTrigger } from '@/components';
+import { ColorCircle, IconButton, Menu, MenuTrigger } from '@/components';
 import { COLORS } from '@/constants';
 import type { Color, DraftNote } from '@/types';
 import { useState, type Dispatch, type ReactNode } from 'react';
-import { EditLabelsMenu } from '.';
-import { ColorCircle } from '../..';
 import type { NoteAction } from '../reducer';
+import EditLabelsMenu from './EditLabelsMenu';
 
 interface BackgroundMenuProps {
   colors: Color[];

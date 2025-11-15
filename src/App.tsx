@@ -1,8 +1,7 @@
 import { EditLabelsModal, Main, Navbar, NoteActive, Sidebar } from '@/components';
 import { useMobile } from '@/hooks';
-import { useStore } from '@/store';
-import { selectActions, selectActiveNoteId, selectUi } from '@/store/selectors';
-import { cn } from './utils';
+import { selectActions, selectActiveNoteId, selectUi, useStore } from '@/store';
+import { cn } from '@/utils';
 
 const App = () => {
   const isMobile = useMobile();

@@ -1,6 +1,5 @@
 import { Icon } from '@/components';
-import { useStore } from '@/store';
-import { selectActions, selectFiltersView, selectLabels, selectUi } from '@/store/selectors';
+import { selectActions, selectFiltersView, selectLabels, selectUi, useStore } from '@/store';
 import { cn } from '@/utils';
 
 interface SidebarItemProps {

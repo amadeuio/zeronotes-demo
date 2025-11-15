@@ -1,6 +1,5 @@
 import { IconButton } from '@/components';
-import { useStore } from '@/store';
-import { selectActions, selectLabels } from '@/store/selectors';
+import { selectActions, selectLabels, useStore } from '@/store';
 import { cn } from '@/utils';
 import { useState } from 'react';
 

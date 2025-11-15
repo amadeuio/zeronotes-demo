@@ -4,13 +4,16 @@ import {
   selectActions,
   selectFiltersSearch,
   useSelectIsNoteActive,
-  useSelectNotePositionById,
+  useSelectPositionFromNoteId,
   useStore,
 } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
 import { useRef, useState, type MouseEvent } from 'react';
-import { Label, NoteGhost, NoteToolbar, TextView } from './';
+import Label from './Label';
+import NoteGhost from './NoteGhost';
+import NoteToolbar from './NoteToolbar/NoteToolbar';
+import TextView from './TextView';
 
 interface NoteViewProps {
   note: DisplayNote;
@@ -21,7 +24,7 @@ const NoteView = ({ note }: NoteViewProps) => {
   const { notes, activeNote } = useStore(selectActions);
   const isActive = useSelectIsNoteActive(note.id);
   const search = useStore(selectFiltersSearch);
-  const position = useSelectNotePositionById(note.id, note.isPinned);
+  const position = useSelectPositionFromNoteId(note.id, note.isPinned);
   const noteRef = useRef<HTMLDivElement | null>(null);
   const isReady = useMountDelay();
   const { isDragging, translate, handleMouseDown } = useDrag({
@@ -51,7 +54,7 @@ const NoteView = ({ note }: NoteViewProps) => {
       <div
         ref={noteRef}
         className={cn(
-          'group/note hover:shadow-base w-note-compact absolute flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 transition-colors duration-800 ease-in-out will-change-transform select-none hover:z-20',
+          'group/note hover:shadow-base w-note-compact absolute flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 transition-colors duration-800 ease-in-out select-none hover:z-20',
           isMenuOpen && 'z-30',
         )}
         onMouseDown={handleMouseDown}

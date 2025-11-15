@@ -1,6 +1,5 @@
 import { Icon } from '@/components';
-import { useStore } from '@/store';
-import { selectActions, selectFiltersSearch } from '@/store/selectors';
+import { selectActions, selectFiltersSearch, useStore } from '@/store';
 import { cn } from '@/utils';
 import { useState } from 'react';
 

@@ -1,6 +1,5 @@
 import { Icon } from '@/components';
-import { useStore } from '@/store';
-import { selectFiltersView } from '@/store/selectors';
+import { selectFiltersView, useStore } from '@/store';
 
 const EmptyState = () => {
   const view = useStore(selectFiltersView);

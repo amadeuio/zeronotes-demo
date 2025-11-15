@@ -1,7 +1,6 @@
 import logo from '@/assets/logo.png';
 import { IconButton } from '@/components';
-import { useStore } from '@/store';
-import { selectActions } from '@/store/selectors';
+import { selectActions, useStore } from '@/store';
 import Search from './Search';
 import User from './User';
 

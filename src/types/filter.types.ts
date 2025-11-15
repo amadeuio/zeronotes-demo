@@ -1,4 +1,4 @@
-import type { Label } from '.';
+import type { Label } from './label.types';
 
 export type View =
   | { type: 'notes' }

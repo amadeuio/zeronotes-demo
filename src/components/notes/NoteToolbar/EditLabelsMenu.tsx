@@ -1,6 +1,5 @@
 import { Icon } from '@/components';
-import { useStore } from '@/store';
-import { selectActions, useSelectFilteredLabels, useSelectNoteHasLabel } from '@/store/selectors';
+import { selectActions, useSelectFilteredLabels, useSelectNoteHasLabel, useStore } from '@/store';
 import type { DisplayNote, Label } from '@/types';
 import { useState } from 'react';
 

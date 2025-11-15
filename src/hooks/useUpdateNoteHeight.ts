@@ -1,5 +1,4 @@
-import { useStore } from '@/store';
-import { selectActions, selectActiveNoteId } from '@/store/selectors';
+import { selectActions, selectActiveNoteId, useStore } from '@/store';
 import { useLayoutEffect, type RefObject } from 'react';
 
 interface UseUpdateNoteHeightProps {

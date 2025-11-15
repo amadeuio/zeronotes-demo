@@ -1,7 +1,4 @@
-import {
-  labels as initialLabels,
-  notes as initialNotes,
-} from '@/data';
+import { labels as initialLabels, notes as initialNotes } from '@/data';
 import type { DraftNote, Filters, Label, Note } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 import { create } from 'zustand';

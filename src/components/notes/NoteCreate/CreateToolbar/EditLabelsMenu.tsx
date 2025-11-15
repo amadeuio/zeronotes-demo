@@ -1,6 +1,5 @@
 import { Icon } from '@/components';
-import { useStore } from '@/store';
-import { selectActions, useSelectFilteredLabels } from '@/store/selectors';
+import { selectActions, useSelectFilteredLabels, useStore } from '@/store';
 import type { DraftNote, Label } from '@/types';
 import { useState, type Dispatch } from 'react';
 import type { NoteAction } from '../reducer';

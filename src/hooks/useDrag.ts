@@ -1,4 +1,4 @@
-import { selectActions, useSelectGetNoteIdFromPosition, useStore } from '@/store';
+import { selectActions, useSelectNoteIdFromPosition, useStore } from '@/store';
 import { useEffect, useRef, useState, type MouseEvent, type RefObject } from 'react';
 
 interface UseDragProps {
@@ -9,7 +9,7 @@ interface UseDragProps {
 
 export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
   const { notesOrder } = useStore(selectActions);
-  const getNoteIdFromPosition = useSelectGetNoteIdFromPosition();
+  const getNoteIdFromPosition = useSelectNoteIdFromPosition();
   const getNoteIdFromPositionRef = useRef(getNoteIdFromPosition);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [translate, setTranslate] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
