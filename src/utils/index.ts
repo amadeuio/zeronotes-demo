@@ -1,4 +1,4 @@
-export { cn } from './cn';
+export { cn } from './common';
 export {
   getGridColumnsFromWidth,
   getNoteIdFromPosition,
