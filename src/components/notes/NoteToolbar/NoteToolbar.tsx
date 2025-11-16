@@ -37,7 +37,7 @@ const MoreMenu = ({ note, notes, children, onOpenChange }: MoreMenuProps) => {
 
   return (
     <MenuTrigger
-      recalculateKey={isEditLabel}
+      recalculateOverflowCorrection={isEditLabel}
       onOpenChange={(isOpen) => {
         if (!isOpen) setIsEditLabel(false);
         onOpenChange?.(isOpen);

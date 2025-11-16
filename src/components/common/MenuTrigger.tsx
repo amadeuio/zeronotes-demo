@@ -5,7 +5,7 @@ interface MenuTriggerProps {
   children: ReactNode;
   menu: ReactNode;
   onClickOutside?: () => void;
-  recalculateKey?: boolean;
+  recalculateOverflowCorrection?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
 }
 
@@ -13,7 +13,7 @@ const MenuTrigger = ({
   children,
   menu,
   onClickOutside,
-  recalculateKey,
+  recalculateOverflowCorrection,
   onOpenChange,
 }: MenuTriggerProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +23,7 @@ const MenuTrigger = ({
     isVisible: isOpen,
     elementRef: menuRef,
     triggerRef,
-    recalculateKey,
+    recalculateOverflowCorrection,
   });
 
   const handleClickOutside = () => {
