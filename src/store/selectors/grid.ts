@@ -19,19 +19,20 @@ import {
 export const selectPinnedSectionHeight = createSelector(
   [selectPinnedFilteredNotesOrder, selectPinnedFilteredNotes, selectGridColumns],
   (pinnedOrder, pinnedNotes, gridColumns) =>
-    getSectionHeight(pinnedOrder, pinnedNotes, gridColumns),
+    pinnedOrder.length === 0
+      ? 0
+      : getSectionHeight(pinnedOrder, pinnedNotes, gridColumns) + GRID_CONFIG.pinnedUnpinnedGap,
 );
 
 export const selectUnpinnedSectionHeight = createSelector(
   [selectUnpinnedFilteredNotesOrder, selectUnpinnedFilteredNotes, selectGridColumns],
   (unpinnedOrder, unpinnedNotes, gridColumns) =>
-    getSectionHeight(unpinnedOrder, unpinnedNotes, gridColumns) - GRID_CONFIG.pinnedUnpinnedGap,
+    unpinnedOrder.length === 0 ? 0 : getSectionHeight(unpinnedOrder, unpinnedNotes, gridColumns),
 );
 
 export const selectNotesTotalHeight = createSelector(
   [selectPinnedSectionHeight, selectUnpinnedSectionHeight],
-  (pinnedSectionHeight, unpinnedSectionHeight) =>
-    pinnedSectionHeight + unpinnedSectionHeight - GRID_CONFIG.gap,
+  (pinnedSectionHeight, unpinnedSectionHeight) => pinnedSectionHeight + unpinnedSectionHeight,
 );
 
 export const selectNotesTotalWidth = createSelector([selectGridColumns], (gridColumns) =>
