@@ -6,7 +6,7 @@ export const selectFiltersSearch = (state: Store) => state.filters.search;
 export const selectFiltersView = (state: Store) => state.filters.view;
 export const selectUi = (state: Store) => state.ui;
 export const selectNotes = (state: Store) => state.notes;
-export const selectNotesOrder = (state: Store) => state.notesOrder;
+export const selectOrder = (state: Store) => state.order;
 export const selectActiveNote = (state: Store) => state.activeNote;
 export const selectActiveNoteId = (state: Store) => state.activeNote.id;
 export const selectActiveNotePosition = (state: Store) => state.activeNote.position;

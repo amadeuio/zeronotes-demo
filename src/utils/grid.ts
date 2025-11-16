@@ -1,7 +1,7 @@
 import { GRID_CONFIG } from '@/constants';
 import type { Note } from '@/types';
 
-export const getNotesTotalWidth = (gridColumns: number): number => {
+export const getTotalWidth = (gridColumns: number): number => {
   const { noteWidth, gap } = GRID_CONFIG;
   return gridColumns * noteWidth + (gridColumns - 1) * gap;
 };

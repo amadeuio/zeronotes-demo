@@ -6,7 +6,7 @@ import { devtools } from 'zustand/middleware';
 
 export interface Store {
   notes: Note[];
-  notesOrder: string[];
+  order: string[];
   activeNote: {
     id: string | null;
     position: { top: number; left: number } | null;
@@ -35,8 +35,8 @@ export interface Store {
       restore: (id: string) => void;
       updateHeight: (id: string, height: number | null) => void;
     };
-    notesOrder: {
-      set: (notesOrder: string[]) => void;
+    order: {
+      set: (order: string[]) => void;
       reorder: (noteId: string, overId: string) => void;
     };
     activeNote: {
@@ -66,7 +66,7 @@ export interface Store {
 export const useStore = create<Store>()(
   devtools((set) => ({
     notes: initialNotes,
-    notesOrder: initialNotes.map((n: Note) => n.id),
+    order: initialNotes.map((n: Note) => n.id),
     activeNote: {
       id: null,
       position: null,
@@ -100,13 +100,13 @@ export const useStore = create<Store>()(
               },
               ...state.notes,
             ],
-            notesOrder: [newId, ...state.notesOrder],
+            order: [newId, ...state.order],
           }));
         },
         remove: (id) => {
           set((state) => ({
             notes: state.notes.filter((note) => note.id !== id),
-            notesOrder: state.notesOrder.filter((noteId) => noteId !== id),
+            order: state.order.filter((noteId) => noteId !== id),
             activeNote:
               state.activeNote.id === id ? { id: null, position: null } : state.activeNote,
           }));
@@ -196,13 +196,13 @@ export const useStore = create<Store>()(
           }));
         },
       },
-      notesOrder: {
-        set: (notesOrder) => {
-          set({ notesOrder });
+      order: {
+        set: (order) => {
+          set({ order });
         },
         reorder: (noteId, overId) => {
           set((state) => {
-            const newOrder = [...state.notesOrder];
+            const newOrder = [...state.order];
             const fromIndex = newOrder.indexOf(noteId);
             const toIndex = newOrder.indexOf(overId);
 
@@ -212,7 +212,7 @@ export const useStore = create<Store>()(
 
             newOrder.splice(fromIndex, 1);
             newOrder.splice(toIndex, 0, noteId);
-            return { notesOrder: newOrder };
+            return { order: newOrder };
           });
         },
       },

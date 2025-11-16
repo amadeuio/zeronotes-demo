@@ -1,11 +1,11 @@
 import { NoteCreate, NoteView } from '@/components';
 import { useSetGridColumns } from '@/hooks';
 import {
-  selectDisplayNotes,
   selectHasPinnedNotes,
-  selectNotesTotalHeight,
-  selectNotesTotalWidth,
-  selectPinnedSectionHeight,
+  selectNotesDisplay,
+  selectPinnedHeight,
+  selectTotalHeight,
+  selectTotalWidth,
   useStore,
 } from '@/store';
 import { useRef } from 'react';
@@ -13,11 +13,11 @@ import EmptyState from './EmptyState';
 import SectionTitle from './SectionTitle';
 
 const Main = () => {
-  const notes = useStore(selectDisplayNotes);
+  const notes = useStore(selectNotesDisplay);
   const hasPinnedNotes = useStore(selectHasPinnedNotes);
-  const pinnedSectionHeight = useStore(selectPinnedSectionHeight);
-  const notesTotalWidth = useStore(selectNotesTotalWidth);
-  const notesTotalHeight = useStore(selectNotesTotalHeight);
+  const pinnedHeight = useStore(selectPinnedHeight);
+  const totalWidth = useStore(selectTotalWidth);
+  const totalHeight = useStore(selectTotalHeight);
   const containerRef = useRef<HTMLDivElement>(null);
   useSetGridColumns(containerRef);
 
@@ -28,14 +28,11 @@ const Main = () => {
         <EmptyState />
       ) : (
         <div ref={containerRef} className="w-full">
-          <div
-            className="relative mx-auto"
-            style={{ width: notesTotalWidth, height: notesTotalHeight }}
-          >
+          <div className="relative mx-auto" style={{ width: totalWidth, height: totalHeight }}>
             {hasPinnedNotes && (
               <>
                 <SectionTitle label="PINNED" />
-                <SectionTitle label="OTHERS" verticalOffset={pinnedSectionHeight} />
+                <SectionTitle label="OTHERS" verticalOffset={pinnedHeight} />
               </>
             )}
             {notes.map((note) => (

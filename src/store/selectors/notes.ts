@@ -2,28 +2,22 @@ import { useStore } from '@/store';
 import { filterNote, mapNoteToDisplay, sortNotesByPinned } from '@/utils';
 import { useMemo } from 'react';
 import { createSelector } from 'reselect';
-import {
-  selectActiveNote,
-  selectFilters,
-  selectLabels,
-  selectNotes,
-  selectNotesOrder,
-} from './base';
+import { selectActiveNote, selectFilters, selectLabels, selectNotes, selectOrder } from './base';
 
 export const selectFilteredNotes = createSelector([selectNotes, selectFilters], (notes, filters) =>
   notes.filter((n) => filterNote(n, filters)),
 );
 
-export const selectFilteredNotesOrder = createSelector(
-  [selectFilteredNotes, selectNotesOrder],
-  (filteredNotes, notesOrder) => {
+export const selectFilteredOrder = createSelector(
+  [selectFilteredNotes, selectOrder],
+  (filteredNotes, order) => {
     const filteredNoteIds = new Set(filteredNotes.map((n) => n.id));
-    const filtered = notesOrder.filter((id) => filteredNoteIds.has(id));
+    const filtered = order.filter((id) => filteredNoteIds.has(id));
     return sortNotesByPinned(filtered, filteredNotes);
   },
 );
 
-export const selectDisplayNotes = createSelector(
+export const selectNotesDisplay = createSelector(
   [selectFilteredNotes, selectLabels],
   (filteredNotes, labels) => filteredNotes.map((n) => mapNoteToDisplay(n, labels)),
 );
@@ -36,32 +30,32 @@ export const selectActiveNoteDisplay = createSelector(
   },
 );
 
-export const selectPinnedFilteredNotes = createSelector([selectFilteredNotes], (filteredNotes) =>
+export const selectPinnedNotes = createSelector([selectFilteredNotes], (filteredNotes) =>
   filteredNotes.filter((n) => n.isPinned),
 );
 
-export const selectUnpinnedFilteredNotes = createSelector([selectFilteredNotes], (filteredNotes) =>
+export const selectUnpinnedNotes = createSelector([selectFilteredNotes], (filteredNotes) =>
   filteredNotes.filter((n) => !n.isPinned),
 );
 
 export const selectHasPinnedNotes = createSelector(
-  [selectPinnedFilteredNotes],
+  [selectPinnedNotes],
   (pinnedNotes) => pinnedNotes.length > 0,
 );
 
-export const selectPinnedFilteredNotesOrder = createSelector(
-  [selectFilteredNotesOrder, selectPinnedFilteredNotes],
-  (filteredNotesOrder, pinnedNotes) => {
+export const selectPinnedOrder = createSelector(
+  [selectFilteredOrder, selectPinnedNotes],
+  (filteredOrder, pinnedNotes) => {
     const pinnedIds = new Set(pinnedNotes.map((n) => n.id));
-    return filteredNotesOrder.filter((id) => pinnedIds.has(id));
+    return filteredOrder.filter((id) => pinnedIds.has(id));
   },
 );
 
-export const selectUnpinnedFilteredNotesOrder = createSelector(
-  [selectFilteredNotesOrder, selectUnpinnedFilteredNotes],
-  (filteredNotesOrder, unpinnedNotes) => {
+export const selectUnpinnedOrder = createSelector(
+  [selectFilteredOrder, selectUnpinnedNotes],
+  (filteredOrder, unpinnedNotes) => {
     const unpinnedIds = new Set(unpinnedNotes.map((n) => n.id));
-    return filteredNotesOrder.filter((id) => unpinnedIds.has(id));
+    return filteredOrder.filter((id) => unpinnedIds.has(id));
   },
 );
 
