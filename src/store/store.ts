@@ -21,10 +21,8 @@ export interface Store {
   };
   actions: {
     notes: {
-      set: (notes: Note[]) => void;
       add: (note: DraftNote) => void;
       remove: (id: string) => void;
-      update: (id: string, note: Note) => void;
       updateTitle: (id: string, title: string) => void;
       updateContent: (id: string, content: string) => void;
       updateColor: (id: string, colorId: string) => void;
@@ -86,9 +84,6 @@ export const useStore = create<Store>()(
     },
     actions: {
       notes: {
-        set: (notes) => {
-          set({ notes });
-        },
         add: (note) => {
           const { labels, ...rest } = note;
           const newId = uuidv4();
@@ -117,9 +112,6 @@ export const useStore = create<Store>()(
                 state.activeNote.id === id ? { id: null, position: null } : state.activeNote,
             };
           });
-        },
-        update: (id, note) => {
-          set((state) => ({ notes: state.notes.map((n) => (n.id === id ? note : n)) }));
         },
         updateTitle: (id, title) => {
           set((state) => ({
