@@ -1,5 +1,48 @@
 import { describe, expect, it } from 'vitest';
-import { getNoteIdFromPosition, getPositionFromNoteId, getSectionHeight } from './grid';
+import {
+  getGridColumnsFromWidth,
+  getNoteIdFromPosition,
+  getPositionFromNoteId,
+  getSectionHeight,
+  getTotalWidth,
+} from './grid';
+
+describe('getTotalWidth', () => {
+  it('should calculate width for single column', () => {
+    expect(getTotalWidth(1)).toBe(238);
+  });
+
+  it('should calculate width for multiple columns', () => {
+    expect(getTotalWidth(2)).toBe(492);
+    expect(getTotalWidth(3)).toBe(746);
+    expect(getTotalWidth(5)).toBe(1254);
+  });
+});
+
+describe('getGridColumnsFromWidth', () => {
+  it('should return 1 for narrow containers', () => {
+    expect(getGridColumnsFromWidth(100)).toBe(1);
+    expect(getGridColumnsFromWidth(200)).toBe(1);
+  });
+
+  it('should calculate columns correctly for wider containers', () => {
+    expect(getGridColumnsFromWidth(500)).toBe(2);
+    expect(getGridColumnsFromWidth(800)).toBe(3);
+    expect(getGridColumnsFromWidth(1200)).toBe(4);
+    expect(getGridColumnsFromWidth(1500)).toBe(5);
+  });
+
+  it('should handle edge cases at boundaries', () => {
+    // Just enough for 1 column: 238 + 16 = 254
+    expect(getGridColumnsFromWidth(253)).toBe(1);
+    expect(getGridColumnsFromWidth(254)).toBe(1);
+    expect(getGridColumnsFromWidth(255)).toBe(1);
+
+    // Just enough for 2 columns: 2 * 238 + 16 = 492
+    expect(getGridColumnsFromWidth(491)).toBe(1);
+    expect(getGridColumnsFromWidth(508)).toBe(2);
+  });
+});
 
 describe('getSectionHeight', () => {
   it('should calculate height for single column', () => {
