@@ -6,6 +6,7 @@ describe('getSectionHeight', () => {
     const notesOrder = ['1', '2'];
     const noteHeights = { '1': 100, '2': 150 };
     const gridColumns = 1;
+   
     expect(getSectionHeight(notesOrder, noteHeights, gridColumns)).toBe(266);
   });
 
@@ -13,6 +14,7 @@ describe('getSectionHeight', () => {
     const notesOrder = ['1', '2', '3', '4', '5', '6', '7'];
     const noteHeights = { '1': 100, '2': 150, '3': 200, '4': 120, '5': 180, '6': 160, '7': 140 };
     const gridColumns = 3;
+   
     expect(getSectionHeight(notesOrder, noteHeights, gridColumns)).toBe(392);
   });
 });

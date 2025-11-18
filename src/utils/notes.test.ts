@@ -66,6 +66,7 @@ describe('filterNote', () => {
 
   it('should filter by search query', () => {
     const note = createNote({ title: 'My Note', content: 'Important content' });
+    
     expect(filterNote(note, createFilters({ search: 'note' }))).toBe(true);
     expect(filterNote(note, createFilters({ search: 'important' }))).toBe(true);
     expect(filterNote(note, createFilters({ search: 'xyz' }))).toBe(false);
@@ -74,6 +75,7 @@ describe('filterNote', () => {
 
   it('should handle whitespace-only search query', () => {
     const note = createNote({ title: 'My Note', content: 'Content' });
+    
     expect(filterNote(note, createFilters({ search: '   ' }))).toBe(true);
     expect(filterNote(note, createFilters({ search: '\t\n' }))).toBe(true);
   });
@@ -102,6 +104,7 @@ describe('sortNotesByPinned', () => {
       createNote({ id: '2', isPinned: true }),
       createNote({ id: '3', isPinned: false }),
     ];
+    
     expect(sortNotesByPinned(noteIds, notes)).toEqual(['2', '1', '3']);
   });
 
@@ -113,6 +116,7 @@ describe('sortNotesByPinned', () => {
       createNote({ id: '3', isPinned: true }),
       createNote({ id: '4', isPinned: false }),
     ];
+    
     expect(sortNotesByPinned(noteIds, notes)).toEqual(['1', '3', '2', '4']);
   });
 });

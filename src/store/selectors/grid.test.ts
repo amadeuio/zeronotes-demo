@@ -43,6 +43,7 @@ describe('selectNoteIdFromPosition', () => {
       noteHeights: { '1': 100 },
       gridColumns: 2,
     });
+
     const selector = selectNoteIdFromPosition(store);
     expect(selector(10, 10)).toBe('1');
   });
@@ -59,6 +60,7 @@ describe('selectNoteIdFromPosition', () => {
       noteHeights: { '1': 100, '2': 150, '3': 200, '4': 250 },
       gridColumns: 2,
     });
+
     const selector = selectNoteIdFromPosition(store);
     expect(selector(260, 220)).toBe('4');
   });
@@ -75,6 +77,7 @@ describe('selectNoteIdFromPosition', () => {
       noteHeights: { '1': 100, '2': 150, '3': 200, '4': 250 },
       gridColumns: 2,
     });
+
     const selector = selectNoteIdFromPosition(store);
     expect(selector(10, 120)).toBeUndefined();
     expect(selector(1000, 10)).toBeUndefined();
@@ -93,6 +96,7 @@ describe('selectNoteIdFromPosition', () => {
       noteHeights: { '1': 100, '2': 150, '3': 200, '4': 250 },
       gridColumns: 2,
     });
+
     const selector = selectNoteIdFromPosition(store);
     expect(selector(10, 10)).toBe('3');
     expect(selector(254, 10)).toBe('1');
@@ -109,6 +113,7 @@ describe('selectPositionFromNoteId', () => {
       noteHeights: { '1': 100 },
       gridColumns: 2,
     });
+
     const selector = selectPositionFromNoteId('1', true)(store);
     expect(selector).toEqual({ x: 0, y: 0 });
   });
@@ -125,6 +130,7 @@ describe('selectPositionFromNoteId', () => {
       noteHeights: { '1': 100, '2': 150, '3': 200, '4': 250 },
       gridColumns: 2,
     });
+
     const selector = selectPositionFromNoteId('4', false)(store);
     expect(selector).toEqual({ x: 254, y: 218 });
   });
@@ -140,6 +146,7 @@ describe('selectPositionFromNoteId', () => {
       noteHeights: { '1': 100, '2': 150, '3': 200 },
       gridColumns: 2,
     });
+
     const selector = selectPositionFromNoteId('3', false)(store);
     expect(selector).toEqual({ x: 0, y: 116 });
   });
@@ -155,6 +162,7 @@ describe('selectPositionFromNoteId', () => {
       noteHeights: { '1': 100, '2': 150, '3': 200 },
       gridColumns: 1,
     });
+
     const selectorPinned = selectPositionFromNoteId('1', true)(store);
     expect(selectorPinned).toEqual({ x: 0, y: 0 });
 
@@ -174,6 +182,7 @@ describe('selectPositionFromNoteId', () => {
       noteHeights: { '1': 100, '2': 150, '3': 200, '4': 250 },
       gridColumns: 2,
     });
+
     const selector1 = selectPositionFromNoteId('1', true)(store);
     expect(selector1).toEqual({ x: 254, y: 0 });
 
@@ -201,6 +210,7 @@ describe('selectTotalHeight', () => {
       noteHeights: { '1': 100, '2': 150, '3': 200, '4': 250 },
       gridColumns: 2,
     });
+
     expect(selectTotalHeight(store)).toBe(468);
   });
 
@@ -216,6 +226,7 @@ describe('selectTotalHeight', () => {
       noteHeights: { '1': 100, '2': 150, '3': 200, '4': 250 },
       gridColumns: 2,
     });
+
     expect(selectTotalHeight(store)).toBe(416);
   });
 
@@ -226,6 +237,7 @@ describe('selectTotalHeight', () => {
       noteHeights: {},
       gridColumns: 2,
     });
+
     expect(selectTotalHeight(store)).toBe(0);
   });
 
@@ -240,6 +252,7 @@ describe('selectTotalHeight', () => {
       noteHeights: { '1': 100, '2': 150, '3': 200 },
       gridColumns: 1,
     });
+
     expect(selectTotalHeight(store)).toBe(534);
   });
 
@@ -255,6 +268,7 @@ describe('selectTotalHeight', () => {
       noteHeights: { '1': 100, '2': 150, '3': 200, '4': 250 },
       gridColumns: 2,
     });
+
     expect(selectTotalHeight(store)).toBe(534);
   });
 });
