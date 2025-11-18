@@ -2,25 +2,27 @@ import type { Filters, Label, Note } from '@/types';
 import { describe, expect, it } from 'vitest';
 import { filterNote, mapNoteToDisplay, sortNotesByPinned } from './notes';
 
+const createNote = (overrides?: Partial<Note>): Note => ({
+  id: '1',
+  title: 'Test Note',
+  content: 'Test content',
+  colorId: 'default',
+  labelIds: [],
+  isPinned: false,
+  isArchived: false,
+  isTrashed: false,
+  ...overrides,
+});
+
+const createFilters = (overrides?: Partial<Filters>): Filters => ({
+  search: '',
+  view: { type: 'notes' },
+  ...overrides,
+});
+
+const createLabel = (id: string, name: string): Label => ({ id, name });
+
 describe('filterNote', () => {
-  const createNote = (overrides?: Partial<Note>): Note => ({
-    id: '1',
-    title: 'Test Note',
-    content: 'Test content',
-    colorId: 'default',
-    labelIds: [],
-    isPinned: false,
-    isArchived: false,
-    isTrashed: false,
-    ...overrides,
-  });
-
-  const createFilters = (overrides?: Partial<Filters>): Filters => ({
-    search: '',
-    view: { type: 'notes' },
-    ...overrides,
-  });
-
   it('should filter notes view', () => {
     expect(filterNote(createNote(), createFilters())).toBe(true);
     expect(filterNote(createNote({ isArchived: true }), createFilters())).toBe(false);
@@ -69,53 +71,53 @@ describe('filterNote', () => {
     expect(filterNote(note, createFilters({ search: 'xyz' }))).toBe(false);
     expect(filterNote(note, createFilters({ search: '  NOTE  ' }))).toBe(true);
   });
+
+  it('should handle whitespace-only search query', () => {
+    const note = createNote({ title: 'My Note', content: 'Content' });
+    expect(filterNote(note, createFilters({ search: '   ' }))).toBe(true);
+    expect(filterNote(note, createFilters({ search: '\t\n' }))).toBe(true);
+  });
+
+  it('should handle search with empty title or content', () => {
+    expect(
+      filterNote(
+        createNote({ title: '', content: 'content' }),
+        createFilters({ search: 'content' }),
+      ),
+    ).toBe(true);
+    expect(
+      filterNote(createNote({ title: 'title', content: '' }), createFilters({ search: 'title' })),
+    ).toBe(true);
+    expect(
+      filterNote(createNote({ title: '', content: '' }), createFilters({ search: 'anything' })),
+    ).toBe(false);
+  });
 });
 
 describe('sortNotesByPinned', () => {
-  const createNote = (id: string, isPinned: boolean): Note => ({
-    id,
-    title: 'Test Note',
-    content: 'Content',
-    colorId: 'default',
-    labelIds: [],
-    isPinned,
-    isArchived: false,
-    isTrashed: false,
-  });
-
   it('should sort pinned notes before unpinned', () => {
     const noteIds = ['1', '2', '3'];
-    const notes = [createNote('1', false), createNote('2', true), createNote('3', false)];
+    const notes = [
+      createNote({ id: '1', isPinned: false }),
+      createNote({ id: '2', isPinned: true }),
+      createNote({ id: '3', isPinned: false }),
+    ];
     expect(sortNotesByPinned(noteIds, notes)).toEqual(['2', '1', '3']);
   });
 
   it('should handle mixed pinned/unpinned notes', () => {
     const noteIds = ['1', '2', '3', '4'];
     const notes = [
-      createNote('1', true),
-      createNote('2', false),
-      createNote('3', true),
-      createNote('4', false),
+      createNote({ id: '1', isPinned: true }),
+      createNote({ id: '2', isPinned: false }),
+      createNote({ id: '3', isPinned: true }),
+      createNote({ id: '4', isPinned: false }),
     ];
     expect(sortNotesByPinned(noteIds, notes)).toEqual(['1', '3', '2', '4']);
   });
 });
 
 describe('mapNoteToDisplay', () => {
-  const createNote = (overrides?: Partial<Note>): Note => ({
-    id: '1',
-    title: 'Test Note',
-    content: 'Test content',
-    colorId: 'default',
-    labelIds: [],
-    isPinned: false,
-    isArchived: false,
-    isTrashed: false,
-    ...overrides,
-  });
-
-  const createLabel = (id: string, name: string): Label => ({ id, name });
-
   it('should map note with no labels', () => {
     const note = createNote();
     const labels: Label[] = [];
