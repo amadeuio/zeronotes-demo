@@ -45,15 +45,15 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
         borderColor: colorValue ?? 'var(--color-secondary)',
       }}
     >
-      <TextEdit
-        onFocus={() => setIsExpanded(true)}
-        value={state.title}
-        onChange={(value) => dispatch({ type: 'SET_TITLE', payload: value })}
-        placeholder={isExpanded ? 'Title' : 'Take a note...'}
-        isTitle={isExpanded}
-      />
       {isExpanded && (
         <>
+          <TextEdit
+            isTitle
+            value={state.title}
+            onChange={(value) => dispatch({ type: 'SET_TITLE', payload: value })}
+            placeholder="Title"
+          />
+
           <IconButton
             size={24}
             iconName="push_pin"
@@ -63,11 +63,16 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
             iconClassName="text-neutral-300"
             onClick={() => dispatch({ type: 'TOGGLE_PINNED' })}
           />
-          <TextEdit
-            value={state.content}
-            placeholder="Take a note..."
-            onChange={(value) => dispatch({ type: 'SET_CONTENT', payload: value })}
-          />
+        </>
+      )}
+      <TextEdit
+        onFocus={() => setIsExpanded(true)}
+        value={state.content}
+        placeholder="Take a note..."
+        onChange={(value) => dispatch({ type: 'SET_CONTENT', payload: value })}
+      />
+      {isExpanded && (
+        <>
           {state.labels.length > 0 && (
             <div className="flex gap-1.5">
               {state.labels.map((label) => (
