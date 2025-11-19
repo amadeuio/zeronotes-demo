@@ -56,4 +56,23 @@ const ColorCircle = ({ color, isSelected, onClick }: ColorCircleProps) => {
   );
 };
 
-export default ColorCircle;
+interface BackgroundMenuProps {
+  colors: Color[];
+  selectedColorId: string | null;
+  onColorClick: (color: Color) => void;
+}
+
+const BackgroundMenu = ({ colors, selectedColorId, onColorClick }: BackgroundMenuProps) => (
+  <div className="bg-base shadow-base flex gap-1 rounded-sm p-2">
+    {colors.map((color) => (
+      <ColorCircle
+        key={color.label}
+        color={color}
+        isSelected={selectedColorId === color.id}
+        onClick={() => onColorClick(color)}
+      />
+    ))}
+  </div>
+);
+
+export default BackgroundMenu;

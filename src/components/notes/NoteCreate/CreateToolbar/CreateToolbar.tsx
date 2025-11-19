@@ -1,28 +1,10 @@
-import { ColorCircle, IconButton, Menu, MenuTrigger } from '@/components';
+import { IconButton, Menu, MenuTrigger } from '@/components';
 import { COLORS } from '@/constants';
-import type { Color, DraftNote } from '@/types';
+import type { DraftNote } from '@/types';
 import { useState, type Dispatch, type ReactNode } from 'react';
+import BackgroundMenu from '../../BackgroundMenu';
 import type { NoteAction } from '../reducer';
 import EditLabelsMenu from './EditLabelsMenu';
-
-interface BackgroundMenuProps {
-  colors: Color[];
-  selectedColorId: string | null;
-  onColorClick: (color: Color) => void;
-}
-
-const BackgroundMenu = ({ colors, selectedColorId, onColorClick }: BackgroundMenuProps) => (
-  <div className="bg-base shadow-base flex gap-1 rounded-sm p-2">
-    {colors.map((color) => (
-      <ColorCircle
-        key={color.label}
-        color={color}
-        isSelected={selectedColorId === color.id}
-        onClick={() => onColorClick(color)}
-      />
-    ))}
-  </div>
-);
 
 interface MoreMenuProps {
   state: DraftNote;

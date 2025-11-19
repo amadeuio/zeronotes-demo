@@ -1,29 +1,11 @@
-import { ColorCircle, IconButton, Menu, MenuTrigger } from '@/components';
+import { IconButton, Menu, MenuTrigger } from '@/components';
 import { COLORS } from '@/constants';
 import { selectActions, useStore, type Store } from '@/store';
-import type { Color, DisplayNote } from '@/types';
+import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
 import { useState, type ReactNode } from 'react';
+import BackgroundMenu from '../BackgroundMenu';
 import EditLabelsMenu from './EditLabelsMenu';
-
-interface BackgroundMenuProps {
-  colors: Color[];
-  selectedColorId: string | null;
-  onColorClick: (colorId: string) => void;
-}
-
-const BackgroundMenu = ({ colors, selectedColorId, onColorClick }: BackgroundMenuProps) => (
-  <div className="bg-base shadow-base flex gap-1 rounded-sm p-2">
-    {colors.map((color) => (
-      <ColorCircle
-        key={color.label}
-        color={color}
-        isSelected={selectedColorId === color.id}
-        onClick={() => onColorClick(color.id)}
-      />
-    ))}
-  </div>
-);
 
 interface MoreMenuProps {
   note: DisplayNote;
@@ -103,7 +85,7 @@ const NoteToolbar = ({ note, className, onMenuOpenChange }: NoteToolbarProps) =>
               <BackgroundMenu
                 colors={COLORS}
                 selectedColorId={note.colorId}
-                onColorClick={(colorId) => notes.updateColor(note.id, colorId)}
+                onColorClick={(color) => notes.updateColor(note.id, color.id)}
               />
             }
             onOpenChange={onMenuOpenChange}
