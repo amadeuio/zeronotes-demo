@@ -34,7 +34,7 @@ export const getPositionFromNoteId = (
   notesOrder: string[],
   noteHeights: Record<string, number | null>,
   columns: number,
-): { y: number; x: number } => {
+): { x: number; y: number } => {
   const { noteWidth, gap } = GRID_CONFIG;
   const orderIndex = notesOrder.indexOf(noteId);
   const column = orderIndex % columns;
@@ -48,14 +48,14 @@ export const getPositionFromNoteId = (
   }
 
   return {
-    y,
     x: column * (noteWidth + gap),
+    y,
   };
 };
 
 export const getNoteIdFromPosition = (
-  y: number,
   x: number,
+  y: number,
   notesOrder: string[],
   noteHeights: Record<string, number | null>,
   columns: number,

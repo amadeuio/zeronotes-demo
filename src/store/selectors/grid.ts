@@ -45,10 +45,10 @@ export const selectNoteIdFromPosition = createSelector(
   (pinnedOrder, unpinnedOrder, noteHeights, pinnedHeight, gridColumns) =>
     (x: number, y: number): string | undefined => {
       if (y < pinnedHeight) {
-        return getNoteIdFromPosition(y, x, pinnedOrder, noteHeights, gridColumns);
+        return getNoteIdFromPosition(x, y, pinnedOrder, noteHeights, gridColumns);
       } else {
         const unpinnedY = y - pinnedHeight;
-        return getNoteIdFromPosition(unpinnedY, x, unpinnedOrder, noteHeights, gridColumns);
+        return getNoteIdFromPosition(x, unpinnedY, unpinnedOrder, noteHeights, gridColumns);
       }
     },
 );

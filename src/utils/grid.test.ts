@@ -49,7 +49,7 @@ describe('getSectionHeight', () => {
     const notesOrder = ['1', '2'];
     const noteHeights = { '1': 100, '2': 150 };
     const gridColumns = 1;
-   
+
     expect(getSectionHeight(notesOrder, noteHeights, gridColumns)).toBe(266);
   });
 
@@ -57,7 +57,7 @@ describe('getSectionHeight', () => {
     const notesOrder = ['1', '2', '3', '4', '5', '6', '7'];
     const noteHeights = { '1': 100, '2': 150, '3': 200, '4': 120, '5': 180, '6': 160, '7': 140 };
     const gridColumns = 3;
-   
+
     expect(getSectionHeight(notesOrder, noteHeights, gridColumns)).toBe(392);
   });
 });
@@ -100,10 +100,10 @@ describe('getNoteIdFromPosition', () => {
     const noteHeights = { '1': 100, '2': 150, '3': 200, '4': 120 };
     const gridColumns = 2;
 
-    expect(getNoteIdFromPosition(50, 45, notesOrder, noteHeights, gridColumns)).toBe('1');
-    expect(getNoteIdFromPosition(50, 254, notesOrder, noteHeights, gridColumns)).toBe('2');
-    expect(getNoteIdFromPosition(160, 45, notesOrder, noteHeights, gridColumns)).toBe('3');
-    expect(getNoteIdFromPosition(170, 300, notesOrder, noteHeights, gridColumns)).toBe('4');
+    expect(getNoteIdFromPosition(45, 50, notesOrder, noteHeights, gridColumns)).toBe('1');
+    expect(getNoteIdFromPosition(254, 50, notesOrder, noteHeights, gridColumns)).toBe('2');
+    expect(getNoteIdFromPosition(45, 160, notesOrder, noteHeights, gridColumns)).toBe('3');
+    expect(getNoteIdFromPosition(300, 170, notesOrder, noteHeights, gridColumns)).toBe('4');
   });
 
   it('should return undefined for positions that do not match any note', () => {
@@ -111,10 +111,10 @@ describe('getNoteIdFromPosition', () => {
     const noteHeights = { '1': 120, '2': 180, '3': 150 };
     const gridColumns = 2;
 
-    expect(getNoteIdFromPosition(200, 260, notesOrder, noteHeights, gridColumns)).toBeUndefined();
-    expect(getNoteIdFromPosition(50, -100, notesOrder, noteHeights, gridColumns)).toBeUndefined();
+    expect(getNoteIdFromPosition(260, 200, notesOrder, noteHeights, gridColumns)).toBeUndefined();
+    expect(getNoteIdFromPosition(-100, 50, notesOrder, noteHeights, gridColumns)).toBeUndefined();
     expect(
-      getNoteIdFromPosition(5000, 10000, notesOrder, noteHeights, gridColumns),
+      getNoteIdFromPosition(10000, 5000, notesOrder, noteHeights, gridColumns),
     ).toBeUndefined();
   });
 
@@ -123,9 +123,9 @@ describe('getNoteIdFromPosition', () => {
     const noteHeights = { '1': 100, '2': 150, '3': 200, '4': 120 };
     const gridColumns = 2;
 
-    expect(getNoteIdFromPosition(50, 45, notesOrder, noteHeights, gridColumns)).toBe('1');
-    expect(getNoteIdFromPosition(50, 254, notesOrder, noteHeights, gridColumns)).toBe('3');
-    expect(getNoteIdFromPosition(160, 45, notesOrder, noteHeights, gridColumns)).toBe('2');
-    expect(getNoteIdFromPosition(220, 300, notesOrder, noteHeights, gridColumns)).toBe('4');
+    expect(getNoteIdFromPosition(45, 50, notesOrder, noteHeights, gridColumns)).toBe('1');
+    expect(getNoteIdFromPosition(254, 50, notesOrder, noteHeights, gridColumns)).toBe('3');
+    expect(getNoteIdFromPosition(45, 160, notesOrder, noteHeights, gridColumns)).toBe('2');
+    expect(getNoteIdFromPosition(300, 220, notesOrder, noteHeights, gridColumns)).toBe('4');
   });
 });
