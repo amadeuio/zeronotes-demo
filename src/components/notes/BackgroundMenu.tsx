@@ -63,7 +63,7 @@ interface BackgroundMenuProps {
 }
 
 const BackgroundMenu = ({ colors, selectedColorId, onColorClick }: BackgroundMenuProps) => (
-  <div className="bg-base shadow-base flex gap-1 rounded-sm p-2">
+  <div className="bg-base shadow-base flex w-58 flex-wrap gap-1 rounded-sm p-2 sm:w-auto sm:flex-nowrap">
     {colors.map((color) => (
       <ColorCircle
         key={color.label}
