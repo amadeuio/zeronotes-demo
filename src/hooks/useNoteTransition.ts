@@ -28,8 +28,14 @@ export const useNoteTransition = ({ position, onClose }: UseNoteTransitionProps)
     transition: `all ${DURATION}ms ease-in-out`,
   };
 
+  const backdropStyles = {
+    opacity: isOpen ? 1 : 0,
+    transition: `opacity ${DURATION}ms ease-in-out`,
+  };
+
   return {
     positionStyles,
+    backdropStyles,
     handleClose,
   };
 };
