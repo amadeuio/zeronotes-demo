@@ -30,6 +30,11 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
     dispatch({ type: 'RESET' });
   };
 
+  const handleClose = () => {
+    dispatch({ type: 'RESET' });
+    setIsExpanded(false);
+  };
+
   useClickOutside({ elementRef, onClickOutside: handleCreate });
 
   return (
@@ -85,6 +90,13 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
             </div>
           )}
           <CreateToolbar state={state} dispatch={dispatch} />
+          <button
+            onClick={handleClose}
+            className="absolute right-4 bottom-2 cursor-pointer rounded px-6 py-1.5 text-sm font-medium text-neutral-200 transition-colors duration-150 ease-in-out hover:bg-white/4"
+            type="button"
+          >
+            Close
+          </button>
         </>
       )}
     </div>
