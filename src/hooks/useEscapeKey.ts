@@ -6,7 +6,6 @@ interface UseEscapeKeyProps {
 
 export const useEscapeKey = ({ onEscape }: UseEscapeKeyProps) => {
   useEffect(() => {
-    console.log('hi');
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onEscape();
