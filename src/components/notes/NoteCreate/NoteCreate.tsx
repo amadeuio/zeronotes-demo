@@ -29,6 +29,7 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
     }
     notes.add(state);
     dispatch({ type: 'RESET' });
+    setIsExpanded(false);
   };
 
   const handleClose = () => {
