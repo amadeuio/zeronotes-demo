@@ -6,4 +6,4 @@ export {
   getSectionHeight,
   getTotalWidth,
 } from './grid';
-export { filterNote, getColorValue, mapNoteToDisplay, sortNotesByPinned } from './notes';
+export { filterNote, getColorValue, mapNoteToDisplay } from './notes';

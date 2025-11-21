@@ -1,5 +1,5 @@
 import { useStore } from '@/store';
-import { filterNote, mapNoteToDisplay, sortNotesByPinned } from '@/utils';
+import { filterNote, mapNoteToDisplay } from '@/utils';
 import { useMemo } from 'react';
 import { createSelector } from 'reselect';
 import {
@@ -12,15 +12,6 @@ import {
 
 export const selectFilteredNotes = createSelector([selectNotes, selectFilters], (notes, filters) =>
   notes.filter((n) => filterNote(n, filters)),
-);
-
-export const selectFilteredOrder = createSelector(
-  [selectFilteredNotes, selectNotesOrder],
-  (filteredNotes, notesOrder) => {
-    const filteredNoteIds = new Set(filteredNotes.map((n) => n.id));
-    const filtered = notesOrder.filter((id) => filteredNoteIds.has(id));
-    return sortNotesByPinned(filtered, filteredNotes);
-  },
 );
 
 export const selectNotesDisplay = createSelector(
@@ -50,18 +41,18 @@ export const selectHasPinnedNotes = createSelector(
 );
 
 export const selectPinnedOrder = createSelector(
-  [selectFilteredOrder, selectPinnedNotes],
-  (filteredOrder, pinnedNotes) => {
+  [selectNotesOrder, selectPinnedNotes],
+  (notesOrder, pinnedNotes) => {
     const pinnedIds = new Set(pinnedNotes.map((n) => n.id));
-    return filteredOrder.filter((id) => pinnedIds.has(id));
+    return notesOrder.filter((id) => pinnedIds.has(id));
   },
 );
 
 export const selectUnpinnedOrder = createSelector(
-  [selectFilteredOrder, selectUnpinnedNotes],
-  (filteredOrder, unpinnedNotes) => {
+  [selectNotesOrder, selectUnpinnedNotes],
+  (notesOrder, unpinnedNotes) => {
     const unpinnedIds = new Set(unpinnedNotes.map((n) => n.id));
-    return filteredOrder.filter((id) => unpinnedIds.has(id));
+    return notesOrder.filter((id) => unpinnedIds.has(id));
   },
 );
 

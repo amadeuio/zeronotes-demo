@@ -1,6 +1,6 @@
 import type { Filters, Label, Note } from '@/types';
 import { describe, expect, it } from 'vitest';
-import { filterNote, mapNoteToDisplay, sortNotesByPinned } from './notes';
+import { filterNote, mapNoteToDisplay } from './notes';
 
 const createNote = (overrides?: Partial<Note>): Note => ({
   id: '1',
@@ -66,7 +66,7 @@ describe('filterNote', () => {
 
   it('should filter by search query', () => {
     const note = createNote({ title: 'My Note', content: 'Important content' });
-    
+
     expect(filterNote(note, createFilters({ search: 'note' }))).toBe(true);
     expect(filterNote(note, createFilters({ search: 'important' }))).toBe(true);
     expect(filterNote(note, createFilters({ search: 'xyz' }))).toBe(false);
@@ -75,7 +75,7 @@ describe('filterNote', () => {
 
   it('should handle whitespace-only search query', () => {
     const note = createNote({ title: 'My Note', content: 'Content' });
-    
+
     expect(filterNote(note, createFilters({ search: '   ' }))).toBe(true);
     expect(filterNote(note, createFilters({ search: '\t\n' }))).toBe(true);
   });
@@ -93,31 +93,6 @@ describe('filterNote', () => {
     expect(
       filterNote(createNote({ title: '', content: '' }), createFilters({ search: 'anything' })),
     ).toBe(false);
-  });
-});
-
-describe('sortNotesByPinned', () => {
-  it('should sort pinned notes before unpinned', () => {
-    const noteIds = ['1', '2', '3'];
-    const notes = [
-      createNote({ id: '1', isPinned: false }),
-      createNote({ id: '2', isPinned: true }),
-      createNote({ id: '3', isPinned: false }),
-    ];
-    
-    expect(sortNotesByPinned(noteIds, notes)).toEqual(['2', '1', '3']);
-  });
-
-  it('should handle mixed pinned/unpinned notes', () => {
-    const noteIds = ['1', '2', '3', '4'];
-    const notes = [
-      createNote({ id: '1', isPinned: true }),
-      createNote({ id: '2', isPinned: false }),
-      createNote({ id: '3', isPinned: true }),
-      createNote({ id: '4', isPinned: false }),
-    ];
-    
-    expect(sortNotesByPinned(noteIds, notes)).toEqual(['1', '3', '2', '4']);
   });
 });
 
