@@ -14,18 +14,18 @@ const NoteActive = () => {
   const note = useStore(selectActiveNoteDisplay)!;
   const position = useStore(selectActiveNotePosition);
   const { activeNote, notes } = useStore(selectActions);
-  const { positionStyles, backdropStyles, handleClose } = useNoteTransition({
+  const { positionStyles, backdropStyles, initiateClose } = useNoteTransition({
     position,
     onClose: () => activeNote.set({ id: null, position: null }),
   });
 
-  useEscapeKey({ onEscape: handleClose });
+  useEscapeKey({ onEscape: initiateClose });
 
   return (
     <div
       className="fixed inset-0 z-50 bg-neutral-800/60"
       style={backdropStyles}
-      onClick={handleClose}
+      onClick={initiateClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}

@@ -16,7 +16,7 @@ export const useNoteTransition = ({ position, onClose }: UseNoteTransitionProps)
     return () => clearTimeout(timer);
   }, []);
 
-  const handleClose = () => {
+  const initiateClose = () => {
     setIsOpen(false);
     setTimeout(onClose, DURATION);
   };
@@ -37,6 +37,6 @@ export const useNoteTransition = ({ position, onClose }: UseNoteTransitionProps)
   return {
     positionStyles,
     backdropStyles,
-    handleClose,
+    initiateClose,
   };
 };
