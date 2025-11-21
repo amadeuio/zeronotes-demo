@@ -19,15 +19,13 @@ export const selectPinnedHeight = createSelector(
       : 0,
 );
 
-export const selectUnpinnedHeight = createSelector(
-  [selectUnpinnedOrder, selectNoteHeights, selectGridColumns],
-  (unpinnedOrder, noteHeights, gridColumns) =>
-    unpinnedOrder.length > 0 ? getSectionHeight(unpinnedOrder, noteHeights, gridColumns) : 0,
-);
-
 export const selectTotalHeight = createSelector(
-  [selectPinnedHeight, selectUnpinnedHeight],
-  (pinnedHeight, unpinnedHeight) => pinnedHeight + unpinnedHeight,
+  [selectPinnedHeight, selectUnpinnedOrder, selectNoteHeights, selectGridColumns],
+  (pinnedHeight, unpinnedOrder, noteHeights, gridColumns) => {
+    const unpinnedHeight =
+      unpinnedOrder.length > 0 ? getSectionHeight(unpinnedOrder, noteHeights, gridColumns) : 0;
+    return pinnedHeight + unpinnedHeight;
+  },
 );
 
 export const selectTotalWidth = createSelector([selectGridColumns], (gridColumns) =>
