@@ -40,6 +40,11 @@ export const selectHasPinnedNotes = createSelector(
   (pinnedNotes) => pinnedNotes.length > 0,
 );
 
+export const selectHasUnpinnedNotes = createSelector(
+  [selectUnpinnedNotes],
+  (unpinnedNotes) => unpinnedNotes.length > 0,
+);
+
 export const selectPinnedOrder = createSelector(
   [selectNotesOrder, selectPinnedNotes],
   (notesOrder, pinnedNotes) => {

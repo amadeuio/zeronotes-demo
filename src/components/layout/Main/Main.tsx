@@ -2,6 +2,7 @@ import { NoteCreate, NoteView } from '@/components';
 import { useSetGridColumns } from '@/hooks';
 import {
   selectHasPinnedNotes,
+  selectHasUnpinnedNotes,
   selectNotesDisplay,
   selectPinnedHeight,
   selectTotalHeight,
@@ -15,6 +16,7 @@ import SectionTitle from './SectionTitle';
 const Main = () => {
   const notes = useStore(selectNotesDisplay);
   const hasPinnedNotes = useStore(selectHasPinnedNotes);
+  const hasUnpinnedNotes = useStore(selectHasUnpinnedNotes);
   const pinnedHeight = useStore(selectPinnedHeight);
   const totalWidth = useStore(selectTotalWidth);
   const totalHeight = useStore(selectTotalHeight);
@@ -32,7 +34,7 @@ const Main = () => {
             {hasPinnedNotes && (
               <>
                 <SectionTitle label="PINNED" />
-                <SectionTitle label="OTHERS" verticalOffset={pinnedHeight} />
+                {hasUnpinnedNotes && <SectionTitle label="OTHERS" verticalOffset={pinnedHeight} />}
               </>
             )}
             {notes.map((note) => (
