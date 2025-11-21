@@ -8,10 +8,6 @@ export const useMobile = () => {
   const { ui } = useStore(selectActions);
   const [isMobile, setIsMobile] = useState(window.innerWidth < MOBILE_BREAKPOINT);
 
-  const handleMobile = () => {
-    ui.closeSidebar();
-  };
-
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
 
@@ -31,8 +27,10 @@ export const useMobile = () => {
   }, []);
 
   useEffect(() => {
-    if (isMobile) handleMobile();
-  }, [isMobile]);
+    if (isMobile) {
+      ui.closeSidebar();
+    }
+  }, [isMobile, ui]);
 
   return isMobile;
 };

@@ -17,42 +17,42 @@ export const useOverflowCorrection = ({
 }: UseOverflowCorrectionProps) => {
   const [offset, setOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
-  const calculateOverflowCorrection = () => {
-    if (!isVisible || !elementRef.current || !triggerRef?.current) {
-      setOffset({ x: 0, y: 0 });
-      return;
-    }
+  useEffect(() => {
+    const calculateOverflowCorrection = () => {
+      if (!isVisible || !elementRef.current || !triggerRef?.current) {
+        setOffset({ x: 0, y: 0 });
+        return;
+      }
 
-    const elementRect = elementRef.current.getBoundingClientRect();
-    const triggerRect = triggerRef.current.getBoundingClientRect();
-    const viewport = {
-      width: window.innerWidth,
-      height: window.innerHeight,
+      const elementRect = elementRef.current.getBoundingClientRect();
+      const triggerRect = triggerRef.current.getBoundingClientRect();
+      const viewport = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      };
+
+      let x = 0;
+      let y = 0;
+
+      // Horizontal overflow
+      if (elementRect.right > viewport.width) {
+        x = viewport.width - elementRect.right - margin;
+      } else if (elementRect.left < 0) {
+        x = -elementRect.left + margin;
+      }
+
+      // Vertical overflow
+      if (elementRect.bottom > viewport.height) {
+        y = -elementRect.height - triggerRect.height - 6;
+      } else if (elementRect.top < 0) {
+        y = triggerRect.height + margin + 6;
+      }
+
+      setOffset({ x, y });
     };
 
-    let x = 0;
-    let y = 0;
-
-    // Horizontal overflow
-    if (elementRect.right > viewport.width) {
-      x = viewport.width - elementRect.right - margin;
-    } else if (elementRect.left < 0) {
-      x = -elementRect.left + margin;
-    }
-
-    // Vertical overflow
-    if (elementRect.bottom > viewport.height) {
-      y = -elementRect.height - triggerRect.height - 6;
-    } else if (elementRect.top < 0) {
-      y = triggerRect.height + margin + 6;
-    }
-
-    setOffset({ x, y });
-  };
-
-  useEffect(() => {
     calculateOverflowCorrection();
-  }, [isVisible, margin, recalculateOverflowCorrection]);
+  }, [isVisible, margin, recalculateOverflowCorrection, elementRef, triggerRef]);
 
   return offset;
 };
