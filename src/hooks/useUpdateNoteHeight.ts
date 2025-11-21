@@ -14,10 +14,8 @@ export const useUpdateNoteHeight = ({ noteId, noteRef }: UseUpdateNoteHeightProp
     if (activeNoteId || !noteRef.current) return;
 
     const updateHeight = () => {
-      if (noteRef.current) {
-        const height = noteRef.current.offsetHeight;
-        noteHeights.update(noteId, height);
-      }
+      if (!noteRef.current) return;
+      noteHeights.update(noteId, noteRef.current.offsetHeight);
     };
 
     updateHeight();
@@ -26,5 +24,5 @@ export const useUpdateNoteHeight = ({ noteId, noteRef }: UseUpdateNoteHeightProp
     resizeObserver.observe(noteRef.current);
 
     return () => resizeObserver.disconnect();
-  }, [activeNoteId, noteHeights, noteRef]);
+  }, [activeNoteId]);
 };
