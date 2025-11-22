@@ -4,18 +4,18 @@ import { useLayoutEffect, useRef } from 'react';
 
 export const useSetGridColumns = () => {
   const { ui } = useStore(selectActions);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const currentColumnsRef = useRef<number | null>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const columnsRef = useRef<number | null>(null);
 
   useLayoutEffect(() => {
     const updateColumns = () => {
-      if (!containerRef.current) return;
+      if (!gridRef.current) return;
 
-      const containerWidth = containerRef.current.offsetWidth;
-      const newColumns = getGridColumnsFromWidth(containerWidth);
+      const gridWidth = gridRef.current.offsetWidth;
+      const newColumns = getGridColumnsFromWidth(gridWidth);
 
-      if (currentColumnsRef.current !== newColumns) {
-        currentColumnsRef.current = newColumns;
+      if (columnsRef.current !== newColumns) {
+        columnsRef.current = newColumns;
         ui.setGridColumns(newColumns);
       }
     };
@@ -23,12 +23,12 @@ export const useSetGridColumns = () => {
     updateColumns();
 
     const resizeObserver = new ResizeObserver(updateColumns);
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
+    if (gridRef.current) {
+      resizeObserver.observe(gridRef.current);
     }
 
     return () => resizeObserver.disconnect();
   }, [ui]);
 
-  return containerRef;
+  return gridRef;
 };

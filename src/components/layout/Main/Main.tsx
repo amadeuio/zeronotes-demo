@@ -19,7 +19,7 @@ const Main = () => {
   const pinnedHeight = useStore(selectPinnedHeight);
   const totalWidth = useStore(selectTotalWidth);
   const totalHeight = useStore(selectTotalHeight);
-  const containerRef = useSetGridColumns();
+  const gridRef = useSetGridColumns();
 
   return (
     <main className="flex min-h-fit min-w-0 flex-1 flex-col items-center gap-12 p-4 md:gap-20 md:px-2 md:py-12">
@@ -27,7 +27,7 @@ const Main = () => {
       {notes.length === 0 ? (
         <EmptyState />
       ) : (
-        <div ref={containerRef} className="w-full">
+        <div ref={gridRef} className="w-full">
           <div className="relative mx-auto" style={{ width: totalWidth, height: totalHeight }}>
             {hasPinnedNotes && (
               <>
