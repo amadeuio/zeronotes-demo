@@ -1,9 +1,10 @@
 import { selectActions, useStore } from '@/store';
 import { getGridColumnsFromWidth } from '@/utils';
-import { useLayoutEffect, useRef, type RefObject } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 
-export const useSetGridColumns = (containerRef: RefObject<HTMLElement | null>) => {
+export const useSetGridColumns = () => {
   const { ui } = useStore(selectActions);
+  const containerRef = useRef<HTMLDivElement>(null);
   const currentColumnsRef = useRef<number | null>(null);
 
   useLayoutEffect(() => {
@@ -27,5 +28,7 @@ export const useSetGridColumns = (containerRef: RefObject<HTMLElement | null>) =
     }
 
     return () => resizeObserver.disconnect();
-  }, [containerRef, ui]);
+  }, [ui]);
+
+  return containerRef;
 };

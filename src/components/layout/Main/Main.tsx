@@ -9,7 +9,6 @@ import {
   selectTotalWidth,
   useStore,
 } from '@/store';
-import { useRef } from 'react';
 import EmptyState from './EmptyState';
 import SectionTitle from './SectionTitle';
 
@@ -20,8 +19,7 @@ const Main = () => {
   const pinnedHeight = useStore(selectPinnedHeight);
   const totalWidth = useStore(selectTotalWidth);
   const totalHeight = useStore(selectTotalHeight);
-  const containerRef = useRef<HTMLDivElement>(null);
-  useSetGridColumns(containerRef);
+  const containerRef = useSetGridColumns();
 
   return (
     <main className="flex min-h-fit min-w-0 flex-1 flex-col items-center gap-12 p-4 md:gap-20 md:px-2 md:py-12">
