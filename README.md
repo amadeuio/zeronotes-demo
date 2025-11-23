@@ -7,13 +7,13 @@ A minimalist notes app with custom drag-and-drop masonry layout built from scrat
 <br>
 
 <p align="center">
-  <a href="https://keep-clone-amadeuio.netlify.app">
+  <a href="https://zeronotes-demo.netlify.app">
     <img src="public/screenshots/screenshot.png" width="750px" alt="screenshot">
   </a>
 </p>
 
 <h3 align="center">
-  <a href="https://keep-clone-amadeuio.netlify.app">👉 Try it now</a>
+  <a href="https://zeronotes-demo.netlify.app">👉 Try it now</a>
 </h3>
 
 ## What's Here
@@ -35,4 +35,4 @@ A minimalist notes app with custom drag-and-drop masonry layout built from scrat
 
 ## What's Next
 
-Adding backend with authentication and end-to-end encryption. See the [fullstack repo](https://github.com/yourusername/zeronotes-app) (coming soon).
+Adding backend with authentication and end-to-end encryption. See the [fullstack repo](https://github.com/amadeuio/zeronotes) (coming soon).
